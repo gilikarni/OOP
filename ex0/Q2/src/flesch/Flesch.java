@@ -1,6 +1,9 @@
+package flesch;
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Flesch {
 
@@ -9,15 +12,15 @@ public class Flesch {
     private Integer numberOfSent;
     private Integer numberOfSyl;
 
-    static int main(String args[]) throws Exception {
+    public static void main(String args[]) throws Exception {
         Flesch fl = new Flesch(args[0]);
 
-        BufferedReader br = new BufferedReader(fr);
+        BufferedReader br = new BufferedReader(fl.fr);
         String s;
         while((s = br.readLine()) != null) {
-            System.out.println(s);
         }
-        return 0;
+
+        countSyls("real");
     }
 
     private Flesch(String fileName) throws Exception {
@@ -36,13 +39,22 @@ public class Flesch {
      * @effects Count number of syllables in a word (s must be a word)
      * @return Return the number of syllables in the word s
      */
-    static int countSils(String string) {
+    static int countSyls(String string) {
         Integer numOfSyls = 0;
         char sylls[] = {'a', 'e', 'i', 'o', 'u', 'y'};
 
-        String strArr[] = string.split("^(?!aeiouy)");
+        String strArr[] = string.split("[aeiouy]");
+
+        System.out.println(Arrays.toString(strArr));
 
         // Count numbet strings in the array and remove illegals
+        boolean bFrist = true;
+        for (String s : strArr) {
+            if (bFrist || (s != null && s.length() > 0)) {
+                numOfSyls++;
+            }
+            bFrist = false;
+        }
 
         if (0 == numOfSyls) {
             return 1;

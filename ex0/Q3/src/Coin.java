@@ -1,3 +1,5 @@
+package src;
+
 /**
 	A Coin can have a value of 0.1, 0.5, 1, 5, 10
  */
@@ -11,7 +13,7 @@ public class Coin {
      * 
      */
     public Coin(double value) {
-    	//
+    	this.value = value;
     }
 
 
@@ -19,6 +21,6 @@ public class Coin {
      * @return the value of the Coin
      */
     public double getValue() {
-    	//
+    	return this.value;
     }
 }

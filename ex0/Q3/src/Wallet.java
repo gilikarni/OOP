@@ -3,8 +3,8 @@ package src;
 import java.util.ArrayList;
 
 /**
- * A wallet can conatain a number of coins. There could be several coins of the same value, 
- * but the same coin cannot apear in the wallet twice
+ * A wallet can contain a number of coins. There could be several coins of the same value,
+ * but the same coin cannot appear in the wallet twice
  */
 public class Wallet {
 	private ArrayList<Coin> coinList;
@@ -16,7 +16,6 @@ public class Wallet {
         this.coinList = new ArrayList<>();
     }
 
-
     /**
      * @modifies this
      * @effects Adds a coin to the wallet
@@ -24,6 +23,20 @@ public class Wallet {
      * 		   false otherwise
      */
     public boolean addCoin(Coin coin) {
+        // check if coin exists in wallet. if so, return false
+        for (Coin existing_coin : this.coinList) {
+            if (existing_coin == coin) {
+                return false;
+            }
+        }
+        // place coin in coinList according to value
+        for (int i = 0; i < getWalletSize(); i++) {
+            if (coin.getValue() >= coinList.get(i).getValue()) {
+                coinList.add(i, coin);
+                return true;
+            }
+        }
+        // if list is empty or coin value is smallest, add to end of list
         return this.coinList.add(coin);
     }
 
@@ -46,6 +59,16 @@ public class Wallet {
         return payment;
     }
 
+    /**
+     * @modifies this
+     * @effects tries to match at least the sum "sum" with the minimum number
+     *          of coins available from the wallet.
+     *			If transaction is possible, removes the paid coins from the wallet; else; changes nothing
+     * @return the amount actually paid, 0 if amount could not be obtained
+     */
+    public double payMinimum(double sum) {
+        return pay(sum);
+    }
 
     /**
      * @return the current total value of coins in the wallet
@@ -57,7 +80,6 @@ public class Wallet {
         }
         return total;
     }
-
 
     /**
      * @return the number of coins in the wallet

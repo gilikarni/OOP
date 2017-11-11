@@ -24,8 +24,8 @@ public class Wallet {
      */
     public boolean addCoin(Coin coin) {
         // check if coin exists in wallet. if so, return false
-        for (Coin existing_coin : this.coinList) {
-            if (existing_coin == coin) {
+        for (Coin existingCoin : this.coinList) {
+            if (existingCoin == coin) {
                 return false;
             }
         }

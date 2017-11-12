@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 
 /**
- * counts sentences, words, and syllables in a given file.
+ * Counts sentences, words, and syllables in a given file. returns the Flesch readability score of the file.
  */
 public class Flesch {
 
@@ -14,13 +14,15 @@ public class Flesch {
     private Integer numberOfSyl;
 
     public static void main(String args[]) throws Exception {
-        String fileName = args[0];
-        FileReader fr = new FileReader(fileName);
         Integer numberOfWords = 0;
         Integer numberOfSent = 0;
         Integer numberOfSyl = 0;
 
+        // read the file
+        String fileName = args[0];
+        FileReader fr = new FileReader(fileName);
         BufferedReader br = new BufferedReader(fr);
+
         String text_sentances = "";
         String text_words = "";
         String s;
@@ -29,6 +31,7 @@ public class Flesch {
             text_words += s;
             text_words += ' ';
         }
+
         // count sentences
         String sentenceArr[] = text_sentances.split("[.,;?!]");
         for (String sentence : sentenceArr) {
@@ -36,7 +39,7 @@ public class Flesch {
                 numberOfSent += 1;
             }
         }
-        // count words
+        // count words and syllables
         String wordArr[] = text_words.split("[()*&^%$#@!_+\\-={}?;:',.\\[\\]\" ]");
         for (String word : wordArr) {
             if (!word.isEmpty()) {
@@ -45,11 +48,11 @@ public class Flesch {
             }
         }
 
+        // calculate flesh score
         Double fleschScore = 206.835 - (84.6 * numberOfSyl.floatValue() / numberOfWords.floatValue()) - (1.015 *
                 numberOfWords.floatValue() / numberOfSent.floatValue());
 
         // Go Sinoff, Go Sinoff!
-
         System.out.println("File " + fileName + " contains " + numberOfSent + " sentences, " + numberOfWords +
                 " words, and " + numberOfSyl + " syllables. the Flesch Score of this file is " + fleschScore + ".");
         fr.close();
@@ -64,15 +67,21 @@ public class Flesch {
      */
     static int countSyls(String string) {
         Integer numOfSyls = 0;
+
+        // remove trailing e in word
         if (string.endsWith("e")) {
             string = string.substring(0, string.length() - 1);
         }
+
+        // count syllables
         String sylArr[] = string.split("[^aAeEiIoOuUyY]");
         for (String s : sylArr) {
             if (!s.isEmpty()) {
                 numOfSyls += 1;
             }
         }
+
+        // word must have at least one syllable
         if (numOfSyls == 0) {
             numOfSyls = 1;
         }

@@ -9,9 +9,16 @@ import java.awt.*;
  */
 public abstract class LocationAndColorChangingShape extends LocationChangingShape{
 
-    // TODO (BOM): Write Abstraction Function
+    /*
+    Abstraction Function:
+    A LocationChangingShape l is located at location with the color color. l can move in the speed l.super.velocity.x
+    horizontally and in l.super.velocity.y vertically.
 
-    // TODO (BOM): Write Representation Invariant
+    Representation invariant for every LocationChangingShape l:
+    location != null && color != null &&
+    -5 <= l.super.velocity.x <= 5 && -5 <= l.super.velocity.x <= 5 &&
+    l.super.velocity.y != 0 && l.super.velocity.y != 0
+    */
 
 
     /**
@@ -21,8 +28,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
      *          -5 <= i <= 5 and i != 0
      */
     LocationAndColorChangingShape(Point location, Color color) {
-        // TODO (BOM): Implement this constructor
-
+        super(location, color);
     }
 
     /**
@@ -34,8 +40,6 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
 	 *			else, does not change the color of this.
      */
     public void step(Rectangle bound) {
-        // TODO (BOM): Implement this method
-
-
+        super.step(bound);
     }
 }

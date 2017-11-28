@@ -27,13 +27,15 @@ public abstract class Shape implements Cloneable {
      * violated.
      */
 
-    public void checkRep() {
+    protected void checkRep() {
         assert location != null && color != null :
                 "All feilds must be initialized";
     }
 
     /**
      * @effects Initializes this with a a given location and color.
+     * @param location
+     * @param color
      */
     public Shape(Point location, Color color) {
 		 // TODO (BOM): Implement this method

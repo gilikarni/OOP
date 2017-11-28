@@ -15,13 +15,13 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
 
     /*
     Abstraction Function:
-    A LocationChangingShape l is located at location with the color color. l can move in the speed horizonalVelocity
-    horizontally and in verticalVelocity vertically.
+    A LocationChangingShape l is located at location with the color color. l can move in the speed l.velocity.x
+    horizontally and in l.velocity.y vertically.
 
     Representation invariant for every LocationChangingShape l:
     location != null && color != null &&
-    -5 <= horizontalVelocity <= 5 && -5 <= verticalVelocity <= 5 &&
-    horizontalVelocity != 0 && verticalVelocity != 0
+    -5 <= l.velocity.x <= 5 && -5 <= l.velocity.x <= 5 &&
+    l.velocity.y != 0 && l.velocity.y != 0
     */
 
     @Override

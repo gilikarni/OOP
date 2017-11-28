@@ -1,5 +1,3 @@
-package homework1;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;

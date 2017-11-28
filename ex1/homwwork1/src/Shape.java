@@ -1,5 +1,3 @@
-package homework1;
-
 import java.awt.*;
 
 
@@ -14,16 +12,32 @@ public abstract class Shape implements Cloneable {
     private Color color;
 
 
-    // TODO (BOM): Write Abstraction Function
+    /*
+    Abstraction Function:
+    A Shape s is located at location with the color color.
 
-    // TODO (BOM): Write Representation Invariant
+    Representation invariant for every Shape s:
+    location != null && color != null.
+    */
 
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is
+     * violated.
+     */
+
+    public void checkRep() {
+        assert location != null && color != null :
+                "All feilds must be initialized";
+    }
 
     /**
      * @effects Initializes this with a a given location and color.
      */
     public Shape(Point location, Color color) {
 		 // TODO (BOM): Implement this method
+        checkRep();
     }
 
 
@@ -31,9 +45,9 @@ public abstract class Shape implements Cloneable {
      * @return the top left corner of the bounding rectangle of this.
      */
     public Point getLocation() {
-        // TODO (BOM): Implement this method
-
-
+        Rectangle boundingRectangle = this.getBounds();
+        Point topLeft = new boundingRectangle.getLocation();
+        return topLeft;
     }
 
 
@@ -44,6 +58,7 @@ public abstract class Shape implements Cloneable {
      */
     public void setLocation(Point location) {
         this.location = (Point)location.clone();
+        checkRep();
     }
 
 
@@ -89,6 +104,7 @@ public abstract class Shape implements Cloneable {
      */
     public void setColor(Color color) {
         this.color = color;
+        checkRep();
     }
 
 
@@ -103,8 +119,9 @@ public abstract class Shape implements Cloneable {
      * @effects Creates and returns a copy of this.
      */
     public Object clone() {
-        // TODO (BOM): Implement this method
-
-
+        try {
+            return (Shape)super.clone();
+        } catch (CloneNotSupportedException e) {}
+        return null;
     }
 }

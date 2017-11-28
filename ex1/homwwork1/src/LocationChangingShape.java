@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 
 /**
@@ -10,10 +11,32 @@ import java.awt.*;
  */
 public abstract class LocationChangingShape extends Shape implements Animatable {
 
-    // TODO (BOM): Write Abstraction Function
+    private Point velocity;
 
-    // TODO (BOM): Write Representation Invariant
+    /*
+    Abstraction Function:
+    A LocationChangingShape l is located at location with the color color. l can move in the speed horizonalVelocity
+    horizontally and in verticalVelocity vertically.
 
+    Representation invariant for every LocationChangingShape l:
+    location != null && color != null &&
+    -5 <= horizontalVelocity <= 5 && -5 <= verticalVelocity <= 5 &&
+    horizontalVelocity != 0 && verticalVelocity != 0
+    */
+
+    @Override
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is
+     * violated.
+     */ protected void checkRep() {
+        super.checkRep();
+        assert -5 <= velocity.x && velocity.x <= 5 && -5 <= velocity.y && velocity.y <= 5 :
+                "The vertical and horizontal speed must be in the range [-5,5]";
+        assert velocity.x != 0 && velocity.y != 0 :
+                "The vertical and horizontal speed must be different than zero";
+    }
 
     /**
      * @effects Initializes this with a a given location and color. Each
@@ -22,9 +45,17 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          -5 <= i <= 5 and i != 0
      */
     LocationChangingShape(Point location, Color color) {
-        // TODO (BOM): Implement this constructor
-
-
+       super(location, color);
+       Random randomNumberGeneraot = new Random();
+       int horizontalVelocity = 0, verticalVelocity = 0;
+       while (horizontalVelocity == 0) {
+           horizontalVelocity = randomNumberGeneraot.nextInt(10) - 5;
+       }
+       while (verticalVelocity == 0) {
+           verticalVelocity = randomNumberGeneraot.nextInt(10) - 5;
+       }
+       velocity = new Point(horizontalVelocity, verticalVelocity);
+       checkRep();
     }
 
 
@@ -32,9 +63,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the horizontal velocity of this.
      */
     public int getVelocityX() {
-        // TODO (BOM): Implement this method
-
-
+        return velocity.x;
     }
 
 
@@ -42,9 +71,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the vertical velocity of this.
      */
     public int getVelocityY() {
-        // TODO (BOM): Implement this method
-
-
+        return velocity.y;
     }
 
 
@@ -55,9 +82,8 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          vertical velocity of this to velocityY.
      */
     public void setVelocity(int velocityX, int velocityY) {
-        // TODO (BOM): Implement this method
-
-
+        velocity = new Point(velocityX, velocityY);
+        checkRep();
     }
 
 
@@ -76,8 +102,29 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          p = p + v
      */
     public void step(Rectangle bound) {
-        // TODO (BOM): Implement this method
+        Point curLocation = this.getLocation();
+
+        if (bound == null) {
+            throw new IllegalArgumentException();
+        }
+
+        /* Update x */
+        if (curLocation.x + velocity.x <= bound.getMaxX() ||
+                curLocation.x + velocity.x >= bound.getMinX()) { /* The point is in bounds */
+            curLocation.x += velocity.x;
+        } else { /* The point is out of bounds */
+            curLocation.x -= velocity.x;
+        }
 
 
+        /* Update y */
+        if (curLocation.y + velocity.y <= bound.getMaxY() ||
+                curLocation.y + velocity.y >= bound.getMinY()) { /* The point is in bounds */
+            curLocation.y += velocity.y;
+        } else { /* The point is out of bounds */
+            curLocation.y -= velocity.y;
+        }
+
+        this.setLocation(curLocation);
     }
 }

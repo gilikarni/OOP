@@ -46,13 +46,13 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      */
     LocationChangingShape(Point location, Color color) {
        super(location, color);
-       Random randomNumberGeneraot = new Random();
+       Random randomNumberGenerator = new Random();
        int horizontalVelocity = 0, verticalVelocity = 0;
        while (horizontalVelocity == 0) {
-           horizontalVelocity = randomNumberGeneraot.nextInt(10) - 5;
+           horizontalVelocity = randomNumberGenerator.nextInt(10) - 5;
        }
        while (verticalVelocity == 0) {
-           verticalVelocity = randomNumberGeneraot.nextInt(10) - 5;
+           verticalVelocity = randomNumberGenerator.nextInt(10) - 5;
        }
        velocity = new Point(horizontalVelocity, verticalVelocity);
        checkRep();
@@ -108,23 +108,19 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
             throw new IllegalArgumentException();
         }
 
-        /* Update x */
-        if (curLocation.x + velocity.x <= bound.getMaxX() ||
-                curLocation.x + velocity.x >= bound.getMinX()) { /* The point is in bounds */
-            curLocation.x += velocity.x;
-        } else { /* The point is out of bounds */
-            curLocation.x -= velocity.x;
+        /* Update x velocity */
+        if (curLocation.x + velocity.x > bound.getMaxX() ||
+                curLocation.x + velocity.x < bound.getMinX()) { /* The point is out of bounds */
+            velocity.x *= -1;
         }
 
 
-        /* Update y */
-        if (curLocation.y + velocity.y <= bound.getMaxY() ||
-                curLocation.y + velocity.y >= bound.getMinY()) { /* The point is in bounds */
-            curLocation.y += velocity.y;
-        } else { /* The point is out of bounds */
-            curLocation.y -= velocity.y;
+        /* Update y velocity */
+        if (curLocation.y + velocity.y > bound.getMaxY() ||
+                curLocation.y + velocity.y < bound.getMinY()) { /* The point is out of bounds */
+            velocity.y *= -1;
         }
 
-        this.setLocation(curLocation);
+        this.setLocation(new Point(curLocation.x + velocity.x, curLocation.y + velocity.y));
     }
 }

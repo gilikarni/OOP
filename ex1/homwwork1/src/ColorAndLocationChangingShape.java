@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 
 /**
@@ -31,6 +32,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
         super(location, color);
     }
 
+    @Override
     /**
      * @modifies this
      * @effects Changes the location of this as described in the specification
@@ -40,6 +42,17 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
 	 *			else, does not change the color of this.
      */
     public void step(Rectangle bound) {
+        Point oldVelocity = new Point(this.getVelocityX(), this.getVelocityY());
         super.step(bound);
+        if (oldVelocity.x != this.getVelocityX() || oldVelocity.y != getVelocityY()) { /* The velocity had changed */
+            Random randomColorsGenerator = new Random();
+
+            float r = randomColorsGenerator.nextFloat();
+            float g = randomColorsGenerator.nextFloat();
+            float b = randomColorsGenerator.nextFloat();
+
+            Color randomColor = new Color(r, g, b);
+            this.setColor(randomColor);
+        }
     }
 }

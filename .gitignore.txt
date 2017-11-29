@@ -1,0 +1,8 @@
+        ex0/Q2/.idea/
+        ex0/Q2/out/
+        ex1/.idea/
+        ex1/homwwork1/.idea/
+        ex1/homwwork1/homwwork1.iml
+        ex1/hw1.docx
+        ex1/~$hw1.docx
+        ex1/~WRL1690.tmp

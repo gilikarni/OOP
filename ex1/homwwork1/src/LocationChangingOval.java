@@ -3,7 +3,7 @@ import java.awt.*;
 public class LocationChangingOval extends LocationChangingShape{
 
     private Dimension dimension;
-    private Graphics oval;
+    private Graphics oval = null;
 
     /**
      * @param location
@@ -47,10 +47,10 @@ public class LocationChangingOval extends LocationChangingShape{
 
     @Override
     /**
-     * @effects draw this.oval
+     * @effects draw g
      */
     public void draw(Graphics g) {
-        oval.drawOval(super.getLocation().x, super.getLocation().y, dimension.width, dimension.height);
+        g.drawOval(super.getLocation().x, super.getLocation().y, dimension.width, dimension.height);
     }
 
     /**

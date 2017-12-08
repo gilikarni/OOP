@@ -46,6 +46,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      */
     LocationChangingShape(Point location, Color color) {
        super(location, color);
+
        Random randomNumberGenerator = new Random();
        int horizontalVelocity = 0, verticalVelocity = 0;
        while (horizontalVelocity == 0) {

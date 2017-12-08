@@ -15,6 +15,10 @@ public class LocationChangingOval extends LocationChangingShape{
      */
     LocationChangingOval(Point location, Color color, Dimension dimension) {
         super(location, color);
+
+        if (dimension == null) {
+            throw new NullPointerException();
+        }
         this.dimension = dimension;
         this.oval.fillOval(location.x, location.y, dimension.width, dimension.height);
     }

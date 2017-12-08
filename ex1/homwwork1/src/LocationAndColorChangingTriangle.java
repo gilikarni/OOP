@@ -14,9 +14,9 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @effects Creates a new triangle with the new dimensions
      */
     private void setTriangle(Point location, Dimension dim) {
-
         xArray = new int[]{location.x, location.x, location.x + dim.width};
         yArray = new int[]{location.y, location.y + dim.height, location.y};
+
         triangle.fillPolygon(xArray, yArray, numberOfPointsInPoly);
     }
 
@@ -30,6 +30,10 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      */
     LocationAndColorChangingTriangle(Point location, Color color, Dimension bounds) {
         super(location, color);
+
+        if (bounds == null) {
+            throw new NullPointerException();
+        }
 
         this.bounds = bounds;
         setTriangle(location, bounds);

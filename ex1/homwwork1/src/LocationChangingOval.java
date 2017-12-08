@@ -52,4 +52,14 @@ public class LocationChangingOval extends LocationChangingShape{
     public void draw(Graphics g) {
         oval.drawOval(super.getLocation().x, super.getLocation().y, dimension.width, dimension.height);
     }
+
+    /**
+     * @modifies this
+     * @effects Sets color of this.
+     */
+    public void setColor(Color color) {
+        super.setColor(color);
+
+        oval.setColor(color);
+    }
 }

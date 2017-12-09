@@ -111,6 +111,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     /**
      * @effects Assert that the representation invariant hold
+     * @throws AssertionError if the the representation invariant breaks
      */
     @Override
     protected void checkRep() {

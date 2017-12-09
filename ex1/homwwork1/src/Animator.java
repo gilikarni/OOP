@@ -56,10 +56,10 @@ public class Animator extends JFrame implements ActionListener {
                     for (Shape shape : shapes) {
                         if (shape instanceof LocationChangingShape) {
                             LocationChangingShape locationChangingShape = (LocationChangingShape)shape;
-                            locationChangingShape.step(mainPanel.getBounds());
+                            locationChangingShape.step(mainPanel.getVisibleRect());
                         } else if (shape instanceof AngleChangingSector) {
                             AngleChangingSector angleChangingSector = (AngleChangingSector)shape;
-                            angleChangingSector.step(mainPanel.getBounds());
+                            angleChangingSector.step(null);
                         } else {
                             throw new IllegalArgumentException();
                         }
@@ -191,13 +191,13 @@ public class Animator extends JFrame implements ActionListener {
 
             Color color = new Color(r, g, b);
 
-            int width = abs(random.nextInt(mainPanel.getWidth() / 5) + mainPanel.getWidth() / 10);
-            int height = abs(random.nextInt(mainPanel.getHeight() / 5) + mainPanel.getHeight() / 10);
+            int width = random.nextInt(WINDOW_WIDTH / 5) + WINDOW_WIDTH / 10;
+            int height = random.nextInt(WINDOW_HEIGHT / 5) + WINDOW_HEIGHT / 10;
 
             Dimension dim = new Dimension(width, height);
 
-            int x = random.nextInt(mainPanel.getWidth() - width) + mainPanel.getX();
-            int y = random.nextInt(mainPanel.getHeight() - height) + mainPanel.getY();
+            int x = random.nextInt((int) mainPanel.getVisibleRect().getWidth() - width) + (int) mainPanel.getAlignmentX();
+            int y = random.nextInt((int) mainPanel.getVisibleRect().getHeight() - height) + (int) mainPanel.getAlignmentY();
 
             Point locationPoint = new Point(x, y);
 

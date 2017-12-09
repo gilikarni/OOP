@@ -76,7 +76,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
 
 
     /**
-	 * @requires -5 <= velocityX <= 5 && -5 <= velocityY <= 5
+	 * @requires -5 {@literal <}= velocityX {@literal <}= 5 {@literal &}{@literal &} -5 {@literal <}= velocityY {@literal <}= 5
      * @modifies this
      * @effects Sets the horizontal velocity of this to velocityX and the
      *          vertical velocity of this to velocityY.

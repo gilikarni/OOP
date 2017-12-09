@@ -1,5 +1,3 @@
-import sun.security.provider.SHA;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ListIterator;
 import java.util.Random;
 import javax.swing.*;
 
@@ -53,7 +54,9 @@ public class Animator extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent evt) {
                 if (animationCheckItem.isSelected()) {
                     // TODO (BOM): Add code for making one animation step for all
-                    for (Shape shape : shapes) {
+                    ListIterator<Shape> iter = shapes.listIterator();
+                    while (iter.hasNext()) {
+                        Shape shape = iter.next();
                         if (shape instanceof LocationChangingShape) {
                             LocationChangingShape locationChangingShape = (LocationChangingShape)shape;
                             locationChangingShape.step(mainPanel.getVisibleRect());
@@ -140,8 +143,10 @@ public class Animator extends JFrame implements ActionListener {
         super.paint(g);
 
         //TODO (BOM): Add code for drawing all shapes in this
-        for (Shape shape : shapes) {
-            shape.draw(g);
+        ListIterator<Shape> iter = shapes.listIterator();
+        while (iter.hasNext()) {
+            Shape shape = iter.next();
+            shape.draw(getContentPane().getGraphics());
         }
 
     }

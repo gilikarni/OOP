@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Random;
 import javax.swing.*;
 
+import static java.lang.Math.*;
+
 /**
  * Main application class for exercise #1.
  * This application allows the user to add shapes to a graphical window and
@@ -194,8 +196,8 @@ public class Animator extends JFrame implements ActionListener {
 
             Point locationPoint = new Point(x, y);
 
-            int width = random.nextInt(1/5*WINDOW_WIDTH) + 1/10*WINDOW_WIDTH;
-            int height = random.nextInt(1/5*WINDOW_HEIGHT) + 1/10*WINDOW_HEIGHT;
+            int width = abs(random.nextInt(WINDOW_WIDTH / 5) + WINDOW_WIDTH / 10);
+            int height = abs(random.nextInt(WINDOW_HEIGHT / 5) + WINDOW_HEIGHT / 10);
 
             Dimension dim = new Dimension(width, height);
 

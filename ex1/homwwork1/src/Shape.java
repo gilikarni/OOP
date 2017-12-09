@@ -124,9 +124,15 @@ public abstract class Shape implements Cloneable {
      * @effects Creates and returns a copy of this.
      */
     public Object clone() {
+        Shape newShape = null;
         try {
-            return (Shape)super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
+            newShape = (Shape)super.clone(); // shallow copy
+        } catch (CloneNotSupportedException e) {
+            /* The exception will never be thrown by super.clone(), but the catch
+            prevents us from having to declare it in the signature of this.clone(). */
+            assert false: "Got inside the CloneNotSupportedException exception of Shape.clone()";
+        }
+        newShape.location = (Point)this.location.clone();
+        return newShape;
     }
 }

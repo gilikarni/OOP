@@ -57,7 +57,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @effects Changes the size of oval according to the given dimensions
      */
     public void setSize(Dimension dimension) throws ImpossibleSizeException {
-        if(null == dimension) {
+        if(dimension == null) {
             throw new ImpossibleSizeException();
         }
 

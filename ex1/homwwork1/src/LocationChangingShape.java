@@ -12,7 +12,6 @@ import java.util.Random;
 public abstract class LocationChangingShape extends Shape implements Animatable {
 
     private Point velocity;
-    private Dimension size;
 
     /*
     Abstraction Function:

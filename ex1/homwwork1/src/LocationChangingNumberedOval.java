@@ -28,4 +28,8 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
         int y = getLocation().y / 2;
         g.drawString(myNumber.toString(), x, y);
     }
+
+    public static void clearCounter() {
+        counter = 0;
+    }
 }

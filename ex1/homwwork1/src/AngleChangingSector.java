@@ -4,20 +4,19 @@ public class AngleChangingSector extends Shape implements Animatable {
 
     private int startAngle;
     private int arcAngle;
-    Graphics arc = null;
-    private Dimension bound = null;
+    private Dimension size = null;
     private boolean directionUp = true;
     private final static int maxDegree = 360;
     private final static int minDegree = 0;
 
     /*
     Abstraction Function:
-    A AngleChangingSector a is located at location with the color color. The sector grows to 356 degrees, than it gets
-    smaller to 0 degrees
+    A AngleChangingSector an Animatable Shape. The sector animation open the arc up until 359 degrees,
+     than closes it down to 0 degrees
 
-    Representation invariant for every LocationChangingShape l:
-    location != null && color != null && arc != null && bound != null &&
-    The start degree and arcDegree mist be in the range of [0,360)
+    Representation invariant for every AngleChangingSector l:
+    Representation invariant for Shape  && size != null &&
+    The start degree and arcDegree must be in the range of [0,360)
     */
 
     @Override
@@ -28,10 +27,8 @@ public class AngleChangingSector extends Shape implements Animatable {
      * violated.
      */ protected void checkRep() {
         super.checkRep();
-
         assert (startAngle >= minDegree) && (startAngle < maxDegree) :
                 "An angle must be in the range [" + minDegree + "," + maxDegree + ")";
-
         assert (arcAngle >= minDegree) && (arcAngle < maxDegree) :
                 "An angle must be in the range [" + minDegree + "," + maxDegree + ")";
     }
@@ -42,8 +39,7 @@ public class AngleChangingSector extends Shape implements Animatable {
      * @return Convert angle to be in the range [0, 360)
      */
     private static int convertToLegalAngle(int angle) {
-        int legalAngle = angle % maxDegree;
-        legalAngle += maxDegree;
+        int legalAngle = angle + maxDegree;
         legalAngle %= maxDegree;
 
         return legalAngle;
@@ -54,21 +50,20 @@ public class AngleChangingSector extends Shape implements Animatable {
      * @param color
      * @param startAngle
      * @param arcAngle
-     * @param dimension
-     * @effects Initializes this with a a given location, color, startAngle, arcAngle, dimension.
+     * @param size
+     * @effects Initializes this with a a given location, color, startAngle, arcAngle, size.
      */
-    public AngleChangingSector(Point location, Color color, int startAngle, int arcAngle, Dimension dimension) throws NullPointerException {
+    public AngleChangingSector(Point location, Color color, int startAngle, int arcAngle, Dimension size) throws NullPointerException {
         super(location, color);
 
-        if (dimension == null) {
+        if (size == null) {
             throw new NullPointerException();
         }
 
         this.startAngle = convertToLegalAngle(startAngle);
         this.arcAngle = convertToLegalAngle(arcAngle);
-        this.bound = new Dimension(dimension);
-
-        arc.fillArc(location.x, location.y, dimension.width, dimension.height, startAngle, arcAngle);
+        this.size = new Dimension(size);
+        checkRep();
     }
 
     /**
@@ -91,25 +86,22 @@ public class AngleChangingSector extends Shape implements Animatable {
             arcAngle--;
         }
 
-        arc.fillArc(getLocation().x, getLocation().y, this.bound.width, this.bound.height, startAngle, arcAngle);
         checkRep();
     }
 
     /**
-     * @param dimension
+     * @param size
      * @throws ImpossibleSizeException
-     * @modifies bound, arc
-     * @effects change the bounding triangle of the arc to be of the of the dimensions of dimension
+     * @modifies size, arc
+     * @effects change the bounding triangle of the arc to be of the of the dimensions of size
      */
     @Override
-    public void setSize(Dimension dimension) throws ImpossibleSizeException {
-        if (dimension == null) {
+    public void setSize(Dimension size) throws ImpossibleSizeException {
+        if (size == null) {
             throw new ImpossibleSizeException();
         }
 
-        this.bound = dimension;
-
-        arc.fillArc(getLocation().x, getLocation().y, this.bound.width, this.bound.height, startAngle, arcAngle);
+        this.size = new Dimension(size);
         checkRep();
     }
 
@@ -118,7 +110,9 @@ public class AngleChangingSector extends Shape implements Animatable {
      */
     @Override
     public Rectangle getBounds() {
-        return arc.getClipBounds();
+        Rectangle bounds = new Rectangle((int)getLocation().getX(), (int)getLocation().getY(),
+            (int)size.getWidth(), (int)size.getHeight());
+        return bounds;
     }
 
     /**
@@ -127,7 +121,9 @@ public class AngleChangingSector extends Shape implements Animatable {
      */
     @Override
     public void draw(Graphics g) {
-        g.drawArc(getLocation().x, getLocation().y, bound.width, bound.height, startAngle, arcAngle);
+        g.setColor(getColor());
+        g.fillArc(getLocation().x, getLocation().y, size.width, size.height, startAngle, arcAngle);
+        g.drawArc(getLocation().x, getLocation().y, size.width, size.height, startAngle, arcAngle);
     }
 
     /**
@@ -136,7 +132,7 @@ public class AngleChangingSector extends Shape implements Animatable {
     @Override
     public Object clone() {
         AngleChangingSector angleChangingSector = (AngleChangingSector) super.clone();
-        angleChangingSector.bound = (Dimension) this.bound.clone();
+        angleChangingSector.size = (Dimension) this.size.clone();
 
         return angleChangingSector;
     }

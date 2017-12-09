@@ -51,9 +51,7 @@ public abstract class Shape implements Cloneable {
      * @return the top left corner of the bounding rectangle of this.
      */
     public Point getLocation() {
-        Rectangle boundingRectangle = this.getBounds();
-        Point topLeft =  boundingRectangle.getLocation();
-        return topLeft;
+        return new Point(location);
     }
 
 

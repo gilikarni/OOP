@@ -102,26 +102,12 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          p = p + v
      */
     public void step(Rectangle bound) {
-
-        if (bound == null) {
-//            TODO: handle null pointer
-//            throw new InvalidArgumentException(new String[]{"bound can't be a null object"});
-        }
-        if ((getBounds().getMaxX() +  Math.abs(velocity.x) > bound.getMaxX() &&
-                (getBounds().getMinX() - Math.abs(velocity.x) < bound.getMinX())) ||
-                (getBounds().getMaxY() + Math.abs(velocity.y) > bound.getMaxY()) ||
-                (getBounds().getMinY() - Math.abs(velocity.y) < bound.getMinY())){
-                /* the bound argument does not enable a valid step of shape at current speed */
-//            TODO: raise exception
-        }
-
         /* Update x velocity */
         if ((velocity.x > 0  && getBounds().getMaxX() +  velocity.x > bound.getMaxX()) ||
                 (velocity.x < 0 && getBounds().getMinX() + velocity.x < bound.getMinX())) {
             /* The point is out of bounds */
             velocity.x *= -1;
         }
-
 
         /* Update y velocity */
         if ((velocity.y > 0 && getBounds().getMaxY() + velocity.y  > bound.getMaxY()) ||

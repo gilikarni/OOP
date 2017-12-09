@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.Contract;
-
 import java.awt.*;
 
 public class AngleChangingSector extends Shape implements Animatable {
@@ -43,7 +41,6 @@ public class AngleChangingSector extends Shape implements Animatable {
      * @modifies angle
      * @return Convert angle to be in the range [0, 360)
      */
-    @Contract(pure = true)
     private static int convertToLegalAngle(int angle) {
         int legalAngle = angle % maxDegree;
         legalAngle += maxDegree;

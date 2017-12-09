@@ -41,8 +41,9 @@ public abstract class Shape implements Cloneable {
             throw new NullPointerException();
         }
 
-        this.location = location;
+        this.location = new Point(location);
         this.color = color;
+        checkRep();
     }
 
 

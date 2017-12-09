@@ -7,6 +7,17 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     private int[] xArray;
     private int[] yArray;
 
+        /*
+    Abstraction Function:
+    A LocationAndColorChangingTriangle l is located at location with the color color. l can move in the speed l.super.velocity.x
+    horizontally and in l.super.velocity.y vertically. The color of l changes every time the velocity changes.
+
+    Representation invariant for every LocationChangingShape l:
+    location != null && color != null &&
+    -5 <= l.super.velocity.x <= 5 && -5 <= l.super.velocity.x <= 5 &&
+    triangle != null && size != null
+    */
+
     /**
      * @param location
      * @param dim
@@ -52,7 +63,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         size = dimension;
         setTriangle(getLocation(), size);
 
-        super.checkRep();
+        checkRep();
     }
 
     @Override
@@ -75,6 +86,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         super.setColor(color);
 
         triangle.setColor(color);
+
+        checkRep();
     }
 
     @Override
@@ -95,5 +108,16 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         triangle.size = (Dimension) this.size.clone();
 
         return triangle;
+    }
+
+    @Override
+    protected void checkRep() {
+        super.checkRep();
+
+        assert size != null:
+                "The size must be different than null";
+
+        assert triangle != null:
+                "Triangle must be different than null";
     }
 }

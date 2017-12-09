@@ -191,15 +191,15 @@ public class Animator extends JFrame implements ActionListener {
 
             Color color = new Color(r, g, b);
 
-            int x = random.nextInt(mainPanel.getWidth()) - mainPanel.getX();
-            int y = random.nextInt(mainPanel.getHeight()) - mainPanel.getY();
-
-            Point locationPoint = new Point(x, y);
-
-            int width = abs(random.nextInt(WINDOW_WIDTH / 5) + WINDOW_WIDTH / 10);
-            int height = abs(random.nextInt(WINDOW_HEIGHT / 5) + WINDOW_HEIGHT / 10);
+            int width = abs(random.nextInt(mainPanel.getWidth() / 5) + mainPanel.getWidth() / 10);
+            int height = abs(random.nextInt(mainPanel.getHeight() / 5) + mainPanel.getHeight() / 10);
 
             Dimension dim = new Dimension(width, height);
+
+            int x = random.nextInt(mainPanel.getWidth() - width) + mainPanel.getX();
+            int y = random.nextInt(mainPanel.getHeight() - height) + mainPanel.getY();
+
+            Point locationPoint = new Point(x, y);
 
             if (source.equals(triangleItem)) {
                 shapes.add(new LocationAndColorChangingTriangle(locationPoint, color, dim));

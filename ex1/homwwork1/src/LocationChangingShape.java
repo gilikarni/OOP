@@ -14,7 +14,6 @@ import java.util.Random;
 public abstract class LocationChangingShape extends Shape implements Animatable {
 
     private Point velocity;
-    private Dimension size;
 
     /*
     Abstraction Function:
@@ -22,8 +21,8 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
     horizontally and in l.velocity.y vertically.
 
     Representation invariant for every LocationChangingShape l:
-    location != null && color != null &&
-    -5 <= l.velocity.x <= 5 && -5 <= l.velocity.x <= 5
+    location != null && color != null && velocity != null &&
+    -5 <= velocity.x <= 5 && -5 <= velocity.x <= 5
     */
 
     @Override
@@ -34,6 +33,8 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * violated.
      */ protected void checkRep() {
         super.checkRep();
+        assert velocity != null:
+                "the velocity is null";
         assert -5 <= velocity.x && velocity.x <= 5 && -5 <= velocity.y && velocity.y <= 5 :
                 "The vertical and horizontal speed must be in the range [-5,5]";
     }

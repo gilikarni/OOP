@@ -2,40 +2,66 @@ import java.awt.*;
 
 public class LocationChangingOval extends LocationChangingShape{
 
-    private Dimension dimension;
+    private Dimension size;
     private Graphics oval = null;
+
+     /*
+    Abstraction Function:
+    A LocationChangingOval l is a LocationChangingShape.
+    1 is viewed as an coloured color oval with the bounding rectangle of size size,
+    located at locations
+
+    Representation invariant for every LocationChangingOval l:
+    Representation invariant for LocationChangingShape &&
+    size != null && oval != null
+    */
+
+    @Override
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is
+     * violated.
+     */ protected void checkRep() {
+        super.checkRep();
+        assert size != null: "size of LocationChangingOval is null";
+        assert oval != null: "oval of LocationChangingOval is null";
+    }
 
     /**
      * @param location
      * @param color
+     * @param size
      * @effects Initializes this with a a given location and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
      * -5 <= i <= 5 and i != 0
+     * shape holds a oval with bounds the size of size.
      */
-    LocationChangingOval(Point location, Color color, Dimension dimension) {
+    LocationChangingOval(Point location, Color color, Dimension size) {
         super(location, color);
 
-        if (dimension == null) {
+        if (size == null) {
             throw new NullPointerException();
         }
-        this.dimension = dimension;
-        this.oval.fillOval(location.x, location.y, dimension.width, dimension.height);
+        this.size = new Dimension(size);
+        this.oval.fillOval(location.x, location.y, size.width, size.height);
+        checkRep();
     }
 
     @Override
     /**
      * @effects Changes the size of oval according to the given dimensions
     */
-    public void setSize(Dimension dimension) throws ImpossibleSizeException{
-        if (dimension == null) {
+    public void setSize(Dimension size) throws ImpossibleSizeException{
+        if (size == null) {
             throw new ImpossibleSizeException();
         }
 
-        this.dimension = (Dimension) dimension.clone();
-        this.oval.fillOval(super.getLocation().x, super.getLocation().y, dimension.width, dimension.height);
+        this.size = (Dimension) size.clone();
+        this.oval.fillOval(super.getLocation().x, super.getLocation().y, size.width, size.height);
 
-        super.checkRep();
+        checkRep();
     }
 
     @Override
@@ -54,7 +80,7 @@ public class LocationChangingOval extends LocationChangingShape{
      * @effects draw g
      */
     public void draw(Graphics g) {
-        g.drawOval(super.getLocation().x, super.getLocation().y, dimension.width, dimension.height);
+        g.drawOval(super.getLocation().x, super.getLocation().y, size.width, size.height);
     }
 
     /**
@@ -65,5 +91,6 @@ public class LocationChangingOval extends LocationChangingShape{
         super.setColor(color);
 
         oval.setColor(color);
+        checkRep();
     }
 }

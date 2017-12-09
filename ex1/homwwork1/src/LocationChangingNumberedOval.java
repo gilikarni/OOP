@@ -53,6 +53,7 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
         int x = (int)(getBounds().getCenterX());
         int y = (int)(getBounds().getCenterY());
         g.setColor(new Color(0, 0, 0));
+        g.setFont(new Font("Dialog", Font.BOLD, 20));
         g.drawString(myNumber.toString(), x, y);
     }
 

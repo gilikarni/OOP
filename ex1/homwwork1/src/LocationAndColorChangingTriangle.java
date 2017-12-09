@@ -72,9 +72,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @return the blocking rectangle of this.triangle
      */
     public Rectangle getBounds() {
-        Rectangle clipBounds = triangle.getBounds();
-
-        return clipBounds;
+        return new Rectangle(triangle.getBounds());
     }
 
     @Override

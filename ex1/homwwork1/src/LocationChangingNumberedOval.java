@@ -50,8 +50,9 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     public void draw(Graphics g) {
         super.draw(g);
 
-        int x = (int)(getBounds().getCenterX() / 2);
-        int y = (int)(getBounds().getCenterY() / 2);
+        int x = (int)(getBounds().getCenterX());
+        int y = (int)(getBounds().getCenterY());
+        g.setColor(new Color(0, 0, 0));
         g.drawString(myNumber.toString(), x, y);
     }
 

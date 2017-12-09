@@ -61,18 +61,18 @@ public class LocationChangingOval extends LocationChangingShape{
         checkRep();
     }
 
-    @Override
     /**
      * @return the blocking rectangle of this.oval
      */
+    @Override
     public Rectangle getBounds() {
         return new Rectangle(getLocation(), size);
     }
 
-    @Override
     /**
      * @effects draw g
      */
+    @Override
     public void draw(Graphics g) {
         g.setColor(getColor());
         g.fillOval((int) getLocation().getX(), (int) getLocation().getY(), (int) size.getWidth(), (int) size.getHeight());
@@ -83,6 +83,7 @@ public class LocationChangingOval extends LocationChangingShape{
      * @modifies this
      * @effects Sets color of this.
      */
+    @Override
     public void setColor(Color color) {
         super.setColor(color);
         checkRep();

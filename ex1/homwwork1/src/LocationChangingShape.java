@@ -1,17 +1,20 @@
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.awt.*;
 import java.util.Random;
 
 
 /**
- * A LocationChaningShape is a Shape that can change its location using its step()
- * method. A LocationChaningShape has a velocity property that determines the speed
+ * A LocationChangingShape is a Shape that can change its location using its step()
+ * method. A LocationChangingShape has a velocity property that determines the speed
  * of location changing.
- * Thus, a typical LocationChaningShape consists of the following set of
+ * Thus, a typical LocationChangingShape consists of the following set of
  * properties: {location, color, shape, size, velocity}
  */
 public abstract class LocationChangingShape extends Shape implements Animatable {
 
     private Point velocity;
+    private Dimension size;
 
     /*
     Abstraction Function:
@@ -20,8 +23,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
 
     Representation invariant for every LocationChangingShape l:
     location != null && color != null &&
-    -5 <= l.velocity.x <= 5 && -5 <= l.velocity.x <= 5 &&
-    l.velocity.y != 0 && l.velocity.y != 0
+    -5 <= l.velocity.x <= 5 && -5 <= l.velocity.x <= 5
     */
 
     @Override
@@ -34,8 +36,6 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
         super.checkRep();
         assert -5 <= velocity.x && velocity.x <= 5 && -5 <= velocity.y && velocity.y <= 5 :
                 "The vertical and horizontal speed must be in the range [-5,5]";
-        assert velocity.x != 0 && velocity.y != 0 :
-                "The vertical and horizontal speed must be different than zero";
     }
 
     /**
@@ -103,25 +103,35 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      *          p = p + v
      */
     public void step(Rectangle bound) {
-        Point curLocation = this.getLocation();
 
         if (bound == null) {
-            throw new IllegalArgumentException();
+//            TODO: handle null pointer
+//            throw new InvalidArgumentException(new String[]{"bound can't be a null object"});
+        }
+        if ((getBounds().getMaxX() +  Math.abs(velocity.x) > bound.getMaxX() &&
+                (getBounds().getMinX() - Math.abs(velocity.x) < bound.getMinX())) ||
+                (getBounds().getMaxY() + Math.abs(velocity.y) > bound.getMaxY()) ||
+                (getBounds().getMinY() - Math.abs(velocity.y) < bound.getMinY())){
+                /* the bound argument does not enable a valid step of shape at current speed */
+//            TODO: raise exception
         }
 
         /* Update x velocity */
-        if (curLocation.x + velocity.x > bound.getMaxX() ||
-                curLocation.x + velocity.x < bound.getMinX()) { /* The point is out of bounds */
+        if ((velocity.x > 0  && getBounds().getMaxX() +  velocity.x > bound.getMaxX()) ||
+                (velocity.x < 0 && getBounds().getMinX() + velocity.x < bound.getMinX())) {
+            /* The point is out of bounds */
             velocity.x *= -1;
         }
 
 
         /* Update y velocity */
-        if (curLocation.y + velocity.y > bound.getMaxY() ||
-                curLocation.y + velocity.y < bound.getMinY()) { /* The point is out of bounds */
+        if ((velocity.y > 0 && getBounds().getMaxY() + velocity.y  > bound.getMaxY()) ||
+                (velocity.y < 0 && getBounds().getMinY() + velocity.y < bound.getMinY())) {
+            /* The point is out of bounds */
             velocity.y *= -1;
         }
 
-        this.setLocation(new Point(curLocation.x + velocity.x, curLocation.y + velocity.y));
+        this.setLocation(new Point(getLocation().x + velocity.x, getLocation().y + velocity.y));
+        checkRep();
     }
 }

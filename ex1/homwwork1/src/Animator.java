@@ -1,5 +1,10 @@
+import sun.security.provider.SHA;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
 import javax.swing.*;
 
 /**
@@ -26,7 +31,7 @@ public class Animator extends JFrame implements ActionListener {
     // shapes that have been added to this
 
     // TODO (BOM): Add and initialize a container of shapes called shapes.
-
+    ArrayList<Shape> shapes = new ArrayList<>();
 
     /**
      * @modifies this
@@ -48,9 +53,17 @@ public class Animator extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent evt) {
                 if (animationCheckItem.isSelected()) {
                     // TODO (BOM): Add code for making one animation step for all
-                    //       shapes in this
-
-
+                    for (Shape shape : shapes) {
+                        if (shape instanceof LocationChangingShape) {
+                            LocationChangingShape locationChangingShape = (LocationChangingShape)shape;
+                            locationChangingShape.step(mainPanel.getBounds());
+                        } else if (shape instanceof AngleChangingSector) {
+                            AngleChangingSector angleChangingSector = (AngleChangingSector)shape;
+                            angleChangingSector.step(mainPanel.getBounds());
+                        } else {
+                            throw new IllegalArgumentException();
+                        }
+                    }
 
                     repaint();  // make sure that the shapes are redrawn
                 }
@@ -127,7 +140,9 @@ public class Animator extends JFrame implements ActionListener {
         super.paint(g);
 
         //TODO (BOM): Add code for drawing all shapes in this
-
+        for (Shape shape : shapes) {
+            shape.draw(g);
+        }
 
     }
 
@@ -146,6 +161,8 @@ public class Animator extends JFrame implements ActionListener {
             repaint();
 
             //TODO (BOM):  Add code for number of LocationChangingNumerOval = 0
+            LocationChangingNumberedOval l = null;
+            l.clearCounter();
         }
 
         // File->Exit: close application
@@ -164,7 +181,37 @@ public class Animator extends JFrame implements ActionListener {
             //       its location, size and color are randomly selected &&
             //       1/10*WINDOW_WIDTH <= shape.width < 3/10*WINDOW_WIDTH &&
             //       1/10*WINDOW_HEIGHT <= shape.height < 3/10*WINDOW_HEIGHT
+            Random random = new Random();
 
+            // Generate random color
+
+            float r = random.nextFloat();
+            float g = random.nextFloat();
+            float b = random.nextFloat();
+
+            Color color = new Color(r, g, b);
+
+            int x = random.nextInt(mainPanel.getWidth()) - mainPanel.getX();
+            int y = random.nextInt(mainPanel.getHeight()) - mainPanel.getY();
+
+            Point locationPoint = new Point(x, y);
+
+            int width = random.nextInt(1/5*WINDOW_WIDTH) + 1/10*WINDOW_WIDTH;
+            int height = random.nextInt(1/5*WINDOW_HEIGHT) + 1/10*WINDOW_HEIGHT;
+
+            Dimension dim = new Dimension(width, height);
+
+            if (source.equals(triangleItem)) {
+                shapes.add(new LocationAndColorChangingTriangle(locationPoint, color, dim));
+            } else if (source.equals(ovalItem)) {
+                shapes.add(new LocationChangingOval(locationPoint, color, dim));
+            } else if (source.equals(numberedOvalItem)) {
+                shapes.add(new LocationChangingNumberedOval(locationPoint, color, dim));
+            } else { // source.equals(sectorItem)
+                int startAngle = random.nextInt(359);
+                int arcAngle = random.nextInt(359);
+                shapes.add(new AngleChangingSector(locationPoint, color, startAngle, arcAngle, dim));
+            }
 
             repaint();
         }

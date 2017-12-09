@@ -18,8 +18,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     */
 
     /**
-     * @param location The location to set the triangle at
-     * @param dim The size of the bounding rectangle of the triangle
+     * @requires location != null && dim != null
      * @modifies xArray, yArray, triangle
      * @effects Creates a new triangle with the new dimensions
      */
@@ -31,8 +30,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     }
 
     /**
-     * @param location The location to set the triangle at
-     * @param color The color to color the triangle at
+     * @requires location != null && dim != null
      * @effects Initializes this with a a given location and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
@@ -53,7 +51,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     @Override
     /**
-     * @param dimension The new size of the bounding rectangle of the triangle
+     * @requires dimension != null
      * @effects Changes the size of oval according to the given dimensions
      */
     public void setSize(Dimension dimension) throws ImpossibleSizeException {
@@ -77,11 +75,15 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     @Override
     /**
-     * @param color The new color to color the triangle at
+     * @requires color != null
      * @modifies this
      * @effects Sets color of this.
      */
     public void setColor(Color color) {
+        if (color == null) {
+            throw new NullPointerException();
+        }
+
         super.setColor(color);
 
         checkRep();
@@ -89,10 +91,14 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     @Override
     /**
-     * @param g The object to print the triangle to
+     * @requires g != null
      * @effects draw g
      */
     public void draw(Graphics g) {
+        if (g == null) {
+            throw new NullPointerException();
+        }
+
         g.setColor(getColor());
         g.fillPolygon(xArray, yArray, numberOfPointsInPoly);
         g.drawPolygon(xArray, yArray, numberOfPointsInPoly);
@@ -125,7 +131,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     }
 
     /**
-     * @param bound The bound of the screen to print to
+     * @requires bound != null
      * @modifies this
      * @effects Set the new location of the triangle
      */

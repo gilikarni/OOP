@@ -135,4 +135,15 @@ public class AngleChangingSector extends Shape implements Animatable {
     public void draw(Graphics g) {
         g.drawArc(getLocation().x, getLocation().y, bound.width, bound.height, startAngle, arcAngle);
     }
+
+    /**
+     * @return A deep copy of this
+     */
+    @Override
+    public Object clone() {
+        AngleChangingSector angleChangingSector = (AngleChangingSector) super.clone();
+        angleChangingSector.bound = (Dimension) this.bound.clone();
+
+        return angleChangingSector;
+    }
 }

@@ -18,8 +18,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     */
 
     /**
-     * @param location
-     * @param dim
+     * @param location The location to set the triangle at
+     * @param dim The size of the bounding rectangle of the triangle
      * @modifies xArray, yArray, triangle
      * @effects Creates a new triangle with the new dimensions
      */
@@ -31,8 +31,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     }
 
     /**
-     * @param location
-     * @param color
+     * @param location The location to set the triangle at
+     * @param color The color to color the triangle at
      * @effects Initializes this with a a given location and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
@@ -53,7 +53,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     @Override
     /**
-     * @param dimension
+     * @param dimension The new size of the bounding rectangle of the triangle
      * @effects Changes the size of oval according to the given dimensions
      */
     public void setSize(Dimension dimension) throws ImpossibleSizeException {
@@ -77,7 +77,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     @Override
     /**
-     * @param color
+     * @param color The new color to color the triangle at
      * @modifies this
      * @effects Sets color of this.
      */
@@ -89,7 +89,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
     @Override
     /**
-     * @param g
+     * @param g The object to print the triangle to
      * @effects draw g
      */
     public void draw(Graphics g) {
@@ -109,6 +109,9 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         return triangle;
     }
 
+    /**
+     * @effects Assert that the representation invariant hold
+     */
     @Override
     protected void checkRep() {
         super.checkRep();
@@ -120,6 +123,11 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
                 "Triangle must be different than null";
     }
 
+    /**
+     * @param bound The bound of the screen to print to
+     * @modifies this
+     * @effects Set the new location of the triangle
+     */
     @Override
     public void step(Rectangle bound) {
         super.step(bound);

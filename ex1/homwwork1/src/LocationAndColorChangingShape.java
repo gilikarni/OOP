@@ -15,9 +15,8 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
     A LocationChangingShape l is located at location with the color color. l can move in the speed l.super.velocity.x
     horizontally and in l.super.velocity.y vertically.
 
-    Representation invariant for every LocationChangingShape l:
-    location != null && color != null &&
-    -5 <= l.super.velocity.x <= 5 && -5 <= l.super.velocity.x <= 5
+    Representation invariant for every LocationAndColorChangingShape l:
+    Representation invariant of LocationChangingShape
     */
 
 

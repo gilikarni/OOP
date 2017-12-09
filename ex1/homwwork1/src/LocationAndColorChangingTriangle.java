@@ -12,9 +12,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     A LocationAndColorChangingTriangle l is located at location with the color color. l can move in the speed l.super.velocity.x
     horizontally and in l.super.velocity.y vertically. The color of l changes every time the velocity changes.
 
-    Representation invariant for every LocationChangingShape l:
-    location != null && color != null &&
-    -5 <= l.super.velocity.x <= 5 && -5 <= l.super.velocity.x <= 5 &&
+    Representation invariant for every LocationAndColorChangingTriangle l:
+    Representation invariant for LocationAndColorChangingShape &&
     triangle != null && size != null
     */
 

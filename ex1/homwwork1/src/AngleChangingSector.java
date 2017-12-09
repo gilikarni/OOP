@@ -13,9 +13,36 @@ public class AngleChangingSector extends Shape implements Animatable {
     private final static int maxDegree = 360;
     private final static int minDegree = 0;
 
+    /*
+    Abstraction Function:
+    A AngleChangingSector a is located at location with the color color. The sector grows to 356 degrees, than it gets
+    smaller to 0 degrees
+
+    Representation invariant for every LocationChangingShape l:
+    location != null && color != null && arc != null && bound != null &&
+    The start degree and arcDegree mist be in the range of [0,360)
+    */
+
+    @Override
+    /**
+     * Checks to see if the representation invariant is being
+     * violated.
+     * @throws AssertionError if representation invariant is
+     * violated.
+     */ protected void checkRep() {
+        super.checkRep();
+
+        assert (startAngle >= minDegree) && (startAngle < maxDegree) :
+                "An angle must be in the range [" + minDegree + "," + maxDegree + ")";
+
+        assert (arcAngle >= minDegree) && (arcAngle < maxDegree) :
+                "An angle must be in the range [" + minDegree + "," + maxDegree + ")";
+    }
+
     /**
      * @param angle
-     * @return true iff angle is in [0,360]
+     * @modifies angle
+     * @return Convert angle to be in the range [0, 360)
      */
     @Contract(pure = true)
     private static int convertToLegalAngle(int angle) {
@@ -71,7 +98,7 @@ public class AngleChangingSector extends Shape implements Animatable {
         }
 
         arc.fillArc(getLocation().x, getLocation().y, this.bound.width, this.bound.height, startAngle, arcAngle);
-        // TODO :: Check rep
+        checkRep();
     }
 
     /**
@@ -89,7 +116,7 @@ public class AngleChangingSector extends Shape implements Animatable {
         this.bound = dimension;
 
         arc.fillArc(getLocation().x, getLocation().y, this.bound.width, this.bound.height, startAngle, arcAngle);
-        // TODO :: Check rep
+        checkRep();
     }
 
     /**

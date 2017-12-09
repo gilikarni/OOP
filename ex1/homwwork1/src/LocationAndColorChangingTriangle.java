@@ -121,4 +121,11 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         assert triangle != null:
                 "Triangle must be different than null";
     }
+
+    @Override
+    public void step(Rectangle bound) {
+        super.step(bound);
+
+        setTriangle(getLocation(), size);
+    }
 }

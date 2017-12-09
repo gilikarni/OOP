@@ -74,10 +74,9 @@ public class LocationChangingOval extends LocationChangingShape{
      * @effects draw g
      */
     public void draw(Graphics g) {
-
         g.setColor(getColor());
-        g.fillOval(getLocation().x, getLocation().y, size.width, size.height);
-        g.drawOval(super.getLocation().x, super.getLocation().y, size.width, size.height);
+        g.fillOval((int) getLocation().getX(), (int) getLocation().getY(), (int) size.getWidth(), (int) size.getHeight());
+        g.drawOval((int) getLocation().getX(), (int) getLocation().getY(), (int) size.getWidth(), (int) size.getHeight());
     }
 
     /**
@@ -86,7 +85,6 @@ public class LocationChangingOval extends LocationChangingShape{
      */
     public void setColor(Color color) {
         super.setColor(color);
-
         checkRep();
     }
 }

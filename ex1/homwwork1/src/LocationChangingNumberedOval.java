@@ -14,13 +14,14 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     myNumber != null && myNumber > 0
     */
 
-    @Override
     /**
      * Checks to see if the representation invariant is being
      * violated.
      * @throws AssertionError if representation invariant is
      * violated.
-     */ protected void checkRep() {
+     */
+    @Override
+    protected void checkRep() {
         super.checkRep();
         assert myNumber != null :
                 "myNumber is null";
@@ -29,9 +30,9 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     }
 
     /**
-     * @param location
-     * @param color
-     * @param size
+     * @param location The location of the oval
+     * @param color The color to paint the oval at
+     * @param size The size of the bounding rectangle of the oval
      * @effects Initializes this with a a given location and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
@@ -46,6 +47,9 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
         checkRep();
     }
 
+    /**
+     * @param g The screen to draw the oval at
+     */
     @Override
     public void draw(Graphics g) {
         super.draw(g);
@@ -57,6 +61,10 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
         g.drawString(myNumber.toString(), x, y);
     }
 
+    /**
+     * @modifies this
+     * @effects Initial the counter of the ovals to zero
+     */
     public static void clearCounter() {
         counter = 0;
     }

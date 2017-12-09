@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class LocationAndColorChangingTriangle extends LocationAndColorChangingShape {
     private Dimension size = null;
-    private Graphics triangle = null;
+    private Polygon triangle = null;
     private final int numberOfPointsInPoly = 3;
     private int[] xArray;
     private int[] yArray;
@@ -28,7 +28,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         xArray = new int[]{location.x, location.x, location.x + dim.width};
         yArray = new int[]{location.y, location.y + dim.height, location.y};
 
-        triangle.fillPolygon(xArray, yArray, numberOfPointsInPoly);
+        triangle = new Polygon(xArray, yArray, numberOfPointsInPoly);
     }
 
     /**
@@ -48,6 +48,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
 
         this.size = new Dimension(size);
         setTriangle(location, size);
+
+        checkRep();
     }
 
     @Override
@@ -71,7 +73,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @return the blocking rectangle of this.triangle
      */
     public Rectangle getBounds() {
-        Rectangle clipBounds = triangle.getClipBounds();
+        Rectangle clipBounds = triangle.getBounds();
 
         return clipBounds;
     }
@@ -85,8 +87,6 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     public void setColor(Color color) {
         super.setColor(color);
 
-        triangle.setColor(color);
-
         checkRep();
     }
 
@@ -96,6 +96,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @effects draw g
      */
     public void draw(Graphics g) {
+        g.setColor(getColor());
         g.drawPolygon(xArray, yArray, numberOfPointsInPoly);
     }
 
@@ -104,8 +105,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      */
     @Override
     public Object clone() {
-        LocationAndColorChangingTriangle triangle = (LocationAndColorChangingTriangle) super.clone();
-        triangle.size = (Dimension) this.size.clone();
+        LocationAndColorChangingTriangle locationAndColorChangingTriangle = (LocationAndColorChangingTriangle) super.clone();
+        locationAndColorChangingTriangle.size = (Dimension) this.size.clone();
 
         return triangle;
     }

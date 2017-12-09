@@ -1,4 +1,3 @@
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.jetbrains.annotations.Contract;
 
 import java.awt.*;
@@ -70,13 +69,9 @@ public class AngleChangingSector extends Shape implements Animatable {
 
         this.startAngle = convertToLegalAngle(startAngle);
         this.arcAngle = convertToLegalAngle(arcAngle);
-        this.bound = dimension;
+        this.bound = new Dimension(dimension);
 
         arc.fillArc(location.x, location.y, dimension.width, dimension.height, startAngle, arcAngle);
-
-        if (arcAngle == maxDegree - 1) {
-            directionUp = false;
-        }
     }
 
     /**
@@ -87,14 +82,16 @@ public class AngleChangingSector extends Shape implements Animatable {
      */
     @Override
     public void step(Rectangle bound) {
+        if (arcAngle == minDegree) {
+            directionUp = true;
+        } else if (arcAngle == maxDegree - 1) {
+            directionUp = false;
+        }
+
         if (directionUp) {
             arcAngle++;
         } else {
             arcAngle--;
-        }
-
-        if (arcAngle == minDegree || arcAngle == maxDegree - 1) {
-            directionUp = !directionUp;
         }
 
         arc.fillArc(getLocation().x, getLocation().y, this.bound.width, this.bound.height, startAngle, arcAngle);

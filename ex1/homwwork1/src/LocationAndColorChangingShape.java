@@ -49,8 +49,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
             float g = randomColorsGenerator.nextFloat();
             float b = randomColorsGenerator.nextFloat();
 
-            Color randomColor = new Color(r, g, b);
-            this.setColor(randomColor);
+            this.setColor(new Color(r, g, b));
         }
     }
 }

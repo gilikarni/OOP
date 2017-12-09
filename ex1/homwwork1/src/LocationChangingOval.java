@@ -85,7 +85,6 @@ public class LocationChangingOval extends LocationChangingShape{
      */
     public void setColor(Color color) {
         super.setColor(color);
-
         checkRep();
     }
 }

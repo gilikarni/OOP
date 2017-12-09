@@ -110,9 +110,8 @@ public class AngleChangingSector extends Shape implements Animatable {
      */
     @Override
     public Rectangle getBounds() {
-        Rectangle bounds = new Rectangle((int)getLocation().getX(), (int)getLocation().getY(),
-            (int)size.getWidth(), (int)size.getHeight());
-        return bounds;
+        return new Rectangle((int)getLocation().getX(), (int)getLocation().getY(),
+                (int)size.getWidth(), (int)size.getHeight());
     }
 
     /**

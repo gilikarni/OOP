@@ -17,8 +17,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
 
     Representation invariant for every LocationChangingShape l:
     location != null && color != null &&
-    -5 <= l.super.velocity.x <= 5 && -5 <= l.super.velocity.x <= 5 &&
-    l.super.velocity.y != 0 && l.super.velocity.y != 0
+    -5 <= l.super.velocity.x <= 5 && -5 <= l.super.velocity.x <= 5
     */
 
 

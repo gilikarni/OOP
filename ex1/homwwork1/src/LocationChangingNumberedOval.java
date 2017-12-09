@@ -30,9 +30,7 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     }
 
     /**
-     * @param location The location of the oval
-     * @param color The color to paint the oval at
-     * @param size The size of the bounding rectangle of the oval
+     * @requires location != null && color != null && size != null
      * @effects Initializes this with a a given location and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
@@ -48,7 +46,8 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
     }
 
     /**
-     * @param g The screen to draw the oval at
+     * @requires g != null
+     * @effects draw the number of this oval to g
      */
     @Override
     public void draw(Graphics g) {

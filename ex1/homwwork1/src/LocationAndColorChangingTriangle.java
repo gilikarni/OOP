@@ -92,7 +92,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     @Override
     /**
      * @requires g != null
-     * @effects draw g
+     * @effects draw the triangle to g
      */
     public void draw(Graphics g) {
         if (g == null) {

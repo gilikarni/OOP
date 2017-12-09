@@ -97,6 +97,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      */
     public void draw(Graphics g) {
         g.setColor(getColor());
+        g.fillPolygon(xArray, yArray, numberOfPointsInPoly);
         g.drawPolygon(xArray, yArray, numberOfPointsInPoly);
     }
 

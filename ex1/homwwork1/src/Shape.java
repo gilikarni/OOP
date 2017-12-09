@@ -33,13 +33,8 @@ public abstract class Shape implements Cloneable {
 
     /**
      * @effects Initializes this with a a given location and color.
-     * @param location
-     * @param color
      */
     public Shape(Point location, Color color) {
-        if (location == null || color == null) {
-            throw new NullPointerException();
-        }
 
         this.location = new Point(location);
         this.color = color;

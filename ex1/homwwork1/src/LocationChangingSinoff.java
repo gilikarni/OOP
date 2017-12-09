@@ -5,18 +5,18 @@ import java.awt.image.*;
 
 public class LocationChangingSinoff extends LocationChangingShape{
     private Dimension size;
-    private final java.lang.String imagePath = "src\\sinoff.jpg";
+    private final java.lang.String imagePath = "sinoff.jpg";
     BufferedImage img;
 
      /*
     Abstraction Function:
-    A LocationChangingOval l is a LocationChangingShape.
+    A LocationChangingSinoff l is a LocationChangingShape.
     1 is viewed as an coloured color oval with the bounding rectangle of size size,
     located at locations
 
     Representation invariant for every LocationChangingOval l:
     Representation invariant for LocationChangingShape &&
-    size != null && oval != null
+    size != null
     */
 
     @Override
@@ -27,18 +27,15 @@ public class LocationChangingSinoff extends LocationChangingShape{
      * violated.
      */ protected void checkRep() {
         super.checkRep();
-        assert size != null: "size of LocationChangingOval is null";
+        assert size != null: "size is null";
+        assert img != null: "img is null";
     }
 
     /**
-     * @param location
-     * @param color
-     * @param size
      * @effects Initializes this with a a given location and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
      * -5 <= i <= 5 and i != 0
-     * shape holds a oval with bounds the size of size.
      */
     LocationChangingSinoff(Point location, Color color, Dimension size) {
         super(location, color);

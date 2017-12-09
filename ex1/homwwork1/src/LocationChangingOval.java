@@ -1,9 +1,8 @@
 import java.awt.*;
 
-public class LocationChangingOval extends LocationChangingShape{
 
+public class LocationChangingOval extends LocationChangingShape{
     private Dimension size;
-    private Graphics oval = null;
 
      /*
     Abstraction Function:
@@ -25,7 +24,6 @@ public class LocationChangingOval extends LocationChangingShape{
      */ protected void checkRep() {
         super.checkRep();
         assert size != null: "size of LocationChangingOval is null";
-        assert oval != null: "oval of LocationChangingOval is null";
     }
 
     /**
@@ -44,8 +42,8 @@ public class LocationChangingOval extends LocationChangingShape{
         if (size == null) {
             throw new NullPointerException();
         }
+
         this.size = new Dimension(size);
-        this.oval.fillOval(location.x, location.y, size.width, size.height);
         checkRep();
     }
 
@@ -59,7 +57,6 @@ public class LocationChangingOval extends LocationChangingShape{
         }
 
         this.size = (Dimension) size.clone();
-        this.oval.fillOval(super.getLocation().x, super.getLocation().y, size.width, size.height);
 
         checkRep();
     }
@@ -69,10 +66,7 @@ public class LocationChangingOval extends LocationChangingShape{
      * @return the blocking rectangle of this.oval
      */
     public Rectangle getBounds() {
-        Rectangle rectangle = null;
-        oval.getClipBounds(rectangle);
-
-        return rectangle;
+        return new Rectangle(getLocation(), size);
     }
 
     @Override
@@ -80,6 +74,9 @@ public class LocationChangingOval extends LocationChangingShape{
      * @effects draw g
      */
     public void draw(Graphics g) {
+
+        g.setColor(getColor());
+        g.fillOval(getLocation().x, getLocation().y, size.width, size.height);
         g.drawOval(super.getLocation().x, super.getLocation().y, size.width, size.height);
     }
 
@@ -90,7 +87,6 @@ public class LocationChangingOval extends LocationChangingShape{
     public void setColor(Color color) {
         super.setColor(color);
 
-        oval.setColor(color);
         checkRep();
     }
 }

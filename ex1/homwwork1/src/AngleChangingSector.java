@@ -34,7 +34,7 @@ public class AngleChangingSector extends Shape implements Animatable {
     }
 
     /**
-     * @param angle
+     * @param angle : The angle to convert to legal size
      * @modifies angle
      * @return Convert angle to be in the range [0, 360)
      */
@@ -46,11 +46,11 @@ public class AngleChangingSector extends Shape implements Animatable {
     }
 
     /**
-     * @param location
-     * @param color
-     * @param startAngle
-     * @param arcAngle
-     * @param size
+     * @param location : The location to put the sector at
+     * @param color : The color to paint the sector at
+     * @param startAngle : The starting angle of the sector
+     * @param arcAngle : The size of the arc
+     * @param size : The size of the oval the arc is part of
      * @effects Initializes this with a a given location, color, startAngle, arcAngle, size.
      */
     public AngleChangingSector(Point location, Color color, int startAngle, int arcAngle, Dimension size) throws NullPointerException {
@@ -67,7 +67,7 @@ public class AngleChangingSector extends Shape implements Animatable {
     }
 
     /**
-     * @param bound
+     * @param bound The bound of the screen to print to
      * @modifies arcAngle, arc
      * @effects Change the size of the angle.
      *          First move arcAngle from it initial value to 359 degrees, than move it back to 0, and again.
@@ -90,7 +90,7 @@ public class AngleChangingSector extends Shape implements Animatable {
     }
 
     /**
-     * @param size
+     * @param size The new size to set
      * @throws ImpossibleSizeException
      * @modifies size, arc
      * @effects change the bounding triangle of the arc to be of the of the dimensions of size
@@ -114,7 +114,7 @@ public class AngleChangingSector extends Shape implements Animatable {
     }
 
     /**
-     * @param g
+     * @param g The object to draw to
      * @effects draw to screen the arc that is saved in this class.
      */
     @Override

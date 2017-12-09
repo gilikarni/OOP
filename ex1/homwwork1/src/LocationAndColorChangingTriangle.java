@@ -35,7 +35,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
             throw new NullPointerException();
         }
 
-        this.size = size;
+        this.size = new Dimension(size);
         setTriangle(location, size);
     }
 

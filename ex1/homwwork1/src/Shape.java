@@ -1,6 +1,5 @@
 import java.awt.*;
 
-
 /**
  * A Shape is an abstraction of a shape object. A typical Shape consists of
  * a set of properties: {location, color, shape, size}.
@@ -52,7 +51,7 @@ public abstract class Shape implements Cloneable {
      */
     public Point getLocation() {
         Rectangle boundingRectangle = this.getBounds();
-        Point topLeft = new boundingRectangle.getLocation();
+        Point topLeft =  boundingRectangle.getLocation();
         return topLeft;
     }
 

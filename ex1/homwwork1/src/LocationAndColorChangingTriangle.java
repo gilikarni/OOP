@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class LocationAndColorChangingTriangle extends LocationAndColorChangingShape {
-    private Dimension bounds = null;
+    private Dimension size = null;
     private Graphics triangle = null;
     private final int numberOfPointsInPoly = 3;
     private int[] xArray;
@@ -28,15 +28,15 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * object is set to a random integral value i such that
      * -5 <= i <= 5 and i != 0
      */
-    LocationAndColorChangingTriangle(Point location, Color color, Dimension bounds) {
+    LocationAndColorChangingTriangle(Point location, Color color, Dimension size) {
         super(location, color);
 
-        if (bounds == null) {
+        if (size == null) {
             throw new NullPointerException();
         }
 
-        this.bounds = bounds;
-        setTriangle(location, bounds);
+        this.size = size;
+        setTriangle(location, size);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
             throw new ImpossibleSizeException();
         }
 
-        bounds = dimension;
-        setTriangle(getLocation(), bounds);
+        size = dimension;
+        setTriangle(getLocation(), size);
 
         super.checkRep();
     }
@@ -84,5 +84,16 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      */
     public void draw(Graphics g) {
         g.drawPolygon(xArray, yArray, numberOfPointsInPoly);
+    }
+
+    /**
+     * @return A deep copy of this
+     */
+    @Override
+    public Object clone() {
+        LocationAndColorChangingTriangle triangle = (LocationAndColorChangingTriangle) super.clone();
+        triangle.size = (Dimension) this.size.clone();
+
+        return triangle;
     }
 }

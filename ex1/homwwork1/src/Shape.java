@@ -38,8 +38,12 @@ public abstract class Shape implements Cloneable {
      * @param color
      */
     public Shape(Point location, Color color) {
-		 // TODO (BOM): Implement this method
-        checkRep();
+        if (location == null || color == null) {
+            throw new NullPointerException();
+        }
+
+        this.location = location;
+        this.color = color;
     }
 
 

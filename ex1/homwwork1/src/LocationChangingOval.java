@@ -37,10 +37,6 @@ public class LocationChangingOval extends LocationChangingShape{
     LocationChangingOval(Point location, Color color, Dimension size) {
         super(location, color);
 
-        if (size == null) {
-            throw new NullPointerException();
-        }
-
         this.size = new Dimension(size);
         checkRep();
     }
@@ -53,7 +49,9 @@ public class LocationChangingOval extends LocationChangingShape{
     */
     public void setSize(Dimension size) throws ImpossibleSizeException{
         if (size == null) {
-            throw new ImpossibleSizeException();
+            ImpossibleSizeException e = new ImpossibleSizeException();
+            this.size = e.getCorrectSize();
+            return;
         }
 
         this.size = (Dimension) size.clone();

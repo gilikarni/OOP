@@ -95,6 +95,7 @@ public class AngleChangingSector extends Shape implements Animatable {
         if (size == null) {
             ImpossibleSizeException e = new ImpossibleSizeException();
             this.size = e.getCorrectSize();
+            return;
         }
 
         this.size = new Dimension(size);

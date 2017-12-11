@@ -58,6 +58,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
         if(dimension == null) {
             ImpossibleSizeException e = new ImpossibleSizeException();
             size = e.getCorrectSize();
+            return;
         }
 
         size = dimension;

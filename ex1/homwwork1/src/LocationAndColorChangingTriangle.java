@@ -23,8 +23,8 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @effects Creates a new triangle with the new dimensions
      */
     private void setTriangle(Point location, Dimension dim) {
-        xArray = new int[]{location.x, location.x, location.x + dim.width};
-        yArray = new int[]{location.y, location.y + dim.height, location.y};
+        xArray = new int[]{(int)location.getX(), (int)location.getX(), (int)location.getX() + (int)dim.getWidth()};
+        yArray = new int[]{(int)location.getY(), (int)location.getY() + (int)dim.getHeight(), (int)location.getY()};
 
         triangle = new Polygon(xArray, yArray, numberOfPointsInPoly);
     }
@@ -54,9 +54,10 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @requires dimension != null
      * @effects Changes the size of oval according to the given dimensions
      */
-    public void setSize(Dimension dimension) throws ImpossibleSizeException {
+    public void setSize(Dimension dimension) {
         if(dimension == null) {
-            throw new ImpossibleSizeException();
+            ImpossibleSizeException e = new ImpossibleSizeException();
+            size = e.getCorrectSize();
         }
 
         size = dimension;
@@ -80,12 +81,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @effects Sets color of this.
      */
     public void setColor(Color color) {
-        if (color == null) {
-            throw new NullPointerException();
-        }
-
         super.setColor(color);
-
         checkRep();
     }
 
@@ -95,10 +91,6 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
      * @effects draw the triangle to g
      */
     public void draw(Graphics g) {
-        if (g == null) {
-            throw new NullPointerException();
-        }
-
         g.setColor(getColor());
         g.fillPolygon(xArray, yArray, numberOfPointsInPoly);
         g.drawPolygon(xArray, yArray, numberOfPointsInPoly);
@@ -110,7 +102,7 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     @Override
     public Object clone() {
         LocationAndColorChangingTriangle locationAndColorChangingTriangle = (LocationAndColorChangingTriangle) super.clone();
-        locationAndColorChangingTriangle.size = (Dimension) this.size.clone();
+        locationAndColorChangingTriangle.setSize(this.size);
 
         return triangle;
     }
@@ -138,7 +130,6 @@ public class LocationAndColorChangingTriangle extends LocationAndColorChangingSh
     @Override
     public void step(Rectangle bound) {
         super.step(bound);
-
         setTriangle(getLocation(), size);
     }
 }

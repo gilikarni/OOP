@@ -195,8 +195,10 @@ public class Animator extends JFrame implements ActionListener {
 
             Dimension dim = new Dimension(width, height);
 
-            int x = random.nextInt((int) mainPanel.getVisibleRect().getWidth() - width) + (int) mainPanel.getAlignmentX();
-            int y = random.nextInt((int) mainPanel.getVisibleRect().getHeight() - height) + (int) mainPanel.getAlignmentY();
+            int x = random.nextInt((int) mainPanel.getVisibleRect().getWidth() - width) +
+                    (int) mainPanel.getAlignmentX();
+            int y = random.nextInt((int) mainPanel.getVisibleRect().getHeight() - height) +
+                    (int) mainPanel.getAlignmentY();
 
             Point locationPoint = new Point(x, y);
 

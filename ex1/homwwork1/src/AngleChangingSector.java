@@ -19,13 +19,15 @@ public class AngleChangingSector extends Shape implements Animatable {
     The start degree and arcDegree must be in the range of [0,360)
     */
 
-    @Override
     /**
      * Checks to see if the representation invariant is being
      * violated.
      * @throws AssertionError if representation invariant is
      * violated.
-     */ protected void checkRep() {
+     *
+     */
+    @Override
+    protected void checkRep() {
         super.checkRep();
         assert (startAngle >= minDegree) && (startAngle < maxDegree) :
                 "An angle must be in the range [" + minDegree + "," + maxDegree + ")";
@@ -38,7 +40,8 @@ public class AngleChangingSector extends Shape implements Animatable {
      * @return Convert angle to be in the range [0, 360)
      */
     private static int convertToLegalAngle(int angle) {
-        int legalAngle = angle + maxDegree;
+        int legalAngle = angle % maxDegree;
+        legalAngle += maxDegree;
         legalAngle %= maxDegree;
 
         return legalAngle;

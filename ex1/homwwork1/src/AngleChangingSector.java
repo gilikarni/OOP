@@ -36,7 +36,6 @@ public class AngleChangingSector extends Shape implements Animatable {
     }
 
     /**
-     * @modifies angle
      * @return Convert angle to be in the range [0, 360)
      */
     private static int convertToLegalAngle(int angle) {

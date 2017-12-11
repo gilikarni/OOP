@@ -8,11 +8,11 @@ public class LocationChangingOval extends LocationChangingShape{
     Abstraction Function:
     A LocationChangingOval l is a LocationChangingShape.
     1 is viewed as an coloured color oval with the bounding rectangle of size size,
-    located at locations
+    located at location location.
 
     Representation invariant for every LocationChangingOval l:
     Representation invariant for LocationChangingShape &&
-    size != null && oval != null
+    size != null
     */
 
     @Override
@@ -28,11 +28,10 @@ public class LocationChangingOval extends LocationChangingShape{
 
     /**
      * @requires location != null && color != null && size != null
-     * @effects Initializes this with a a given location and color. Each
+     * @effects Initializes this with a a given location, size and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
      * -5 <= i <= 5 and i != 0
-     * shape holds a oval with bounds the size of size.
      */
     LocationChangingOval(Point location, Color color, Dimension size) {
         super(location, color);

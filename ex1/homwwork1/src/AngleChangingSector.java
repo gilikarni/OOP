@@ -88,14 +88,14 @@ public class AngleChangingSector extends Shape implements Animatable {
 
     /**
      * @requires size != null
-     * @throws ImpossibleSizeException
      * @modifies size, arc
      * @effects change the bounding triangle of the arc to be of the of the dimensions of size
      */
     @Override
-    public void setSize(Dimension size) throws ImpossibleSizeException {
+    public void setSize(Dimension size) {
         if (size == null) {
-            throw new ImpossibleSizeException();
+            ImpossibleSizeException e = new ImpossibleSizeException();
+            this.size = e.getCorrectSize();
         }
 
         this.size = new Dimension(size);
@@ -120,8 +120,10 @@ public class AngleChangingSector extends Shape implements Animatable {
             throw new NullPointerException();
         }
         g.setColor(getColor());
-        g.fillArc(getLocation().x, getLocation().y, size.width, size.height, startAngle, arcAngle);
-        g.drawArc(getLocation().x, getLocation().y, size.width, size.height, startAngle, arcAngle);
+        g.fillArc((int)getLocation().getX(), (int)getLocation().getY(), (int)size.getWidth(), (int)size.getHeight(),
+                startAngle, arcAngle);
+        g.drawArc((int)getLocation().getX(), (int)getLocation().getY(), (int)size.getWidth(), (int)size.getHeight(),
+                startAngle, arcAngle);
     }
 
     /**
@@ -130,7 +132,7 @@ public class AngleChangingSector extends Shape implements Animatable {
     @Override
     public Object clone() {
         AngleChangingSector angleChangingSector = (AngleChangingSector) super.clone();
-        angleChangingSector.size = (Dimension) this.size.clone();
+        angleChangingSector.setSize(this.size);
 
         return angleChangingSector;
     }

@@ -42,7 +42,7 @@ public abstract class LocationAndColorChangingShape extends LocationChangingShap
     public void step(Rectangle bound) {
         Point oldVelocity = new Point(this.getVelocityX(), this.getVelocityY());
         super.step(bound);
-        if (oldVelocity.x != this.getVelocityX() || oldVelocity.y != getVelocityY()) { /* The velocity had changed */
+        if (oldVelocity.getX() != this.getVelocityX() || oldVelocity.getY() != getVelocityY()) { /* The velocity had changed */
             Random randomColorsGenerator = new Random();
 
             float r = randomColorsGenerator.nextFloat();

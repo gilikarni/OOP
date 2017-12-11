@@ -53,16 +53,8 @@ public class Animator extends JFrame implements ActionListener {
                     // TODO (BOM): Add code for making one animation step for all
                     ListIterator<Shape> iter = shapes.listIterator();
                     while (iter.hasNext()) {
-                        Shape shape = iter.next();
-                        if (shape instanceof LocationChangingShape) {
-                            LocationChangingShape locationChangingShape = (LocationChangingShape)shape;
-                            locationChangingShape.step(mainPanel.getVisibleRect());
-                        } else if (shape instanceof AngleChangingSector) {
-                            AngleChangingSector angleChangingSector = (AngleChangingSector)shape;
-                            angleChangingSector.step(null);
-                        } else {
-                            throw new IllegalArgumentException();
-                        }
+                        Animatable animatable = (Animatable)iter.next();
+                        animatable.step(mainPanel.getVisibleRect());
                     }
 
                     repaint();  // make sure that the shapes are redrawn

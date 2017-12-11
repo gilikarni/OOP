@@ -31,11 +31,10 @@ public class LocationChangingNumberedOval extends LocationChangingOval {
 
     /**
      * @requires location != null && color != null && size != null
-     * @effects Initializes this with a a given location and color. Each
+     * @effects Initializes this with a a given location, size and color. Each
      * of the horizontal and vertical velocities of the new
      * object is set to a random integral value i such that
      * -5 <= i <= 5 and i != 0
-     * shape holds a oval with bounds the size of size.
      * shape has a number myNumber
      */
     LocationChangingNumberedOval(Point location, Color color, Dimension size) {

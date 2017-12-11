@@ -22,7 +22,7 @@ public class Animator extends JFrame implements ActionListener {
     private JMenu fileMenu, insertMenu, helpMenu;
     private JMenuItem newItem, exitItem,
                         triangleItem, ovalItem,
-                        numberedOvalItem, sectorItem, sinoffItem, aboutItem;
+                        numberedOvalItem, sectorItem, aboutItem;
     private JCheckBoxMenuItem animationCheckItem;
     private JPanel mainPanel;
 
@@ -109,9 +109,6 @@ public class Animator extends JFrame implements ActionListener {
         sectorItem = new JMenuItem("Sector");
         sectorItem.addActionListener(this);
         insertMenu.add(sectorItem);
-        sinoffItem = new JMenuItem("Sinoff");
-        sinoffItem.addActionListener(this);
-        insertMenu.add(sinoffItem);
 
         menuBar.add(insertMenu);
 
@@ -172,8 +169,7 @@ public class Animator extends JFrame implements ActionListener {
         else if ((source.equals(triangleItem)) ||
                  (source.equals(ovalItem)) ||
                  (source.equals(numberedOvalItem)) ||
-                 (source.equals(sectorItem)) ||
-                 (source.equals(sinoffItem))) {
+                 (source.equals(sectorItem))) {
 
             // TODO (BOM): Add code for creating the appropriate shape such that:
             //       it is completely inside the window's bounds &&
@@ -208,8 +204,6 @@ public class Animator extends JFrame implements ActionListener {
                 shapes.add(new LocationChangingOval(locationPoint, color, dim));
             } else if (source.equals(numberedOvalItem)) {
                 shapes.add(new LocationChangingNumberedOval(locationPoint, color, dim));
-            } else if (source.equals(sinoffItem)) {
-                shapes.add(new LocationChangingSinoff(locationPoint, color, dim));
             } else { // source.equals(sectorItem)
                 int startAngle = random.nextInt(359);
                 int arcAngle = random.nextInt(359);

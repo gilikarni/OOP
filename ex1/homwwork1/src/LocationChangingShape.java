@@ -63,7 +63,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the horizontal velocity of this.
      */
     public int getVelocityX() {
-        return velocity.x;
+        return (int)velocity.getX();
     }
 
 
@@ -71,7 +71,7 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      * @return the vertical velocity of this.
      */
     public int getVelocityY() {
-        return velocity.y;
+        return (int)velocity.getY();
     }
 
 
@@ -103,20 +103,21 @@ public abstract class LocationChangingShape extends Shape implements Animatable 
      */
     public void step(Rectangle bound) {
         /* Update x velocity */
-        if ((velocity.x > 0  && getBounds().getMaxX() +  velocity.x > bound.getMaxX()) ||
-                (velocity.x < 0 && getBounds().getMinX() + velocity.x < bound.getMinX())) {
+        if ((velocity.getX() > 0  && getBounds().getMaxX() +  velocity.getX() > bound.getMaxX()) ||
+                (velocity.getX() < 0 && getBounds().getMinX() + velocity.getX() < bound.getMinX())) {
             /* The point is out of bounds */
-            velocity.x *= -1;
+            velocity.setLocation(-1*velocity.getX(), getVelocityY());
         }
 
         /* Update y velocity */
-        if ((velocity.y > 0 && getBounds().getMaxY() + velocity.y  > bound.getMaxY()) ||
-                (velocity.y < 0 && getBounds().getMinY() + velocity.y < bound.getMinY())) {
+        if ((velocity.getY() > 0 && getBounds().getMaxY() + velocity.getY()  > bound.getMaxY()) ||
+                (velocity.getY() < 0 && getBounds().getMinY() + velocity.getY() < bound.getMinY())) {
             /* The point is out of bounds */
-            velocity.y *= -1;
+            velocity.setLocation(velocity.getX(), -1*getVelocityY());
         }
 
-        this.setLocation(new Point(getLocation().x + velocity.x, getLocation().y + velocity.y));
+        this.setLocation(new Point((int)getLocation().getX() + (int)velocity.getX(),
+                (int)getLocation().getY() + (int)velocity.getY()));
         checkRep();
     }
 }

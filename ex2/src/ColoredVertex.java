@@ -1,10 +1,4 @@
-import jdk.jshell.spi.ExecutionControl;
-import jdk.nashorn.internal.objects.MapIterator;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /**
  * TODO
@@ -66,7 +60,7 @@ public class ColoredVertex<T, S> {
      * @effects Check if the child exist
      * @return true if the vertex has a child with the edge label edgeLabel
      */
-    public boolean isSonExist(S edgeLabel) {
+    public boolean isChildExist(S edgeLabel) {
         return parents.containsKey(edgeLabel);
     }
 

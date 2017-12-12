@@ -17,8 +17,9 @@ public class ColoredVertex<T, S> {
      * Create a new vertex for the graph, each vertex has color - black or white
      * The parents and children maps are empty
      */
-    public ColoredVertex(VertexColor color) {
+    public ColoredVertex(T label, VertexColor color) {
         this.color = color;
+        this.label = label;
     }
 
     /**

@@ -97,8 +97,12 @@ public class BipartiteGraph<T, S>{
             throw new IllegalArgumentException("Can't connect two vertexes with the same color");
         }
 
-        if (source.isChildExist(edgeLabel) || target.isParentExist(edgeLabel)) {
+        if (source.hasOutgoingEdge(edgeLabel) || target.hasIncomingEdge(edgeLabel)) {
             throw new IllegalArgumentException("Edge with the same label already exist in one of the vertexes");
+        }
+
+        if (source.hasChild(targetVertex) || target.hasParent(sourceVertex)) {
+            throw new IllegalArgumentException("Vertexes are already connected");
         }
 
         source.addChild(edgeLabel, targetVertex);

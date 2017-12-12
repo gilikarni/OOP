@@ -7,7 +7,7 @@ import java.util.*;
  * T is the label of a vertex, S is a label of an edge.
  */
 public class BipartiteGraph<T, S>{
-    Map<T, Vertex<T, S>> vertexes;
+    Map<T, ColoredVertex<T, S>> vertexes;
 
     /**
      * TODO

@@ -1,9 +1,28 @@
 import java.util.*;
 
 /**
- * TODO
+ * A ColoredVertex is a vertex that has label T and a color VertexColor.
+ * A ColorVertex holds data regarding his parents and children labels T, and his
+ * outgoing and incoming edges labels S
  */
 public class ColoredVertex<T, S> {
+    /*
+    Abstraction function:
+    A ColoredVertex is a vertex that has label T and a color VertexColor.
+    A ColorVertex holds data regarding his parents and children labels T, and his
+    outgoing and incoming edges labels S.
+    A ColoredVertex supports adding parents and children by label T, checking for
+    existence of parents and children by label T, getting parent or child by label S of
+    connecting edge and getting lists of parents and children.
+
+    Representation invariant:
+    label != null && VertexColor != null &&
+    There are no two outgoing edges with same label S &&
+    There are no two incoming edges with same label S &&
+    There is only one edge to each parent &&
+    There is only one edge to each child
+
+    */
     private T label;
     private Map<S, T> parents;
     private Map<S, T> children;
@@ -28,8 +47,11 @@ public class ColoredVertex<T, S> {
      * @throws IllegalArgumentException if there is another parent with the same edge label
      */
     public void addParent(S edgeLabel, T parentLabel) throws IllegalArgumentException {
-        if (parents.containsKey(edgeLabel)) {
-            throw new IllegalArgumentException("A parent with the same edge label already exist.");
+        if (hasIncomingEdge(edgeLabel)) {
+            throw new IllegalArgumentException("A edge with the same label already exist.");
+        }
+        if (hasParent(parentLabel)) {
+            throw new IllegalArgumentException("A parent with the same label already exist.");
         }
 
         parents.put(edgeLabel, parentLabel);
@@ -41,11 +63,14 @@ public class ColoredVertex<T, S> {
      * @throws IllegalArgumentException if there is another child with the same edge label
      */
     public void addChild(S edgeLabel, T childLabel) throws IllegalArgumentException {
-        if (parents.containsKey(edgeLabel)) {
-            throw new IllegalArgumentException("A parent with the same edge label already exist.");
+        if (hasOutgoingEdge(edgeLabel)) {
+            throw new IllegalArgumentException("A edge with the same label already exist.");
+        }
+        if (hasChild(childLabel)) {
+            throw new IllegalArgumentException("A child with the same label already exist.");
         }
 
-        parents.put(edgeLabel, childLabel);
+        children.put(edgeLabel, childLabel);
     }
 
     /**

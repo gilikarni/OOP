@@ -7,6 +7,18 @@ import java.util.*;
  * T is the label of a vertex, S is a label of an edge.
  */
 public class BipartiteGraph<T, S>{
+    /*
+    Abstraction function:
+    BipartiteGraph b is a graph with Vertexes that has unique labels T and edges with unique labels S. b is a bipartite
+    graph which means it has two sets of vertexes: white and black and edges can connect only vertexes from different
+    sets. The graph supports adding new vertexes and connect vertexes from different sets.
+
+    Representation invariant:
+    vertexes != null && blackVertexes != null && whiteVertexes != null &&
+    There is no edge between two vertexes with the same color &&
+    There no two vertexes with the same label
+    */
+
     // A map from vertex label to V ColoredVertex
     private HashMap<T, ColoredVertex<T, S>> vertexes;
 
@@ -15,18 +27,6 @@ public class BipartiteGraph<T, S>{
 
     // A list containing all the white vertexes in the graph
     private ArrayList<T> whiteVertexes;
-
-    /*
-    Abstraction function:
-    BipartiteGraph b is a graph with Vertexes that has unique labels T and edges with unique labels S. b is a bipartite
-    graph which means it has two sets of vertexes: white and black and edges can connect only vertexes from different
-    sets. The graph supports adding new vertexes and connect vertexes from different sets.
-
-    Representation invariant:
-        vertexes != null && blackVertexes != null && whiteVertexes != null &&
-        There is no edge between two vertexes with the same color &&
-        There no two vertexes with the same label
-     */
 
     private void checkRep() {
         assert vertexes != null && blackVertexes != null && whiteVertexes != null :

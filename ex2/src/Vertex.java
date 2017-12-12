@@ -11,6 +11,9 @@ public class Vertex<T, S> {
     private Map<S, T> parents;
     private Map<S, T> children;
 
+    /**
+     * TODO
+     */
     public Vertex() {
         throw new NotImplementedException();
     }

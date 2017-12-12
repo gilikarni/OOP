@@ -7,7 +7,7 @@ import java.util.*;
  * T is the label of a vertex, S is a label of an edge.
  */
 public class BipartiteGraph<T, S>{
-    public enum BipartiteGraphReturnVelue {
+    public enum BipartiteGraphReturnValue {
         SUCCESS,
         VERTEX_ALREADY_EXIST,
         VERTEX_DOESNT_EXIST,
@@ -28,18 +28,18 @@ public class BipartiteGraph<T, S>{
     /**
      * @modifies this
      * @effects Create a new white vertex with the label vertexLabel.
-     * @return BipartiteGraphReturnVelue TODO
+     * @return BipartiteGraphReturnValue TODO
      */
-    public BipartiteGraphReturnVelue addWhiteVertex(T vertexLabel) {
+    public BipartiteGraphReturnValue addWhiteVertex(T vertexLabel) {
         throw new NotImplementedException();
     }
 
     /**
      * @modifies this
      * @effects Create a new black vertex with the label vertexLabel.
-     * @return BipartiteGraphReturnVelue TODO
+     * @return BipartiteGraphReturnValue TODO
      */
-    public BipartiteGraphReturnVelue addBlackVertex(T vertexLabel) {
+    public BipartiteGraphReturnValue addBlackVertex(T vertexLabel) {
         throw new NotImplementedException();
     }
 
@@ -47,9 +47,19 @@ public class BipartiteGraph<T, S>{
      * @modifies this
      * @effects add a new edge to the graph from sourceVertex to targetVertex. The new edge label must be unique for
      * both the vertexes. sourceVertex and targetVertex must be from different sets.
-     * @return BipartiteGraphReturnVelue TODO
+     * @return BipartiteGraphReturnValue TODO
      */
-    public BipartiteGraphReturnVelue addEdge(T sourceVertex, T targetVertex, S edgeLabel) {
+    public BipartiteGraphReturnValue addEdge(T sourceVertex, T targetVertex, S edgeLabel) {
         throw new NotImplementedException();
+    }
+
+    /**
+     * @return a space-separated list of the names of all the black vertexes
+     * 		   in the BipartiteGraph
+     */
+    public String listBlackNodes() {
+        //TODO: Implement this method
+
+
     }
 }

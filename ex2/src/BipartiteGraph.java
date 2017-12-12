@@ -1,4 +1,3 @@
-import sun.invoke.empty.Empty;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.*;
 
@@ -8,34 +7,48 @@ import java.util.*;
  * T is the label of a vertex, S is a label of an edge.
  */
 public class BipartiteGraph<T, S>{
-    Map<T, ColoredVertex<T, S>> vertexes;
+    // A map from vertex label to V ColoredVertex
+    private Map<T, ColoredVertex<T, S>> vertexes;
+
+    // A list containing all the black vertexes in the graph
+    private ArrayList<T> blackVertexes;
+
+    // A list containing all the white vertexes in the graph
+    private ArrayList<T> whiteVertexes;
 
     /**
-     * TODO
+     * @effects create an empty graph
      */
-    public BipartiteGraph() {
-        //TODO: Implement this method
-        throw new NotImplementedException();
-    }
+    public BipartiteGraph() {}
 
     /**
      * @modifies this
-     * @effects Create a new white vertex with the label vertexLabel.
+     * @effects create a new white vertex with the label vertexLabel.
      * @throws IllegalArgumentException if there is already a vertex with this label
      */
     public void addWhiteVertex(T vertexLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        if (!vertexes.containsKey(vertexLabel)) {
+            throw new IllegalArgumentException("Vertex with the same label already exist");
+        }
+
+        ColoredVertex<T, S> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.WHITE);
+        vertexes.put(vertexLabel, vertex);
+        whiteVertexes.add(vertexLabel);
     }
 
     /**
      * @modifies this
-     * @effects Create a new black vertex with the label vertexLabel.
+     * @effects create a new black vertex with the label vertexLabel.
      * @throws IllegalArgumentException if there is already a vertex with this label
      */
     public void addBlackVertex(T vertexLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        if (!vertexes.containsKey(vertexLabel)) {
+            throw new IllegalArgumentException("Vertex with the same label already exist");
+        }
+
+        ColoredVertex<T, S> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.BLACK);
+        vertexes.put(vertexLabel, vertex);
+        blackVertexes.add(vertexLabel);
     }
 
     /**
@@ -43,11 +56,26 @@ public class BipartiteGraph<T, S>{
      * @effects add a new edge to the graph from sourceVertex to targetVertex. The new edge label must be unique for
      * both the vertexes. sourceVertex and targetVertex must be from different sets.
      * @throws IllegalArgumentException if the vertex sourceVertex or the vertex targetVertex doesn't exist or if
-     * sourceVertex and targetVertex are of the same color
+     * sourceVertex and targetVertex are of the same color or if one of the nodes already have an edge with the same label
      */
     public void addEdge(T sourceVertex, T targetVertex, S edgeLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        if (!vertexes.containsKey(sourceVertex) || !vertexes.containsKey(targetVertex)) {
+            throw new IllegalArgumentException("Vertex doesn't exist");
+        }
+
+        ColoredVertex<T, S> source = vertexes.get(sourceVertex);
+        ColoredVertex<T, S> target = vertexes.get(targetVertex);
+
+        if ((source.isVertexBlack() && target.isVertexBlack()) || (source.isVertexWhite() && target.isVertexWhite())) {
+            throw new IllegalArgumentException("Can't connect two vertexes with the same color");
+        }
+
+        if (source.isChildExist(edgeLabel) || target.isParentExist(edgeLabel)) {
+            throw new IllegalArgumentException("Edge with the same label already exist in one of the vertexes");
+        }
+
+        source.addChild(edgeLabel, targetVertex);
+        target.addParent(edgeLabel, sourceVertex);
     }
 
     /**
@@ -55,8 +83,7 @@ public class BipartiteGraph<T, S>{
      * the graph
      */
     public List<T> getListOfBlackVertexes(){
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        return new ArrayList<>(blackVertexes);
     }
 
     /**
@@ -64,8 +91,7 @@ public class BipartiteGraph<T, S>{
      * the graph
      */
     public List<T> getListOfWhiteVertexes() {
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        return new ArrayList<>(whiteVertexes);
     }
 
     /**
@@ -73,8 +99,7 @@ public class BipartiteGraph<T, S>{
      * @throws IllegalArgumentException if there is no vertex with the label vertexLabel
      */
     public List<T> getListOfVertexParents(T vertexLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        return vertexes.get(vertexLabel).getParentsList();
     }
 
     /**
@@ -82,27 +107,24 @@ public class BipartiteGraph<T, S>{
      * @throws IllegalArgumentException if there is no vertex with the label vertexLabel
      */
     public List<T> getListOfVertexChildren(T vertexLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        return vertexes.get(vertexLabel).getChildrenList();
     }
 
     /**
-     * @return The label of the child vertex
+     * @return the label of the child vertex
      * @throws IllegalArgumentException if the vertex doesn't exist or the vertex doesn't have a
      * child with the label edgeLabel.
      */
-    public T getChildByEdgeLabel(T parentLabel, S edgeLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+    public T getChildByEdgeLabel(T parentLabel, S edgeLabel) throws IllegalArgumentException {
+        return vertexes.get(parentLabel).getChildLabelByEdgeLabel(edgeLabel);
     }
 
     /**
-     * @return The label of the parent vertex
+     * @return the label of the parent vertex
      * @throws IllegalArgumentException if the vertex doesn't exist or the vertex doesn't have a
      * parent with the label edgeLabel.
      */
     public T getParentByEdgeLabel(T childLabel, S edgeLabel) throws IllegalArgumentException{
-        //TODO: Implement this method
-        throw new NotImplementedException();
+        return vertexes.get(childLabel).getParentLabelByEdgeLabel(edgeLabel);
     }
 }

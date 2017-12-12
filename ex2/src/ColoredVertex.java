@@ -29,7 +29,7 @@ public class ColoredVertex<T, S> {
      */
     public void addParent(S edgeLabel, T parentLabel) throws IllegalArgumentException {
         if (parents.containsKey(edgeLabel)) {
-            throw new IllegalArgumentException("A parent with the same edge label already exist.")
+            throw new IllegalArgumentException("A parent with the same edge label already exist.");
         }
 
         parents.put(edgeLabel, parentLabel);
@@ -42,27 +42,42 @@ public class ColoredVertex<T, S> {
      */
     public void addChild(S edgeLabel, T childLabel) throws IllegalArgumentException {
         if (parents.containsKey(edgeLabel)) {
-            throw new IllegalArgumentException("A parent with the same edge label already exist.")
+            throw new IllegalArgumentException("A parent with the same edge label already exist.");
         }
 
         parents.put(edgeLabel, childLabel);
     }
 
     /**
-     * @effects Check if the parent exist
-     * @return true if the vertex has a parent with the edge label edgeLabel
+     * @effects Check if the Vertex has a parent with label T vertexLabel
+     * @return true if the vertex has a parent with the label T vertexLabel
      */
-    public boolean isParentExist(S edgeLabel) {
+    public boolean hasParent(T vertexLabel) {
+        return parents.containsValue(vertexLabel);
+    }
+
+    /**
+     * @effects Check if the Vertex has a child with label T vertexLabel
+     * @return true if the vertex has a parent with the label T vertexLabel
+     */
+    public boolean hasChild(T vertexLabel) {
+        return children.containsValue(vertexLabel);
+    }
+
+    /**
+     * @effects Check if the Vertex has an incoming Edge with label S edgeLabel
+     * @return true if the Vertex has an incoming Edge with label S edgeLabel
+     */
+    public boolean hasIncomingEdge(S edgeLabel) {
         return parents.containsKey(edgeLabel);
     }
 
     /**
-     * @modifies this
-     * @effects Check if the child exist
-     * @return true if the vertex has a child with the edge label edgeLabel
+     * @effects Check if the Vertex has an outgoing Edge with label S edgeLabel
+     * @return true if the Vertex has an outgoing Edge with label S edgeLabel
      */
-    public boolean isChildExist(S edgeLabel) {
-        return parents.containsKey(edgeLabel);
+    public boolean hasOutgoingEdge(S edgeLabel) {
+        return children.containsKey(edgeLabel);
     }
 
     /**
@@ -107,9 +122,9 @@ public class ColoredVertex<T, S> {
      * @return the label of the parent connected with the edge with the label edge label
      * @throws IllegalArgumentException if there is no parent connected with this vertex
      */
-    public T getParentLabelByEdgeLabel(S edgeLabel) throws IllegalAccessException {
+    public T getParentLabelByEdgeLabel(S edgeLabel) throws IllegalArgumentException {
         if (!parents.containsKey(edgeLabel)) {
-            throw new IllegalAccessException("No parent with this edge label exist");
+            throw new IllegalArgumentException("No parent with this edge label exist");
         }
 
         return parents.get(edgeLabel);
@@ -119,9 +134,9 @@ public class ColoredVertex<T, S> {
      * @return the label of the child connected with the edge with the label edge label
      * @throws IllegalArgumentException if there is no child connected with this vertex
      */
-    public T getChildLabelByEdgeLabel(S edgeLabel) throws IllegalAccessException {
+    public T getChildLabelByEdgeLabel(S edgeLabel) throws IllegalArgumentException {
         if (!children.containsKey(edgeLabel)) {
-            throw new IllegalAccessException("No child with this edge label exist");
+            throw new IllegalArgumentException("No child with this edge label exist");
         }
 
         return children.get(edgeLabel);

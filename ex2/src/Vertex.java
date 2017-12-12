@@ -1,6 +1,7 @@
 import jdk.jshell.spi.ExecutionControl;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.awt.*;
 import java.util.*;
 
 /**
@@ -12,7 +13,7 @@ public class Vertex<T, S> {
     private Map<S, T> children;
 
     /**
-     * TODO
+     * Create a new vertex for the graph..
      */
     public Vertex() {
         throw new NotImplementedException();

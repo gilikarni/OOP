@@ -1,3 +1,4 @@
+import sun.invoke.empty.Empty;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.*;
 
@@ -41,7 +42,8 @@ public class BipartiteGraph<T, S>{
      * @modifies this
      * @effects add a new edge to the graph from sourceVertex to targetVertex. The new edge label must be unique for
      * both the vertexes. sourceVertex and targetVertex must be from different sets.
-     * @throws IllegalArgumentException if the
+     * @throws IllegalArgumentException if the vertex sourceVertex or the vertex targetVertex doesn't exist or if
+     * sourceVertex and targetVertex are of the same color
      */
     public void addEdge(T sourceVertex, T targetVertex, S edgeLabel) throws IllegalArgumentException{
         //TODO: Implement this method
@@ -49,15 +51,17 @@ public class BipartiteGraph<T, S>{
     }
 
     /**
-     * @return a list of all the black vertexes labels in the graph
+     * @return a list of all the black vertexes labels in the graph or an empty list iff there are no black vertexes in
+     * the graph
      */
-    public List<T> getListOfBlackVertexes() {
+    public List<T> getListOfBlackVertexes(){
         //TODO: Implement this method
         throw new NotImplementedException();
     }
 
     /**
-     * @return a list of all the white vertexes labels in the graph
+     * @return a list of all the white vertexes labels in the graph or an empty list iff there are no white vertexes in
+     * the graph
      */
     public List<T> getListOfWhiteVertexes() {
         //TODO: Implement this method

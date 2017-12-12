@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class BipartiteGraph<T, S>{
     // A map from vertex label to V ColoredVertex
-    private Map<T, ColoredVertex<T, S>> vertexes;
+    private HashMap<T, ColoredVertex<T, S>> vertexes;
 
     // A list containing all the black vertexes in the graph
     private ArrayList<T> blackVertexes;
@@ -16,10 +16,33 @@ public class BipartiteGraph<T, S>{
     // A list containing all the white vertexes in the graph
     private ArrayList<T> whiteVertexes;
 
+    /*
+    Abstraction function:
+    BipartiteGraph b is a graph with Vertexes that has unique labels T and edges with unique labels S. b is a bipartite
+    graph which means it has two sets of vertexes: white and black and edges can connect only vertexes from different
+    sets. The graph supports adding new vertexes and connect vertexes from different sets.
+
+    Representation invariant:
+        vertexes != null && blackVertexes != null && whiteVertexes != null &&
+        There is no edge between two vertexes with the same color &&
+        There no two vertexes with the same label
+     */
+
+    private void checkRep() {
+        assert vertexes != null && blackVertexes != null && whiteVertexes != null :
+                "One of the class fields has null value";
+    }
+
     /**
      * @effects create an empty graph
      */
-    public BipartiteGraph() {}
+    public BipartiteGraph() {
+        this.vertexes = new HashMap<>();
+        this.blackVertexes = new ArrayList<>();
+        this.whiteVertexes = new ArrayList<>();
+
+        checkRep();
+    }
 
     /**
      * @modifies this
@@ -34,6 +57,8 @@ public class BipartiteGraph<T, S>{
         ColoredVertex<T, S> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.WHITE);
         vertexes.put(vertexLabel, vertex);
         whiteVertexes.add(vertexLabel);
+
+        checkRep();
     }
 
     /**
@@ -49,6 +74,8 @@ public class BipartiteGraph<T, S>{
         ColoredVertex<T, S> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.BLACK);
         vertexes.put(vertexLabel, vertex);
         blackVertexes.add(vertexLabel);
+
+        checkRep();
     }
 
     /**
@@ -76,6 +103,8 @@ public class BipartiteGraph<T, S>{
 
         source.addChild(edgeLabel, targetVertex);
         target.addParent(edgeLabel, sourceVertex);
+
+        checkRep();
     }
 
     /**

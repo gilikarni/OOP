@@ -11,6 +11,11 @@ public class Vertex<T, S> {
     private T label;
     private Map<S, T> parents;
     private Map<S, T> children;
+    public enum VertexColor {
+        WHITE, BLACK
+    };
+
+    VertexColor color;
 
     /**
      * Create a new vertex for the graph..

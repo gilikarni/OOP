@@ -25,7 +25,7 @@ public class BipartiteGraphTestDriver {
      * 			empty.
      */
     public void createGraph(String graphName) {
-        BipartiteGraph<String, String> graph = new BipartiteGraph<>();
+        BipartiteGraph<String> graph = new BipartiteGraph<>();
         graphs.put(graphName, graph);
     }
 

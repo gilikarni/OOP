@@ -149,11 +149,7 @@ public class ColoredVertex<T> {
      * @return A list with all the vertexes parents
      */
     public ArrayList<T> getParentsList() {
-        ArrayList<T> parentsList = new ArrayList<>();
-        for(Map.Entry<T, T> entry : parents.entrySet()) {
-            parentsList.add(entry.getValue());
-        }
-
+        ArrayList<T> parentsList = new ArrayList<>(parents.values());
         return parentsList;
     }
 
@@ -161,11 +157,7 @@ public class ColoredVertex<T> {
      * @return A list with all the vertexes parents
      */
     public ArrayList<T> getChildrenList() {
-        ArrayList<T> childrenList = new ArrayList<>();
-        for(Map.Entry<T, T> entry : children.entrySet()) {
-            childrenList.add(entry.getValue());
-        }
-
+        ArrayList<T> childrenList = new ArrayList<>(children.values());
         return childrenList;
     }
 

@@ -1,4 +1,3 @@
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.*;
 
 /**
@@ -11,10 +10,10 @@ public class BipartiteGraph<T>{
     private HashMap<T, ColoredVertex<T>> vertexes;
 
     // A list containing all the black vertexes in the graph
-    private ArrayList<T> blackVertexes;
+    private HashSet<T> blackVertexes;
 
     // A list containing all the white vertexes in the graph
-    private ArrayList<T> whiteVertexes;
+    private HashSet<T> whiteVertexes;
 
     /*
     Abstraction function:
@@ -25,12 +24,58 @@ public class BipartiteGraph<T>{
     Representation invariant:
         vertexes != null && blackVertexes != null && whiteVertexes != null &&
         There is no edge between two vertexes with the same color &&
-        There no two vertexes with the same label
+        There no two vertexes with the same label &&
+        There are no white vertexes in the blackVertexes list &&
+        There are no black vertexes in the whiteVertexes list
      */
+    private boolean isContainsColor(Collection<T> collectionToCheck, ColoredVertex.VertexColor color) {
+        for (T vertexLabel: collectionToCheck) {
+            if (vertexes.get(vertexLabel).getVertexColor() == color){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() {
+        HashSet<T> unitedColorSet = new HashSet<>();
+        HashSet<T> vertexesSet = new HashSet<>(vertexes.keySet());
+
+        if (!unitedColorSet.addAll(blackVertexes)){
+            return false;
+        }
+        if (!unitedColorSet.addAll(whiteVertexes)){
+            return false;
+        }
+        if (!vertexesSet.equals(unitedColorSet)){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isEdgesConnectingSameColorVertexes() {
+        for (ColoredVertex<T> vertex : vertexes.values()) {
+            if (isContainsColor(vertex.getParentsList(), vertex.getVertexColor())) {
+                return true;
+            }
+            if (isContainsColor(vertex.getChildrenList(), vertex.getVertexColor())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void checkRep() {
         assert vertexes != null && blackVertexes != null && whiteVertexes != null :
                 "One of the class fields has null value";
+        assert !isContainsColor(blackVertexes, ColoredVertex.VertexColor.WHITE) :
+                "There is a white vertex in the blackVertexes collection";
+        assert !isContainsColor(whiteVertexes, ColoredVertex.VertexColor.BLACK) :
+                "There is a white vertex in the blackVertexes collection";
+        assert isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() :
+                "Either there is the same vertex label in black and white sets or black and white list and vertex" +
+                        " lists aren't equal";
+        assert !isEdgesConnectingSameColorVertexes() : "Some edges connect vertexes from the same color";
     }
 
     /**
@@ -38,8 +83,8 @@ public class BipartiteGraph<T>{
      */
     public BipartiteGraph() {
         this.vertexes = new HashMap<>();
-        this.blackVertexes = new ArrayList<>();
-        this.whiteVertexes = new ArrayList<>();
+        this.blackVertexes = new HashSet<>();
+        this.whiteVertexes = new HashSet<>();
 
         checkRep();
     }

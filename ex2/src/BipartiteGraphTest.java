@@ -1,4 +1,6 @@
 import static org.junit.Assert.*;
+
+import jdk.internal.jline.internal.TestAccessible;
 import org.junit.Test;
 
 
@@ -32,6 +34,18 @@ public class BipartiteGraphTest {
     
     
     //  TODO: Add black-box tests
-    
-  
+    public void blackBoxTests() {
+	    BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+	    String graphName = new String("graph1");
+
+	    driver.createGraph(graphName);
+
+	    driver.addBlackNode(graphName, "blackNode");
+
+    }
+
+    static void main() {
+	    BipartiteGraphTest bTest = new BipartiteGraphTest();
+	    bTest.testExample();
+    }
 }

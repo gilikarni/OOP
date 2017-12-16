@@ -4,29 +4,29 @@ import java.util.*;
 /**
  * A BipartiteGraph is a graph that has two sets of vertexes - black and white.
  * There are edges only between vertexes from different sets.
- * T is the label of a vertex, S is a label of an edge.
+ * T is the label of a vertex, T is a label of an edge.
  */
-public class BipartiteGraph<T, S>{
-    /*
-    Abstraction function:
-    BipartiteGraph b is a graph with Vertexes that has unique labels T and edges with unique labels S. b is a bipartite
-    graph which means it has two sets of vertexes: white and black and edges can connect only vertexes from different
-    sets. The graph supports adding new vertexes and connect vertexes from different sets.
-
-    Representation invariant:
-    vertexes != null && blackVertexes != null && whiteVertexes != null &&
-    There is no edge between two vertexes with the same color &&
-    There no two vertexes with the same label
-    */
-
+public class BipartiteGraph<T>{
     // A map from vertex label to V ColoredVertex
-    private HashMap<T, ColoredVertex<T, S>> vertexes;
+    private HashMap<T, ColoredVertex<T>> vertexes;
 
     // A list containing all the black vertexes in the graph
     private ArrayList<T> blackVertexes;
 
     // A list containing all the white vertexes in the graph
     private ArrayList<T> whiteVertexes;
+
+    /*
+    Abstraction function:
+    BipartiteGraph b is a graph with Vertexes that has unique labels T and edges with unique labels T. b is a bipartite
+    graph which means it has two sets of vertexes: white and black and edges can connect only vertexes from different
+    sets. The graph supports adding new vertexes and connect vertexes from different sets.
+
+    Representation invariant:
+        vertexes != null && blackVertexes != null && whiteVertexes != null &&
+        There is no edge between two vertexes with the same color &&
+        There no two vertexes with the same label
+     */
 
     private void checkRep() {
         assert vertexes != null && blackVertexes != null && whiteVertexes != null :
@@ -54,7 +54,7 @@ public class BipartiteGraph<T, S>{
             throw new IllegalArgumentException("Vertex with the same label already exist");
         }
 
-        ColoredVertex<T, S> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.WHITE);
+        ColoredVertex<T> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.WHITE);
         vertexes.put(vertexLabel, vertex);
         whiteVertexes.add(vertexLabel);
 
@@ -71,7 +71,7 @@ public class BipartiteGraph<T, S>{
             throw new IllegalArgumentException("Vertex with the same label already exist");
         }
 
-        ColoredVertex<T, S> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.BLACK);
+        ColoredVertex<T> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.BLACK);
         vertexes.put(vertexLabel, vertex);
         blackVertexes.add(vertexLabel);
 
@@ -85,13 +85,13 @@ public class BipartiteGraph<T, S>{
      * @throws IllegalArgumentException if the vertex sourceVertex or the vertex targetVertex doesn't exist or if
      * sourceVertex and targetVertex are of the same color or if one of the nodes already have an edge with the same label
      */
-    public void addEdge(T sourceVertex, T targetVertex, S edgeLabel) throws IllegalArgumentException{
+    public void addEdge(T sourceVertex, T targetVertex, T edgeLabel) throws IllegalArgumentException{
         if (!vertexes.containsKey(sourceVertex) || !vertexes.containsKey(targetVertex)) {
             throw new IllegalArgumentException("Vertex doesn't exist");
         }
 
-        ColoredVertex<T, S> source = vertexes.get(sourceVertex);
-        ColoredVertex<T, S> target = vertexes.get(targetVertex);
+        ColoredVertex<T> source = vertexes.get(sourceVertex);
+        ColoredVertex<T> target = vertexes.get(targetVertex);
 
         if ((source.isVertexBlack() && target.isVertexBlack()) || (source.isVertexWhite() && target.isVertexWhite())) {
             throw new IllegalArgumentException("Can't connect two vertexes with the same color");
@@ -148,7 +148,7 @@ public class BipartiteGraph<T, S>{
      * @throws IllegalArgumentException if the vertex doesn't exist or the vertex doesn't have a
      * child with the label edgeLabel.
      */
-    public T getChildByEdgeLabel(T parentLabel, S edgeLabel) throws IllegalArgumentException {
+    public T getChildByEdgeLabel(T parentLabel, T edgeLabel) throws IllegalArgumentException {
         return vertexes.get(parentLabel).getChildLabelByEdgeLabel(edgeLabel);
     }
 
@@ -157,7 +157,7 @@ public class BipartiteGraph<T, S>{
      * @throws IllegalArgumentException if the vertex doesn't exist or the vertex doesn't have a
      * parent with the label edgeLabel.
      */
-    public T getParentByEdgeLabel(T childLabel, S edgeLabel) throws IllegalArgumentException{
+    public T getParentByEdgeLabel(T childLabel, T edgeLabel) throws IllegalArgumentException{
         return vertexes.get(childLabel).getParentLabelByEdgeLabel(edgeLabel);
     }
 }

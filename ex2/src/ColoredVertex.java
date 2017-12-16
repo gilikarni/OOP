@@ -26,15 +26,21 @@ public class ColoredVertex<T> {
     */
 
     private T label;
-    private HashMap<T, T> parents;
-    private HashMap<T, T> children;
+    private HashMap<T, T> parents; // maps edge label to vertex label
+    private HashMap<T, T> children; // maps edge label to vertex label
     public enum VertexColor {
         WHITE, BLACK
     };
     private VertexColor color;
 
-    private void checkDuplicateValues(HashMap<T, T> map_to_check) {
-        for ()
+    private boolean isDuplicates(Collection<T> collection_to_check) {
+        Set<T> set = new HashSet<>();
+        for (T value : collection_to_check) {
+            if (!set.add(value)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void checkRep() {
@@ -45,6 +51,8 @@ public class ColoredVertex<T> {
         assert !children.containsValue(null) : "vertex contains null child";
         assert !parents.containsKey(null) : "vertex contains null incoming edge";
         assert !children.containsKey(null) : "vertex contains null outgoing edge";
+        assert !isDuplicates(parents.values()) : "vertex contains two incoming edges from the same vertex";
+        assert !isDuplicates(children.values()) : "vertex contains two outgoing edges to the same vertex";
     }
 
     /**
@@ -54,8 +62,8 @@ public class ColoredVertex<T> {
     public ColoredVertex(T label, VertexColor color) {
         this.color = color;
         this.label = label;
-        parents = new HashMap<T, T>();
-        children = new HashMap<T, T>();
+        parents = new HashMap<>();
+        children = new HashMap<>();
         checkRep();
     }
 

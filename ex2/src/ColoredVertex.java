@@ -19,18 +19,29 @@ public class ColoredVertex<T, S> {
     label != null && VertexColor != null &&
     There are no two outgoing edges with same label S &&
     There are no two incoming edges with same label S &&
+    There are no null labeled connections &&
+    There are no null labeled parents or children &&
     There is only one edge to each parent &&
     There is only one edge to each child
-
     */
+
     private T label;
-    private Map<S, T> parents;
-    private Map<S, T> children;
+    private HashMap<S, T> parents;
+    private HashMap<S, T> children;
     public enum VertexColor {
         WHITE, BLACK
     };
+    private VertexColor color;
 
-    VertexColor color;
+    private void checkRep() {
+        assert label != null && color != null:
+                "One of the class fields has null value";
+        // incoming and outgoing edges uniqueness asserted by HashMap single value for each key
+        assert !parents.containsValue(null) : "vertex contains null parent";
+        assert !children.containsValue(null) : "vertex contains null child";
+        assert !parents.containsKey(null) : "vertex contains null incoming edge";
+        assert !children.containsKey(null) : "vertex contains null outgoing edge";
+    }
 
     /**
      * Create a new vertex for the graph, each vertex has color - black or white
@@ -39,6 +50,7 @@ public class ColoredVertex<T, S> {
     public ColoredVertex(T label, VertexColor color) {
         this.color = color;
         this.label = label;
+        checkRep();
     }
 
     /**
@@ -55,6 +67,7 @@ public class ColoredVertex<T, S> {
         }
 
         parents.put(edgeLabel, parentLabel);
+        checkRep();
     }
 
     /**
@@ -71,6 +84,7 @@ public class ColoredVertex<T, S> {
         }
 
         children.put(edgeLabel, childLabel);
+        checkRep();
     }
 
     /**

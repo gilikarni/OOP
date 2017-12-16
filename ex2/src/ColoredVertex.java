@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * A ColoredVertex is a vertex that has label T and a color VertexColor.
  * A ColorVertex holds data regarding his parents and children labels T, and his
- * outgoing and incoming edges labels S
+ * outgoing and incoming edges labels T
  */
 public class ColoredVertex<T> {
     /*
@@ -17,8 +17,8 @@ public class ColoredVertex<T> {
 
     Representation invariant:
     label != null && VertexColor != null &&
-    There are no two outgoing edges with same label S &&
-    There are no two incoming edges with same label S &&
+    There are no two outgoing edges with same label T &&
+    There are no two incoming edges with same label T &&
     There are no null labeled connections &&
     There are no null labeled parents or children &&
     There is only one edge to each parent &&
@@ -26,12 +26,16 @@ public class ColoredVertex<T> {
     */
 
     private T label;
-    private Map<T, T> parents;
-    private Map<T, T> children;
+    private HashMap<T, T> parents;
+    private HashMap<T, T> children;
     public enum VertexColor {
         WHITE, BLACK
     };
     private VertexColor color;
+
+    private void checkDuplicateValues(HashMap<T, T> map_to_check) {
+        for ()
+    }
 
     private void checkRep() {
         assert label != null && color != null:
@@ -50,6 +54,8 @@ public class ColoredVertex<T> {
     public ColoredVertex(T label, VertexColor color) {
         this.color = color;
         this.label = label;
+        parents = new HashMap<T, T>();
+        children = new HashMap<T, T>();
         checkRep();
     }
 

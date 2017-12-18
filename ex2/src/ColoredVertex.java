@@ -33,9 +33,9 @@ public class ColoredVertex<T> {
     };
     private VertexColor color;
 
-    private boolean isDuplicates(Collection<T> collection_to_check) {
+    private boolean isDuplicates(Collection<T> collectionToCheck) {
         Set<T> set = new HashSet<>();
-        for (T value : collection_to_check) {
+        for (T value : collectionToCheck) {
             if (!set.add(value)){
                 return true;
             }
@@ -136,6 +136,13 @@ public class ColoredVertex<T> {
      */
     public boolean isVertexBlack() {
         return color == VertexColor.BLACK;
+    }
+
+    /**
+     * @return return color of vertex
+     */
+    public VertexColor getVertexColor() {
+        return color;
     }
 
     /**

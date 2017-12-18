@@ -1,7 +1,5 @@
-import static org.junit.Assert.*;
-
-import jdk.internal.jline.internal.TestAccessible;
 import org.junit.Test;
+import org.junit.Assert.*;
 
 
 /**

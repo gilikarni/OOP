@@ -1,6 +1,8 @@
 import org.junit.Test;
 import org.junit.Assert.*;
 
+import static org.junit.Assert.*;
+
 
 /**
  * BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.

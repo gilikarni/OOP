@@ -1,5 +1,6 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable{
     /*
@@ -51,6 +52,21 @@ public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable
             return false;
         }
         return workingObjects.add(workobject);
+    }
+
+    /**
+     * @return iterator of the current waiting work objects in the pipe
+     */
+    protected Iterator<S> getWorkObjectsIterator() {
+        return workingObjects.iterator();
+    }
+
+    /**
+     * @modifies this
+     * @effects clear the pipe from work objects
+     */
+    protected void clearWorkObjects() {
+        workingObjects.clear();
     }
 
     /**

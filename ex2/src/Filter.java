@@ -29,6 +29,9 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
         checkRep();
     }
 
+    /**
+     * @effects verifies that the representation invariants holds, else, crash on assert.
+     */
     @Override
     protected void checkRep() {
         super.checkRep();

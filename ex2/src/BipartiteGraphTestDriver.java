@@ -83,6 +83,8 @@ public class BipartiteGraphTestDriver {
     private String createStringFromList(ArrayList<String> list) {
         String string = new String("");
 
+        Collections.sort(list);
+
         boolean first = true;
 
         for (String s : list) {

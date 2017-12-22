@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatable {
     /*
@@ -10,7 +11,7 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
     All the invariants of vertex && workingObjectsBuffer has no null members
     */
 
-    ArrayList<S> workingObjectsBuffer = new ArrayList<>();
+    private ArrayList<S> workingObjectsBuffer = new ArrayList<>();
 
     /**
      * @effects create a new filter with label and black color
@@ -25,9 +26,20 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
      * @modifies this
      * @effects Add a new working object to the buffer
      */
-    public void addWorkingObject(S workingObject) {
+    protected void addWorkingObjectToBuffer(S workingObject) {
         workingObjectsBuffer.add(workingObject);
         checkRep();
+    }
+
+    /**
+     * @return an iterator to go over the working objects buffer
+     */
+    protected ListIterator<S> getNextWorkingObjectsBufferIterator() {
+        return (ListIterator<S>) workingObjectsBuffer.iterator();
+    }
+
+    protected void cleanWorkingObjectsBuffer() {
+        workingObjectsBuffer.clear();
     }
 
     /**

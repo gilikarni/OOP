@@ -1,4 +1,7 @@
-public abstract class Pipe<T> extends ColoredVertex<T> implements Simulatable<T>{
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable{
     /*
     Abstraction function:
     Pipe p is a black vertex that has a capacity. The capacity is the number of objects that the pipe can handle
@@ -6,11 +9,14 @@ public abstract class Pipe<T> extends ColoredVertex<T> implements Simulatable<T>
 
     Representation invariant:
     All the invariants of vertex &&
-    (hasLimit && capacity > 0) || (!hasLimit && capacity == 0)
+    (hasLimit && capacity >= 0) || (!hasLimit && capacity == 0) &&
+    workingObject has no null objects &&
+    (hasLimit && workingObjects.size() <= capacity) || !hasLimit
     */
 
     private boolean hasLimit = false;
     private int capacity = 0;
+    protected ArrayList<S> workingObjects = new ArrayList<>();
 
     /**
      * @effects Create a new vertex of type Pipe for the graph, each vertex has color - black or white
@@ -29,7 +35,7 @@ public abstract class Pipe<T> extends ColoredVertex<T> implements Simulatable<T>
     public Pipe(T label, int capacity) {
         super(label, VertexColor.BLACK);
 
-        if (capacity > 0) {
+        if (capacity >= 0) {
             hasLimit = true;
             this.capacity = capacity;
         }
@@ -43,9 +49,12 @@ public abstract class Pipe<T> extends ColoredVertex<T> implements Simulatable<T>
     protected void checkRep() {
         super.checkRep();
         if (hasLimit) {
-            assert capacity > 0 : "A non positive limit is defined";
+            assert capacity >= 0 : "A non positive limit is defined";
         } else {
             assert capacity == 0 : "If no limit is defined the capacity should be zero";
         }
+
+        assert !workingObjects.contains(null) : "WorkingObjects contains null objects";
+        assert !hasLimit || workingObjects.size() <= capacity : "The number of objects in the pipe is larger than the capacity";
     }
 }

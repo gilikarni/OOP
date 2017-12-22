@@ -10,13 +10,14 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
     All the invariants of vertex && workingObjectsBuffer has no null members
     */
 
-    ArrayList<S> workingObjectsBuffer;
+    ArrayList<S> workingObjectsBuffer = new ArrayList<>();
 
     /**
      * @effects create a new filter with label and black color
      */
     public Filter(T label) {
         super(label, VertexColor.BLACK);
+
         checkRep();
     }
 

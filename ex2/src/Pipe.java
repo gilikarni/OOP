@@ -43,6 +43,17 @@ public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable
     }
 
     /**
+     * @effects adds a S workobject to workingObjects if it's not full.
+     * @returns false if pipe has a limit and it is full or if adding the workobject failed. true o.w.
+     */
+    public boolean addWorkObject(S workobject){
+        if (hasLimit && workingObjects.size() == capacity){
+            return false;
+        }
+        return workingObjects.add(workobject);
+    }
+
+    /**
      * @effects verifies that the representation invariants holds, else, crash on assert.
      */
     @Override

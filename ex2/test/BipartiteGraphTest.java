@@ -1,6 +1,4 @@
 import org.junit.Test;
-import org.junit.Assert.*;
-
 import static org.junit.Assert.*;
 
 
@@ -36,7 +34,7 @@ public class BipartiteGraphTest {
     //  TODO: Add black-box tests
     public void blackBoxTests() {
 	    BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
-	    String graphName = new String("graph1");
+	    String graphName = "graph1";
 
 	    driver.createGraph(graphName);
 

@@ -26,17 +26,17 @@ public class ColoredVertex<T> {
     */
 
     private T label;
-    private HashMap<T, T> parents; // maps edge label to vertex label
-    private HashMap<T, T> children; // maps edge label to vertex label
+    private HashMap<T, ColoredVertex<T>> parents; // maps edge label to vertex label
+    private HashMap<T, ColoredVertex<T>> children; // maps edge label to vertex label
     public enum VertexColor {
         WHITE, BLACK
     };
     private VertexColor color;
 
-    private boolean isDuplicates(Collection<T> collectionToCheck) {
+    private boolean isDuplicates(Collection<ColoredVertex<T>> collectionToCheck) {
         Set<T> set = new HashSet<>();
-        for (T value : collectionToCheck) {
-            if (!set.add(value)){
+        for (ColoredVertex<T> value : collectionToCheck) {
+            if (!set.add(value.getVertexLabel())){
                 return true;
             }
         }
@@ -68,18 +68,32 @@ public class ColoredVertex<T> {
     }
 
     /**
+     * @return return label of vertex
+     */
+    public T getVertexLabel() {
+        return label;
+    }
+
+    /**
+     * @return return color of vertex
+     */
+    public VertexColor getVertexColor() {
+        return color;
+    }
+
+    /**
      * @modifies this
      * @effects Add a new parent to this vertex
      * @throws IllegalArgumentException if there is another parent with the same edge label
      */
-    public void addParent(T edgeLabel, T parentLabel) throws IllegalArgumentException {
+    public void addParent(T edgeLabel, ColoredVertex<T> parent) throws IllegalArgumentException {
         if (hasIncomingEdge(edgeLabel)) {
             throw new IllegalArgumentException("A edge with the same label already exist.");
         }
-        if (hasParent(parentLabel)) {
+        if (hasParent(parent.getVertexLabel())) {
             throw new IllegalArgumentException("A parent with the same label already exist.");
         }
-        parents.put(edgeLabel, parentLabel);
+        parents.put(edgeLabel, parent);
         checkRep();
     }
 
@@ -87,15 +101,15 @@ public class ColoredVertex<T> {
      * @modifies this
      * @effects Add a new child to this vertex
      * @throws IllegalArgumentException if there is another child with the same edge label
-     */public void addChild(T edgeLabel, T childLabel) throws IllegalArgumentException {
+     */public void addChild(T edgeLabel, ColoredVertex<T> child) throws IllegalArgumentException {
         if (hasOutgoingEdge(edgeLabel)) {
             throw new IllegalArgumentException("A edge with the same label already exist.");
         }
-        if (hasChild(childLabel)) {
+        if (hasChild(child.getVertexLabel())) {
             throw new IllegalArgumentException("A child with the same label already exist.");
         }
 
-        children.put(edgeLabel, childLabel);
+        children.put(edgeLabel, child);
         checkRep();
     }
 
@@ -104,7 +118,12 @@ public class ColoredVertex<T> {
      * @return true if the vertex has a parent with the label T vertexLabel
      */
     public boolean hasParent(T vertexLabel) {
-        return parents.containsValue(vertexLabel);
+        for (ColoredVertex<T> parent : parents.values()) {
+            if (parent.getVertexLabel().equals(vertexLabel)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -112,7 +131,12 @@ public class ColoredVertex<T> {
      * @return true if the vertex has a parent with the label T vertexLabel
      */
     public boolean hasChild(T vertexLabel) {
-        return children.containsValue(vertexLabel);
+        for (ColoredVertex<T> child : children.values()) {
+            if (child.getVertexLabel().equals(vertexLabel)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -139,13 +163,6 @@ public class ColoredVertex<T> {
     }
 
     /**
-     * @return return color of vertex
-     */
-    public VertexColor getVertexColor() {
-        return color;
-    }
-
-    /**
      * @return return true if the vertex is white
      */
     public boolean isVertexWhite() {
@@ -155,16 +172,16 @@ public class ColoredVertex<T> {
     /**
      * @return A list with all the vertexes parents
      */
-    public ArrayList<T> getParentsList() {
-        ArrayList<T> parentsList = new ArrayList<>(parents.values());
+    public ArrayList<ColoredVertex<T>> getParentsList() {
+        ArrayList<ColoredVertex<T>> parentsList = new ArrayList<>(parents.values());
         return parentsList;
     }
 
     /**
      * @return A list with all the vertexes parents
      */
-    public ArrayList<T> getChildrenList() {
-        ArrayList<T> childrenList = new ArrayList<>(children.values());
+    public ArrayList<ColoredVertex<T>> getChildrenList() {
+        ArrayList<ColoredVertex<T>> childrenList = new ArrayList<>(children.values());
         return childrenList;
     }
 
@@ -172,7 +189,7 @@ public class ColoredVertex<T> {
      * @return the label of the parent connected with the edge with the label edge label
      * @throws IllegalArgumentException if there is no parent connected with this vertex
      */
-    public T getParentLabelByEdgeLabel(T edgeLabel) throws IllegalArgumentException {
+    public ColoredVertex<T> getParentByEdgeLabel(T edgeLabel) throws IllegalArgumentException {
         if (!parents.containsKey(edgeLabel)) {
             throw new IllegalArgumentException("No parent with this edge label exist");
         }
@@ -184,7 +201,7 @@ public class ColoredVertex<T> {
      * @return the label of the child connected with the edge with the label edge label
      * @throws IllegalArgumentException if there is no child connected with this vertex
      */
-    public T getChildLabelByEdgeLabel(T edgeLabel) throws IllegalArgumentException {
+    public ColoredVertex<T> getChildByEdgeLabel(T edgeLabel) throws IllegalArgumentException {
         if (!children.containsKey(edgeLabel)) {
             throw new IllegalArgumentException("No child with this edge label exist");
         }

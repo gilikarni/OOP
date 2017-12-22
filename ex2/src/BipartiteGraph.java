@@ -26,7 +26,9 @@ public class BipartiteGraph<T>{
         There is no edge between two vertexes with the same color &&
         There no two vertexes with the same label &&
         There are no white vertexes in the blackVertexes list &&
-        There are no black vertexes in the whiteVertexes list
+        There are no black vertexes in the whiteVertexes list &&
+        blackVertexes and whiteVertexes don't contain the same value &&
+        blackVertexes + whiteVertexes contain all of the vertexes
      */
     private boolean isContainsColor(Collection<T> collectionToCheck, ColoredVertex.VertexColor color) {
         for (T vertexLabel: collectionToCheck) {

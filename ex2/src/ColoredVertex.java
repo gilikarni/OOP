@@ -5,7 +5,7 @@ import java.util.*;
  * A ColorVertex holds data regarding his parents and children labels T, and his
  * outgoing and incoming edges labels T
  */
-public abstract class ColoredVertex<T> {
+public class ColoredVertex<T> {
     /*
     Abstraction function:
     A ColoredVertex is a vertex that has label T and a color VertexColor.
@@ -28,12 +28,6 @@ public abstract class ColoredVertex<T> {
     private T label;
     private HashMap<T, ColoredVertex<T>> parents; // maps edge label to vertex label
     private HashMap<T, ColoredVertex<T>> children; // maps edge label to vertex label
-
-    /**
-     * Create a new vertex of type Pipe for the graph, each vertex has color - black or white
-     * The parents and children maps are empty
-     */
-    public abstract ColoredVertex(T label, VertexColor color);
 
     public enum VertexColor {
         WHITE, BLACK

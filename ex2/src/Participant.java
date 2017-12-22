@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ListIterator;
 
 public class Participant extends Filter<String, Transaction> {
@@ -7,7 +8,6 @@ public class Participant extends Filter<String, Transaction> {
     private ArrayList<Transaction> transactionsToPass = new ArrayList<>();
 
     /**
-     * @param name
      * @effects create a new filter with label and black color
      */
     public Participant(String name, double fee) {
@@ -15,9 +15,15 @@ public class Participant extends Filter<String, Transaction> {
         this.fee = fee;
     }
 
+    /**
+     * @modifies this, the child of the participant
+     * @effects passes all the transactions to the child of this participant and update the balance according to the
+     * new transactions of the participant
+     */
     @Override
     public void simulate(BipartiteGraph graph) {
-
+        passTransactions();
+        evaluateParticipantTransactions();
     }
 
     /**
@@ -46,11 +52,38 @@ public class Participant extends Filter<String, Transaction> {
     }
 
     /**
-     * @modifies this, the son of the participant
+     * @modifies this, the child of the participant
      * @effects move all the transactions in the waiting list to the pipe
      */
     public void passTransactions() {
+        ArrayList<ColoredVertex<String>> children = getChildrenList();
+        assert children.size() <= 1 : "Participant has " + children.size() + "children";
 
+        /* Nowhere to pass the transaction to */
+        if (children.size() == 0) {
+            return;
+        }
+
+        Channel target = (Channel)children.get(0);
+
+        Iterator<Transaction> iterator = transactionsToPass.iterator();
+        ArrayList<Transaction> transactionsToRemove = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Transaction transaction = iterator.next();
+
+            boolean bSuccess = target.addWorkObject(transaction);
+
+            /* Remove only successful transactions */
+            if (bSuccess) {
+                transactionsToRemove.add(transaction);
+            }
+        }
+
+        /* Remove all successful transactions */
+        for (Transaction transaction : transactionsToRemove) {
+            transactionsToPass.remove(transaction);
+        }
     }
 
     /**
@@ -65,5 +98,12 @@ public class Participant extends Filter<String, Transaction> {
         }
 
         cleanWorkingObjectsBuffer();
+    }
+
+    /**
+     * @return the balance of the participant
+     */
+    public double getBalance() {
+        return balance;
     }
 }

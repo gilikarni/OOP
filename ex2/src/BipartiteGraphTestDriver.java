@@ -104,7 +104,10 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listBlackNodes(String graphName) {
-        ArrayList<String> list = (ArrayList<String>) graphs.get(graphName).getListOfBlackVertexes();
+        ArrayList<String> list = new ArrayList<>();
+        for (ColoredVertex<String> vertex: graphs.get(graphName).getListOfBlackVertexes()){
+            list.add(vertex.getVertexLabel());
+        }
         return createStringFromList(list);
     }
 
@@ -115,8 +118,11 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listWhiteNodes(String graphName) {
-    	ArrayList<String> list = (ArrayList<String>) graphs.get(graphName).getListOfWhiteVertexes();
-    	return createStringFromList(list);
+        ArrayList<String> list = new ArrayList<>();
+        for (ColoredVertex<String> vertex: graphs.get(graphName).getListOfWhiteVertexes()){
+            list.add(vertex.getVertexLabel());
+        }
+        return createStringFromList(list);
     }
 
     
@@ -126,8 +132,11 @@ public class BipartiteGraphTestDriver {
      * 		   parentName in the graph graphName, in alphabetical order.
      */
     public String listChildren(String graphName, String parentName) {
-    	ArrayList<String> list = (ArrayList<String>) graphs.get(graphName).getListOfVertexChildren(parentName);
-    	return createStringFromList(list);
+        ArrayList<String> list = new ArrayList<>();
+        for (ColoredVertex<String> vertex: graphs.get(graphName).getListOfVertexChildren(parentName)){
+            list.add(vertex.getVertexLabel());
+        }
+        return createStringFromList(list);
     }
 
     
@@ -137,7 +146,10 @@ public class BipartiteGraphTestDriver {
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public String listParents(String graphName, String childName) {
-        ArrayList<String> list = (ArrayList<String>) graphs.get(graphName).getListOfVertexParents(childName);
+        ArrayList<String> list = new ArrayList<>();
+        for (ColoredVertex<String> vertex: graphs.get(graphName).getListOfVertexParents(childName)){
+            list.add(vertex.getVertexLabel());
+        }
         return createStringFromList(list);
     }
 
@@ -150,7 +162,7 @@ public class BipartiteGraphTestDriver {
      */
     public String getChildByEdgeLabel(String graphName, String parentName,
     								   String edgeLabel) {
-        return graphs.get(graphName).getChildByEdgeLabel(parentName, edgeLabel);
+        return graphs.get(graphName).getChildByEdgeLabel(parentName, edgeLabel).getVertexLabel();
     }
 
     
@@ -162,6 +174,6 @@ public class BipartiteGraphTestDriver {
      */
     public String getParentByEdgeLabel(String graphName, String childName,
     									String edgeLabel) {
-    	return graphs.get(graphName).getParentByEdgeLabel(childName, edgeLabel);
+    	return graphs.get(graphName).getParentByEdgeLabel(childName, edgeLabel).getVertexLabel();
     }
 }

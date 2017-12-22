@@ -10,10 +10,10 @@ public class BipartiteGraph<T>{
     private HashMap<T, ColoredVertex<T>> vertexes;
 
     // A list containing all the black vertexes in the graph
-    private HashSet<T> blackVertexes;
+    private HashSet<ColoredVertex<T>> blackVertexes;
 
     // A list containing all the white vertexes in the graph
-    private HashSet<T> whiteVertexes;
+    private HashSet<ColoredVertex<T>> whiteVertexes;
 
     /*
     Abstraction function:
@@ -30,9 +30,9 @@ public class BipartiteGraph<T>{
         blackVertexes and whiteVertexes don't contain the same value &&
         blackVertexes + whiteVertexes contain all of the vertexes
      */
-    private boolean isContainsColor(Collection<T> collectionToCheck, ColoredVertex.VertexColor color) {
-        for (T vertexLabel: collectionToCheck) {
-            if (vertexes.get(vertexLabel).getVertexColor() == color){
+    private boolean isContainsColor(Collection<ColoredVertex<T>> collectionToCheck, ColoredVertex.VertexColor color) {
+        for (ColoredVertex<T> vertex: collectionToCheck) {
+            if (vertex.getVertexColor() == color){
                 return true;
             }
         }
@@ -40,8 +40,8 @@ public class BipartiteGraph<T>{
     }
 
     private boolean isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() {
-        HashSet<T> unitedColorSet = new HashSet<>();
-        HashSet<T> vertexesSet = new HashSet<>(vertexes.keySet());
+        HashSet<ColoredVertex<T>> unitedColorSet = new HashSet<>();
+        HashSet<ColoredVertex<T>> vertexesSet = new HashSet<>(vertexes.values());
 
         if (!unitedColorSet.addAll(blackVertexes)){
             return false;
@@ -103,7 +103,7 @@ public class BipartiteGraph<T>{
 
         ColoredVertex<T> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.WHITE);
         vertexes.put(vertexLabel, vertex);
-        whiteVertexes.add(vertexLabel);
+        whiteVertexes.add(vertex);
 
         checkRep();
     }
@@ -120,7 +120,7 @@ public class BipartiteGraph<T>{
 
         ColoredVertex<T> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.BLACK);
         vertexes.put(vertexLabel, vertex);
-        blackVertexes.add(vertexLabel);
+        blackVertexes.add(vertex);
 
         checkRep();
     }
@@ -152,59 +152,59 @@ public class BipartiteGraph<T>{
             throw new IllegalArgumentException("Vertexes are already connected");
         }
 
-        source.addChild(edgeLabel, targetVertex);
-        target.addParent(edgeLabel, sourceVertex);
+        source.addChild(edgeLabel, target);
+        target.addParent(edgeLabel, source);
 
         checkRep();
     }
 
     /**
-     * @return a list of all the black vertexes labels in the graph or an empty list iff there are no black vertexes in
+     * @return a list of all the black vertexes in the graph or an empty list iff there are no black vertexes in
      * the graph
      */
-    public List<T> getListOfBlackVertexes(){
+    public List<ColoredVertex<T>> getListOfBlackVertexes(){
         return new ArrayList<>(blackVertexes);
     }
 
     /**
-     * @return a list of all the white vertexes labels in the graph or an empty list iff there are no white vertexes in
+     * @return a list of all the white vertexes in the graph or an empty list iff there are no white vertexes in
      * the graph
      */
-    public List<T> getListOfWhiteVertexes() {
+    public List<ColoredVertex<T>> getListOfWhiteVertexes() {
         return new ArrayList<>(whiteVertexes);
     }
 
     /**
-     * @return a list of the parents labels of the vertex with the label vertexLabel
+     * @return a list of the parents of the vertex with the label vertexLabel
      * @throws IllegalArgumentException if there is no vertex with the label vertexLabel
      */
-    public List<T> getListOfVertexParents(T vertexLabel) throws IllegalArgumentException{
+    public List<ColoredVertex<T>> getListOfVertexParents(T vertexLabel) throws IllegalArgumentException{
         return vertexes.get(vertexLabel).getParentsList();
     }
 
     /**
-     * @return a list of the children labels of the vertex with the label vertexLabel
+     * @return a list of the children of the vertex with the label vertexLabel
      * @throws IllegalArgumentException if there is no vertex with the label vertexLabel
      */
-    public List<T> getListOfVertexChildren(T vertexLabel) throws IllegalArgumentException{
+    public List<ColoredVertex<T>> getListOfVertexChildren(T vertexLabel) throws IllegalArgumentException{
         return vertexes.get(vertexLabel).getChildrenList();
     }
 
     /**
-     * @return the label of the child vertex
+     * @return the child vertex
      * @throws IllegalArgumentException if the vertex doesn't exist or the vertex doesn't have a
      * child with the label edgeLabel.
      */
-    public T getChildByEdgeLabel(T parentLabel, T edgeLabel) throws IllegalArgumentException {
-        return vertexes.get(parentLabel).getChildLabelByEdgeLabel(edgeLabel);
+    public ColoredVertex<T> getChildByEdgeLabel(T parentLabel, T edgeLabel) throws IllegalArgumentException {
+        return vertexes.get(parentLabel).getChildByEdgeLabel(edgeLabel);
     }
 
     /**
-     * @return the label of the parent vertex
+     * @return the parent vertex
      * @throws IllegalArgumentException if the vertex doesn't exist or the vertex doesn't have a
      * parent with the label edgeLabel.
      */
-    public T getParentByEdgeLabel(T childLabel, T edgeLabel) throws IllegalArgumentException{
-        return vertexes.get(childLabel).getParentLabelByEdgeLabel(edgeLabel);
+    public ColoredVertex<T> getParentByEdgeLabel(T childLabel, T edgeLabel) throws IllegalArgumentException{
+        return vertexes.get(childLabel).getParentByEdgeLabel(edgeLabel);
     }
 }

@@ -1,10 +1,22 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/** A Channel is a pipe that pass transactions between participants. The channel has a limit for the amount it can pass,
+ * if a transaction will make the channel pass the limit it wouldn't except it.
+ */
 public class Channel extends Pipe<String, Transaction> {
-    private int maxPayments = 0;
+    /*
+    Abstraction function:
+    Channel c is a pipe that passes transaction. Its capacity is infinity but it has a total limit for the amount it
+    can pass in a simulation.
 
-    public Channel(String name, int maxPayments) {
+    Representation invariant:
+    All the invariants of Pipe && the Channel never pass more than its limit
+    */
+    private final double maxPayments;
+    private double passedAmount = 0;
+
+    public Channel(String name, double maxPayments) {
         super(name);
         this.maxPayments = maxPayments;
 
@@ -30,6 +42,7 @@ public class Channel extends Pipe<String, Transaction> {
         }
 
         clearWorkObjects();
+        checkRep();
     }
 
     /**
@@ -41,17 +54,27 @@ public class Channel extends Pipe<String, Transaction> {
     @Override
     public boolean addWorkObject(Transaction workobject) {
         boolean bSuccess = false;
-        if (workobject.getValue() > maxPayments) {
+        if (workobject.getValue() > (maxPayments - passedAmount)) {
             return bSuccess;
         }
 
         bSuccess = super.addWorkObject(workobject);
 
         if (bSuccess) {
-            maxPayments -= workobject.getValue();
+            passedAmount += workobject.getValue();
         }
 
         checkRep();
         return bSuccess;
+    }
+
+    /**
+     * @effects verifies that the representation invariants holds, else, crash on assert.
+     */
+    @Override
+    protected void checkRep() {
+        super.checkRep();
+
+        assert passedAmount <= maxPayments: "The passed amount is larger than the maximum allowed amount to pass at channel" + getVertexLabel();
     }
 }

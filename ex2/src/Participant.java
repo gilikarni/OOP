@@ -2,7 +2,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
+/**
+ * A Participant is a filter that can get and pass transactions. The participant has no capacity limit. For every
+ * transaction it gets it will take it if it is belong to the participant, or pass it to it channel and take a fee for
+ * it if it is not belong ot the participant.
+ */
 public class Participant extends Filter<String, Transaction> {
+    /*
+    Abstraction function:
+    Participant p is a filter that can process transactions. Every time simulate is called it will update its balance
+    according to its new transactions and pass the transactions that don't belong to it to the channel.
+
+    Representation invariant:
+    All the invariants of Filter && fee >= 0 && balance >= 0
+    */
+
     private final double fee;
     private double balance = 0;
     private ArrayList<Transaction> transactionsToPass = new ArrayList<>();
@@ -13,6 +27,8 @@ public class Participant extends Filter<String, Transaction> {
     public Participant(String name, double fee) {
         super(name);
         this.fee = fee;
+
+        checkRep();
     }
 
     /**
@@ -24,6 +40,8 @@ public class Participant extends Filter<String, Transaction> {
     public void simulate(BipartiteGraph graph) {
         passTransactions();
         evaluateParticipantTransactions();
+
+        checkRep();
     }
 
     /**
@@ -48,6 +66,8 @@ public class Participant extends Filter<String, Transaction> {
                 transactionsToPass.add(passTransaction);
             }
         }
+
+        checkRep();
 
     }
 
@@ -84,6 +104,8 @@ public class Participant extends Filter<String, Transaction> {
         for (Transaction transaction : transactionsToRemove) {
             transactionsToPass.remove(transaction);
         }
+
+        checkRep();
     }
 
     /**
@@ -98,6 +120,7 @@ public class Participant extends Filter<String, Transaction> {
         }
 
         cleanWorkingObjectsBuffer();
+        checkRep();
     }
 
     /**
@@ -105,5 +128,16 @@ public class Participant extends Filter<String, Transaction> {
      */
     public double getBalance() {
         return balance;
+    }
+
+    /**
+     * @effects verifies that the representation invariants holds, else, crash on assert.
+     */
+    @Override
+    protected void checkRep() {
+        super.checkRep();
+
+        assert fee >= 0: "The fee of the participant " + getVertexLabel() + "is negative";
+        assert balance >= 0: "The balance of the participant " + getVertexLabel() + "is negative";
     }
 }

@@ -41,7 +41,8 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addBlackNode(String graphName, String nodeName) {
-        graphs.get(graphName).addBlackVertex(nodeName);
+        ColoredVertex<String> vertex = new ColoredVertex<String>(nodeName, ColoredVertex.VertexColor.BLACK);
+        graphs.get(graphName).addVertex(vertex);
     }
 
     
@@ -56,7 +57,8 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addWhiteNode(String graphName, String nodeName) {
-        graphs.get(graphName).addWhiteVertex(nodeName);
+        ColoredVertex<String> vertex = new ColoredVertex<>(nodeName, ColoredVertex.VertexColor.WHITE);
+        graphs.get(graphName).addVertex(vertex);
     }
 
     

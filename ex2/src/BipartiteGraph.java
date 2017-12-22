@@ -22,14 +22,33 @@ public class BipartiteGraph<T>{
     sets. The graph supports adding new vertexes and connect vertexes from different sets.
 
     Representation invariant:
-        vertexes != null && blackVertexes != null && whiteVertexes != null &&
-        There is no edge between two vertexes with the same color &&
-        There no two vertexes with the same label &&
-        There are no white vertexes in the blackVertexes list &&
-        There are no black vertexes in the whiteVertexes list &&
-        blackVertexes and whiteVertexes don't contain the same value &&
-        blackVertexes + whiteVertexes contain all of the vertexes
+    vertexes != null && blackVertexes != null && whiteVertexes != null &&
+    There is no edge between two vertexes with the same color &&
+    There no two vertexes with the same label &&
+    There are no white vertexes in the blackVertexes list &&
+    There are no black vertexes in the whiteVertexes list &&
+    blackVertexes and whiteVertexes don't contain the same value &&
+    blackVertexes + whiteVertexes contain all of the vertexes
      */
+
+    private void checkRep() {
+        assert vertexes != null && blackVertexes != null && whiteVertexes != null :
+                "One of the class fields has null value";
+        assert !vertexes.keySet().contains(null) &&
+                !whiteVertexes.contains(null) && !blackVertexes.contains(null) :
+                "there is a null vertex in the graph";
+        assert !vertexes.values().contains(null) :
+                "there is a null edge label in the graph";
+        assert !isContainsColor(blackVertexes, ColoredVertex.VertexColor.WHITE) :
+                "There is a white vertex in the blackVertexes collection";
+        assert !isContainsColor(whiteVertexes, ColoredVertex.VertexColor.BLACK) :
+                "There is a white vertex in the blackVertexes collection";
+        assert isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() :
+                "Either there is the same vertex label in black and white sets or black and white list and vertex" +
+                        " lists aren't equal";
+        assert !isEdgesConnectingSameColorVertexes() : "Some edges connect vertexes from the same color";
+    }
+
     private boolean isContainsColor(Collection<ColoredVertex<T>> collectionToCheck, ColoredVertex.VertexColor color) {
         for (ColoredVertex<T> vertex: collectionToCheck) {
             if (vertex.getVertexColor() == color){
@@ -67,19 +86,6 @@ public class BipartiteGraph<T>{
         return false;
     }
 
-    private void checkRep() {
-        assert vertexes != null && blackVertexes != null && whiteVertexes != null :
-                "One of the class fields has null value";
-        assert !isContainsColor(blackVertexes, ColoredVertex.VertexColor.WHITE) :
-                "There is a white vertex in the blackVertexes collection";
-        assert !isContainsColor(whiteVertexes, ColoredVertex.VertexColor.BLACK) :
-                "There is a white vertex in the blackVertexes collection";
-        assert isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() :
-                "Either there is the same vertex label in black and white sets or black and white list and vertex" +
-                        " lists aren't equal";
-        assert !isEdgesConnectingSameColorVertexes() : "Some edges connect vertexes from the same color";
-    }
-
     /**
      * @effects create an empty graph
      */
@@ -93,37 +99,23 @@ public class BipartiteGraph<T>{
 
     /**
      * @modifies this
-     * @effects create a new white vertex with the label vertexLabel.
+     * @effects create a new vertex with the label vertexLabel.
      * @throws IllegalArgumentException if there is already a vertex with this label
      */
-    public void addWhiteVertex(T vertexLabel) throws IllegalArgumentException{
+    public void addVertex(ColoredVertex<T> vertex) throws IllegalArgumentException{
+        T vertexLabel = vertex.getVertexLabel();
         if (!vertexes.containsKey(vertexLabel)) {
             throw new IllegalArgumentException("Vertex with the same label already exist");
         }
-
-        ColoredVertex<T> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.WHITE);
         vertexes.put(vertexLabel, vertex);
-        whiteVertexes.add(vertex);
-
-        checkRep();
-    }
-
-    /**
-     * @modifies this
-     * @effects create a new black vertex with the label vertexLabel.
-     * @throws IllegalArgumentException if there is already a vertex with this label
-     */
-    public void addBlackVertex(T vertexLabel) throws IllegalArgumentException{
-        if (!vertexes.containsKey(vertexLabel)) {
-            throw new IllegalArgumentException("Vertex with the same label already exist");
+        if (vertex.getVertexColor() == ColoredVertex.VertexColor.WHITE) {
+            whiteVertexes.add(vertex);
+        } else {
+            blackVertexes.add(vertex);
         }
-
-        ColoredVertex<T> vertex = new ColoredVertex<>(vertexLabel, ColoredVertex.VertexColor.BLACK);
-        vertexes.put(vertexLabel, vertex);
-        blackVertexes.add(vertex);
-
         checkRep();
     }
+
 
     /**
      * @modifies this

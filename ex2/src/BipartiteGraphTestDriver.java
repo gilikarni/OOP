@@ -22,9 +22,12 @@ public class BipartiteGraphTestDriver {
      * @requires graphName != null
      * @modifies this
      * @effects Creates a new graph named graphName. The graph is initially
-     * 			empty.
+     *          empty.
      */
     public void createGraph(String graphName) {
+        if (graphs.containsKey(graphName)) {
+            return;
+        }
         BipartiteGraph<String> graph = new BipartiteGraph<>();
         graphs.put(graphName, graph);
     }

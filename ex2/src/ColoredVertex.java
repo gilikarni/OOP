@@ -58,7 +58,7 @@ public class ColoredVertex<T> {
     }
 
     /**
-     * Create a new vertex for the graph, each vertex has color - black or white
+     * @effects creates a new vertex for the graph, each vertex has color - black or white
      * The parents and children maps are empty
      */
     public ColoredVertex(T label, VertexColor color) {
@@ -220,5 +220,13 @@ public class ColoredVertex<T> {
         }
 
         return children.get(edgeLabel);
+    }
+
+    /**
+     * @returns a list of all incoming edges labels
+     */
+    public List<T> getIncomingEdges(){
+        ArrayList<T> incomingEdges = new ArrayList<>(parents.keySet());
+        return incomingEdges;
     }
 }

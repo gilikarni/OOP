@@ -9,12 +9,6 @@ public class BipartiteGraph<T>{
     // A map from vertex label to V ColoredVertex
     private HashMap<T, ColoredVertex<T>> vertexes;
 
-    // A list containing all the black vertexes in the graph
-    private HashSet<ColoredVertex<T>> blackVertexes;
-
-    // A list containing all the white vertexes in the graph
-    private HashSet<ColoredVertex<T>> whiteVertexes;
-
     /*
     Abstraction function:
     BipartiteGraph b is a graph with Vertexes that has unique labels T and edges with unique labels T. b is a bipartite
@@ -22,30 +16,18 @@ public class BipartiteGraph<T>{
     sets. The graph supports adding new vertexes and connect vertexes from different sets.
 
     Representation invariant:
-    vertexes != null && blackVertexes != null && whiteVertexes != null &&
+    vertexes != null &&
     There is no edge between two vertexes with the same color &&
     There no two vertexes with the same label &&
-    There are no white vertexes in the blackVertexes list &&
-    There are no black vertexes in the whiteVertexes list &&
-    blackVertexes and whiteVertexes don't contain the same value &&
-    blackVertexes + whiteVertexes contain all of the vertexes
      */
 
     private void checkRep() {
-        assert vertexes != null && blackVertexes != null && whiteVertexes != null :
+        assert vertexes != null:
                 "One of the class fields has null value";
-        assert !vertexes.keySet().contains(null) &&
-                !whiteVertexes.contains(null) && !blackVertexes.contains(null) :
+        assert !vertexes.keySet().contains(null):
                 "there is a null vertex in the graph";
         assert !vertexes.values().contains(null) :
                 "there is a null edge label in the graph";
-        assert !isContainsColor(blackVertexes, ColoredVertex.VertexColor.WHITE) :
-                "There is a white vertex in the blackVertexes collection";
-        assert !isContainsColor(whiteVertexes, ColoredVertex.VertexColor.BLACK) :
-                "There is a white vertex in the blackVertexes collection";
-        assert isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() :
-                "Either there is the same vertex label in black and white sets or black and white list and vertex" +
-                        " lists aren't equal";
         assert !isEdgesConnectingSameColorVertexes() : "Some edges connect vertexes from the same color";
     }
 
@@ -56,22 +38,6 @@ public class BipartiteGraph<T>{
             }
         }
         return false;
-    }
-
-    private boolean isVertexMapEqualsColorSetsAndColorSetsContainAlienLabels() {
-        HashSet<ColoredVertex<T>> unitedColorSet = new HashSet<>();
-        HashSet<ColoredVertex<T>> vertexesSet = new HashSet<>(vertexes.values());
-
-        if (!unitedColorSet.addAll(blackVertexes)){
-            return false;
-        }
-        if (!unitedColorSet.addAll(whiteVertexes)){
-            return false;
-        }
-        if (!vertexesSet.equals(unitedColorSet)){
-            return false;
-        }
-        return true;
     }
 
     private boolean isEdgesConnectingSameColorVertexes() {
@@ -91,8 +57,6 @@ public class BipartiteGraph<T>{
      */
     public BipartiteGraph() {
         this.vertexes = new HashMap<>();
-        this.blackVertexes = new HashSet<>();
-        this.whiteVertexes = new HashSet<>();
 
         checkRep();
     }
@@ -102,17 +66,13 @@ public class BipartiteGraph<T>{
      * @effects create a new vertex with the label vertexLabel.
      * @throws IllegalArgumentException if there is already a vertex with this label
      */
-    public void addVertex(ColoredVertex<T> vertex) throws IllegalArgumentException{
+    public void addVertex(ColoredVertex<T> vertexOriginal) throws IllegalArgumentException{
+        ColoredVertex<T> vertex = new ColoredVertex<>(vertexOriginal);
         T vertexLabel = vertex.getVertexLabel();
         if (!vertexes.containsKey(vertexLabel)) {
             throw new IllegalArgumentException("Vertex with the same label already exist");
         }
         vertexes.put(vertexLabel, vertex);
-        if (vertex.getVertexColor() == ColoredVertex.VertexColor.WHITE) {
-            whiteVertexes.add(vertex);
-        } else {
-            blackVertexes.add(vertex);
-        }
         checkRep();
     }
 
@@ -155,7 +115,13 @@ public class BipartiteGraph<T>{
      * the graph
      */
     public List<ColoredVertex<T>> getListOfBlackVertexes(){
-        return new ArrayList<>(blackVertexes);
+        ArrayList<ColoredVertex<T>> blacks = new ArrayList<>();
+        for (ColoredVertex<T> vertex : vertexes.values()){
+            if (vertex.getVertexColor().equals(ColoredVertex.VertexColor.BLACK)){
+                blacks.add(vertex);
+            }
+        }
+        return blacks;
     }
 
     /**
@@ -163,7 +129,13 @@ public class BipartiteGraph<T>{
      * the graph
      */
     public List<ColoredVertex<T>> getListOfWhiteVertexes() {
-        return new ArrayList<>(whiteVertexes);
+        ArrayList<ColoredVertex<T>> whites = new ArrayList<>();
+        for (ColoredVertex<T> vertex : vertexes.values()){
+            if (vertex.getVertexColor().equals(ColoredVertex.VertexColor.WHITE)){
+                whites.add(vertex);
+            }
+        }
+        return whites;
     }
 
     /**
@@ -198,5 +170,16 @@ public class BipartiteGraph<T>{
      */
     public ColoredVertex<T> getParentByEdgeLabel(T childLabel, T edgeLabel) throws IllegalArgumentException{
         return vertexes.get(childLabel).getParentByEdgeLabel(edgeLabel);
+    }
+
+    /**
+     *@returns  a list of all of the edges labels
+     */
+    public List<T> getEdges(){
+        ArrayList<T> result = new ArrayList<>();
+        for (ColoredVertex<T> vertex : vertexes.values()){
+            result.addAll(vertex.getIncomingEdges());
+        }
+        return result;
     }
 }

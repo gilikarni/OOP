@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class implements a testing driver for Simulator. The driver manages
@@ -16,7 +13,7 @@ public class SimulatorTestDriver {
 	 * @effects Constructs a new test driver.
 	 */
 	public SimulatorTestDriver() {
-        // TODO: Implement this constructor
+        simulators = new HashMap<String, Simulator<String, Transaction>>();
 	}
 
 	/**
@@ -26,7 +23,8 @@ public class SimulatorTestDriver {
 	 *          initially empty.
 	 */
 	public void createSimulator(String simName) {
-	    // TODO: Implement this method
+	    Simulator<String, Transaction> newSim = new Simulator<String, Transaction>();
+	    simulators.put(simName, newSim);
 	}
 
 	/**
@@ -40,7 +38,8 @@ public class SimulatorTestDriver {
 	 *          the simulator named simName.
 	 */
 	public void addChannel(String simName, String channelName, double limit) {
-	    // TODO: Implement this method
+	    Channel channel = new Channel(channelName,limit);
+	    simulators.get(simName).addPipe(channel);
 	}
 
 	/**
@@ -53,7 +52,8 @@ public class SimulatorTestDriver {
 	 *          it to the simulator named simName.
 	 */
 	public void addParticipant(String simName, String participantName, double fee) {
-        // TODO: Implement this method
+        Participant participant = new Participant(participantName, fee);
+        simulators.get(simName).addFilter(participant);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class SimulatorTestDriver {
 	 *          is the String edgeLabel.
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
-        // TODO: Implement this method
+        simulators.get(simName).addEdge(parentName,childName,edgeLabel);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class SimulatorTestDriver {
 	 *          simulator named simName.
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
-        // TODO: Implement this method
+        simulators.get(simName).addWorkObject(channelName, tx);
     }
 	
 	
@@ -89,7 +89,7 @@ public class SimulatorTestDriver {
 	 *         channel named channelName in the simulator named simName.
 	 */
 	public String listContents(String simName, String channelName) {
-        // TODO: Implement this method
+        return createStringFromList(simulators.get(simName).getPipeContents(channelName));
 	}
 
 	/**
@@ -97,7 +97,8 @@ public class SimulatorTestDriver {
 	 * @return The sum of all  Transaction values stored in the storage of the participant participantName in the simulator simName
 	 */
 	public double getParticipantBalace(String simName, String participantName) {
-        // TODO: Implement this method
+        Participant participant = (Participant)simulators.get(simName).getFilter(participantName);
+        return participant.getBalance();
 	}
 	
 	/**
@@ -106,7 +107,7 @@ public class SimulatorTestDriver {
 	 * @effects runs simulator named simName for a single time slice.
 	 */
 	public void simulate(String simName) {
-        // TODO: Implement this method
+        simulators.get(simName).simulate();
 	}
 
 	/**
@@ -116,7 +117,27 @@ public class SimulatorTestDriver {
 	 * @effects Prints the all edges.
 	 */
 	public void printAllEdges(String simName) {
-        // TODO: Implement this method
+        System.out.println("All of the edges in the simulator are: "
+                + createStringFromList(simulators.get(simName).getEdges()));
 	}
+
+    private String createStringFromList(List list) {
+        String string = "";
+
+        Collections.sort(list);
+
+        boolean first = true;
+
+        for (Object s : list) {
+            if (!first) {
+                string = string + " ";
+            }
+            string = string + s.toString();
+            first = false;
+        }
+
+        return string;
+    }
+
 
 }

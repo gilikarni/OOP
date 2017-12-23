@@ -35,28 +35,6 @@ public class ColoredVertex<T> {
     };
     private VertexColor color;
 
-    private boolean isDuplicates(Collection<ColoredVertex<T>> collectionToCheck) {
-        Set<T> set = new HashSet<>();
-        for (ColoredVertex<T> value : collectionToCheck) {
-            if (!set.add(value.getVertexLabel())){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected void checkRep() {
-        assert label != null && color != null:
-                "One of the class fields has null value";
-        // incoming and outgoing edges uniqueness asserted by HashMap single value for each key
-        assert !parents.containsValue(null) : "vertex contains null parent";
-        assert !children.containsValue(null) : "vertex contains null child";
-        assert !parents.containsKey(null) : "vertex contains null incoming edge";
-        assert !children.containsKey(null) : "vertex contains null outgoing edge";
-        assert !isDuplicates(parents.values()) : "vertex contains two incoming edges from the same vertex";
-        assert !isDuplicates(children.values()) : "vertex contains two outgoing edges to the same vertex";
-    }
-
     /**
      * @effects creates a new vertex for the graph, each vertex has color - black or white
      * The parents and children maps are empty
@@ -78,6 +56,29 @@ public class ColoredVertex<T> {
         this.children = new HashMap<>(coloredVertex.children);
         this.parents = new HashMap<>(coloredVertex.parents);
         this.color = coloredVertex.color;
+        checkRep();
+    }
+
+    private boolean isDuplicates(Collection<ColoredVertex<T>> collectionToCheck) {
+        Set<T> set = new HashSet<>();
+        for (ColoredVertex<T> value : collectionToCheck) {
+            if (!set.add(value.getVertexLabel())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected void checkRep() {
+        assert label != null && color != null:
+                "One of the class fields has null value";
+        // incoming and outgoing edges uniqueness asserted by HashMap single value for each key
+        assert !parents.containsValue(null) : "vertex contains null parent";
+        assert !children.containsValue(null) : "vertex contains null child";
+        assert !parents.containsKey(null) : "vertex contains null incoming edge";
+        assert !children.containsKey(null) : "vertex contains null outgoing edge";
+        assert !isDuplicates(parents.values()) : "vertex contains two incoming edges from the same vertex";
+        assert !isDuplicates(children.values()) : "vertex contains two outgoing edges to the same vertex";
     }
 
     /**

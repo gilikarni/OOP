@@ -21,6 +21,15 @@ public class BipartiteGraph<T>{
     There no two vertexes with the same label &&
      */
 
+    /**
+     * @effects create an empty graph
+     */
+    public BipartiteGraph() {
+        this.vertexes = new HashMap<>();
+
+        checkRep();
+    }
+
     private void checkRep() {
         assert vertexes != null:
                 "One of the class fields has null value";
@@ -31,6 +40,9 @@ public class BipartiteGraph<T>{
         assert !isEdgesConnectingSameColorVertexes() : "Some edges connect vertexes from the same color";
     }
 
+    /**
+     *  @return true if collection contains a vertex with given color, false otherwise
+     */
     private boolean isContainsColor(Collection<ColoredVertex<T>> collectionToCheck, ColoredVertex.VertexColor color) {
         for (ColoredVertex<T> vertex: collectionToCheck) {
             if (vertex.getVertexColor() == color){
@@ -53,15 +65,6 @@ public class BipartiteGraph<T>{
     }
 
     /**
-     * @effects create an empty graph
-     */
-    public BipartiteGraph() {
-        this.vertexes = new HashMap<>();
-
-        checkRep();
-    }
-
-    /**
      * @modifies this
      * @effects create a new vertex with the label vertexLabel.
      * @throws IllegalArgumentException if there is already a vertex with this label
@@ -74,6 +77,17 @@ public class BipartiteGraph<T>{
         }
         vertexes.put(vertexLabel, vertex);
         checkRep();
+    }
+
+    /**
+     * @returns returns the vertex holding vertex label.
+     * @throws IllegalArgumentException if there is no vertex with this label
+     */
+    public ColoredVertex<T> getVertex(T vertexLabel) throws IllegalArgumentException{
+        if (!vertexes.containsKey(vertexLabel)){
+            throw new IllegalArgumentException("no vertex with given label exists in graph.");
+        }
+        return vertexes.get(vertexLabel);
     }
 
 

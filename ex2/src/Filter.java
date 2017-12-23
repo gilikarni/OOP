@@ -14,13 +14,22 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
     private ArrayList<S> workingObjectsBuffer = new ArrayList<>();
 
     /**
-     * @effects create a new filter with label and black color
+     * @effects create a new filter with label and white color
      */
     public Filter(T label) {
-        super(label, VertexColor.BLACK);
-
+        super(label, VertexColor.WHITE);
         checkRep();
     }
+
+    /**
+     * @effects create a new copy of given filter
+     */
+    public Filter(Filter<T,S> filter)  {
+        super(filter);
+        workingObjectsBuffer = new ArrayList<>(filter.workingObjectsBuffer);
+        checkRep();
+    }
+
 
     /**
      * @modifies this

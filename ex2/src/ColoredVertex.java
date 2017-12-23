@@ -29,6 +29,7 @@ public class ColoredVertex<T> {
     private HashMap<T, ColoredVertex<T>> parents; // maps edge label to vertex label
     private HashMap<T, ColoredVertex<T>> children; // maps edge label to vertex label
 
+    /* This is an immutable type that defines the color of the vertex */
     public enum VertexColor {
         WHITE, BLACK
     };
@@ -66,6 +67,17 @@ public class ColoredVertex<T> {
         parents = new HashMap<>();
         children = new HashMap<>();
         checkRep();
+    }
+
+    public ColoredVertex(ColoredVertex<T> coloredVertex) {
+        if (this == coloredVertex) {
+            return;
+        }
+
+        this.label = coloredVertex.label;
+        this.children = new HashMap<>(coloredVertex.children);
+        this.parents = new HashMap<>(coloredVertex.parents);
+        this.color = coloredVertex.color;
     }
 
     /**

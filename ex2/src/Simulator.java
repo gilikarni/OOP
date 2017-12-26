@@ -1,5 +1,4 @@
 import java.util.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * A Simulator simulates a system of pipes and filters using a BipartiteGraph.

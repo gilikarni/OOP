@@ -32,6 +32,7 @@ public class BipartiteGraphTest {
     
     
     //  TODO: Add black-box tests
+    @Test
     public void blackBoxTests() {
 	    BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 	    String graphName = "graph1";
@@ -40,10 +41,5 @@ public class BipartiteGraphTest {
 
 	    driver.addBlackNode(graphName, "blackNode");
 
-    }
-
-    static void main() {
-	    BipartiteGraphTest bTest = new BipartiteGraphTest();
-	    bTest.testExample();
     }
 }

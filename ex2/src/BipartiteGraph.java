@@ -70,9 +70,9 @@ public class BipartiteGraph<T>{
      * @throws IllegalArgumentException if there is already a vertex with this label
      */
     public void addVertex(ColoredVertex<T> vertexOriginal) throws IllegalArgumentException{
-        ColoredVertex<T> vertex = new ColoredVertex<>(vertexOriginal);
+        ColoredVertex<T> vertex = vertexOriginal;
         T vertexLabel = vertex.getVertexLabel();
-        if (!vertexes.containsKey(vertexLabel)) {
+        if (vertexes.containsKey(vertexLabel)) {
             throw new IllegalArgumentException("Vertex with the same label already exist");
         }
         vertexes.put(vertexLabel, vertex);

@@ -71,10 +71,7 @@ public class Channel extends Pipe<String, Transaction> {
     /**
      * @effects verifies that the representation invariants holds, else, crash on assert.
      */
-    @Override
-    protected void checkRep() {
-        super.checkRep();
-
+    private void checkRep() {
         assert passedAmount <= maxPayments: "The passed amount is larger than the maximum allowed amount to pass at channel" + getVertexLabel();
     }
 }

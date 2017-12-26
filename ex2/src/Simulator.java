@@ -1,4 +1,5 @@
 import java.util.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * A Simulator simulates a system of pipes and filters using a BipartiteGraph.
@@ -40,7 +41,7 @@ public class Simulator<T, S>{
             assert vertex instanceof Filter: "a vertex in whiteVertexes is not a filter";
         }
         for (ColoredVertex<T> vertex : graph.getListOfBlackVertexes()){
-            assert vertex instanceof Pipe: "a vertex in whiteVertexes is not a pipe";
+            assert vertex instanceof Pipe: "a vertex in blackVertexes is not a pipe";
         }
     }
 
@@ -121,7 +122,7 @@ public class Simulator<T, S>{
      */
     public Filter<T,S> getFilter(T filterName){
         ColoredVertex<T> vertex = graph.getVertex(filterName);
-        if (!vertex.isVertexWhite()){
+        if (!(vertex instanceof Filter)){
             throw new IllegalArgumentException("vertex with label filterName is not a filter");
         }
         return (Filter<T,S>)vertex;
@@ -133,7 +134,7 @@ public class Simulator<T, S>{
      */
     private Pipe<T,S> getPipe(T pipeName){
         ColoredVertex<T> vertex = graph.getVertex(pipeName);
-        if (!vertex.isVertexBlack()){
+        if (!(vertex instanceof Pipe)){
             throw new IllegalArgumentException("vertex with label pipeName is not a pipe");
         }
         return (Pipe<T,S>)vertex;

@@ -72,9 +72,7 @@ public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable
     /**
      * @effects verifies that the representation invariants holds, else, crash on assert.
      */
-    @Override
-    protected void checkRep() {
-        super.checkRep();
+    private void checkRep() {
         if (hasLimit) {
             assert capacity >= 0 : "A non positive limit is defined";
         } else {

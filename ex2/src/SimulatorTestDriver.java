@@ -37,7 +37,7 @@ public class SimulatorTestDriver {
 	 * @effects Creates a new Channel named by the String channelName, with a limit, and add it to
 	 *          the simulator named simName.
 	 */
-	public void addChannel(String simName, String channelName, double limit) {
+	public void addChannel(String simName, String channelName, double limit) throws IllegalArgumentException{
 	    Channel channel = new Channel(channelName,limit);
 	    simulators.get(simName).addPipe(channel);
 	}
@@ -51,7 +51,7 @@ public class SimulatorTestDriver {
 	 * @effects Creates a new Participant named by the String participantName and add
 	 *          it to the simulator named simName.
 	 */
-	public void addParticipant(String simName, String participantName, double fee) {
+	public void addParticipant(String simName, String participantName, double fee) throws IllegalArgumentException{
         Participant participant = new Participant(participantName, fee);
         simulators.get(simName).addFilter(participant);
 	}
@@ -67,7 +67,8 @@ public class SimulatorTestDriver {
 	 *          childName in the simulator named simName. The new edge's label
 	 *          is the String edgeLabel.
 	 */
-	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
+	public void addEdge(String simName, String parentName, String childName, String edgeLabel)
+            throws IllegalArgumentException{
         simulators.get(simName).addEdge(parentName,childName,edgeLabel);
 	}
 
@@ -78,17 +79,16 @@ public class SimulatorTestDriver {
 	 * @effects pushes the Transaction into the channel named channelName in the
 	 *          simulator named simName.
 	 */
-	public void sendTransaction(String simName, String channelName, Transaction tx) {
+	public void sendTransaction(String simName, String channelName, Transaction tx) throws IllegalArgumentException {
         simulators.get(simName).addWorkObject(channelName, tx);
     }
-	
-	
+
 	/**
 	 * @requires addChannel(channelName)
 	 * @return a space-separated list of the Transaction values currently in the
 	 *         channel named channelName in the simulator named simName.
 	 */
-	public String listContents(String simName, String channelName) {
+	public String listContents(String simName, String channelName) throws IllegalArgumentException{
         return createStringFromList(simulators.get(simName).getPipeContents(channelName));
 	}
 
@@ -96,7 +96,7 @@ public class SimulatorTestDriver {
 	 * @requires addParticipant(participantName)
 	 * @return The sum of all  Transaction values stored in the storage of the participant participantName in the simulator simName
 	 */
-	public double getParticipantBalace(String simName, String participantName) {
+	public double getParticipantBalace(String simName, String participantName) throws IllegalArgumentException{
         Participant participant = (Participant)simulators.get(simName).getFilter(participantName);
         return participant.getBalance();
 	}

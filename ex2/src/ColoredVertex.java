@@ -69,7 +69,7 @@ public class ColoredVertex<T> {
         return false;
     }
 
-    protected void checkRep() {
+    private void checkRep() {
         assert label != null && color != null:
                 "One of the class fields has null value";
         // incoming and outgoing edges uniqueness asserted by HashMap single value for each key

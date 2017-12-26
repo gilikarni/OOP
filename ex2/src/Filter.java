@@ -11,13 +11,14 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
     All the invariants of vertex && workingObjectsBuffer has no null members
     */
 
-    private ArrayList<S> workingObjectsBuffer = new ArrayList<>();
+    private ArrayList<S> workingObjectsBuffer;
 
     /**
      * @effects create a new filter with label and white color
      */
     public Filter(T label) {
         super(label, VertexColor.WHITE);
+        workingObjectsBuffer = new ArrayList<>();
         checkRep();
     }
 
@@ -44,7 +45,7 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
      * @return an iterator to go over the working objects buffer
      */
     protected ListIterator<S> getNextWorkingObjectsBufferIterator() {
-        return (ListIterator<S>) workingObjectsBuffer.iterator();
+        return workingObjectsBuffer.listIterator();
     }
 
     protected void cleanWorkingObjectsBuffer() {
@@ -54,10 +55,7 @@ public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatab
     /**
      * @effects verifies that the representation invariants holds, else, crash on assert.
      */
-    @Override
-    protected void checkRep() {
-        super.checkRep();
-
+    private void checkRep() {
         assert !workingObjectsBuffer.contains(null) : "The buffer contains null objects";
     }
 }

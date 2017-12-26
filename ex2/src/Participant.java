@@ -19,7 +19,7 @@ public class Participant extends Filter<String, Transaction> {
 
     private final double fee;
     private double balance = 0;
-    private ArrayList<Transaction> transactionsToPass = new ArrayList<>();
+    private ArrayList<Transaction> transactionsToPass;
 
     /**
      * @effects create a new filter with label and black color
@@ -27,6 +27,7 @@ public class Participant extends Filter<String, Transaction> {
     public Participant(String name, double fee) {
         super(name);
         this.fee = fee;
+        transactionsToPass = new ArrayList<>();
 
         checkRep();
     }
@@ -133,10 +134,7 @@ public class Participant extends Filter<String, Transaction> {
     /**
      * @effects verifies that the representation invariants holds, else, crash on assert.
      */
-    @Override
-    protected void checkRep() {
-        super.checkRep();
-
+    private void checkRep() {
         assert fee >= 0: "The fee of the participant " + getVertexLabel() + "is negative";
         assert balance >= 0: "The balance of the participant " + getVertexLabel() + "is negative";
     }

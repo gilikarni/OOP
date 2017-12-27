@@ -234,4 +234,177 @@ public class BipartiteGraphTest {
             index++;
         }
     }
+
+    @Test
+    public void testAddEdgeTwiceToSameWhiteChild() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        String graphName = "graph1";
+        String blackNode1 = "BlackNode";
+        String whiteNode1 = "WhiteNode1";
+        driver.createGraph(graphName);
+
+        driver.addBlackNode(graphName, blackNode1);
+        driver.addWhiteNode(graphName, whiteNode1);
+
+        /* Add edge successfully */
+        driver.addEdge(graphName, blackNode1, whiteNode1, blackNode1 + whiteNode1);
+
+        /* Try to add the edge again with the same label */
+        for (int i = 0; i < 5; i++) {
+            try {
+                driver.addEdge(graphName, blackNode1, whiteNode1, blackNode1 + whiteNode1);
+                fail("Expected exception to be thrown");
+            } catch (Exception e) {
+                assertTrue(e instanceof IllegalArgumentException);
+            }
+        }
+
+        /* Try to add the edge again with different label */
+        for (int i = 0; i < 5; i++) {
+            try {
+                driver.addEdge(graphName, blackNode1, whiteNode1, blackNode1 + whiteNode1 + String.valueOf(i));
+                fail("Expected exception to be thrown");
+            } catch (Exception e) {
+                assertTrue(e instanceof IllegalArgumentException);
+            }
+        }
+    }
+
+    @Test
+    public void testAddEdgeTwiceToSameBlackChild() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        String graphName = "graph1";
+        String blackNode1 = "BlackNode";
+        String whiteNode1 = "WhiteNode1";
+        driver.createGraph(graphName);
+
+        driver.addBlackNode(graphName, blackNode1);
+        driver.addWhiteNode(graphName, whiteNode1);
+
+        /* Add edge successfully */
+        driver.addEdge(graphName, whiteNode1, blackNode1, blackNode1 + whiteNode1);
+
+        /* Try to add the edge again with the same label */
+        for (int i = 0; i < 5; i++) {
+            try {
+                driver.addEdge(graphName, whiteNode1, blackNode1, blackNode1 + whiteNode1);
+                fail("Expected exception to be thrown");
+            } catch (Exception e) {
+                assertTrue(e instanceof IllegalArgumentException);
+            }
+        }
+
+        /* Try to add the edge again with different label */
+        for (int i = 0; i < 5; i++) {
+            try {
+                driver.addEdge(graphName, whiteNode1, blackNode1, blackNode1 + whiteNode1 + String.valueOf(i));
+                fail("Expected exception to be thrown");
+            } catch (Exception e) {
+                assertTrue(e instanceof IllegalArgumentException);
+            }
+        }
+    }
+
+    @Test
+    public void testGetChildByLabelSuccess() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        String graphName = "graph1";
+        String blackNode1 = "BlackNode";
+        String whiteNode1 = "WhiteNode1";
+        driver.createGraph(graphName);
+
+        driver.addBlackNode(graphName, blackNode1);
+        driver.addWhiteNode(graphName, whiteNode1);
+
+        driver.addEdge(graphName, blackNode1, whiteNode1, blackNode1 + whiteNode1);
+
+        assertEquals(whiteNode1, driver.getChildByEdgeLabel(graphName, blackNode1, blackNode1 + whiteNode1));
+        assertEquals(blackNode1, driver.getParentByEdgeLabel(graphName, whiteNode1, blackNode1 + whiteNode1));
+    }
+
+    @Test
+    public void testGetChildByLabelFailure() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        String graphName = "graph1";
+        String blackNode1 = "BlackNode";
+        String whiteNode1 = "WhiteNode1";
+        driver.createGraph(graphName);
+
+        driver.addBlackNode(graphName, blackNode1);
+        driver.addWhiteNode(graphName, whiteNode1);
+
+        try {
+            driver.getChildByEdgeLabel(graphName, blackNode1, blackNode1 + whiteNode1);
+            fail("Expected exception to be thrown");
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
+        }
+
+        try {
+            driver.getParentByEdgeLabel(graphName, whiteNode1, blackNode1 + whiteNode1);
+            fail("Expected exception to be thrown");
+        } catch (Exception e) {
+            assertTrue(e instanceof IllegalArgumentException);
+        }
+    }
+
+    @Test
+    public void testListChildren() {
+        BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        String graphName = "graph1";
+        String blackNode1 = "BlackNode";
+        String whiteNode1 = "WhiteNode1";
+        driver.createGraph(graphName);
+
+        driver.addBlackNode(graphName, blackNode1);
+        driver.addWhiteNode(graphName, whiteNode1);
+
+        /* Check for black */
+        String parents = driver.listParents(graphName, blackNode1);
+        assertEquals("", parents);
+
+        String children = driver.listChildren(graphName, blackNode1);
+        assertEquals("", children);
+
+        /* Check for white */
+        parents = driver.listParents(graphName, whiteNode1);
+        assertEquals("", parents);
+
+        children = driver.listChildren(graphName, whiteNode1);
+        assertEquals("", children);
+
+        /* Add edge black -> white */
+        driver.addEdge(graphName, blackNode1, whiteNode1, blackNode1 + whiteNode1);
+
+        /* Check for black */
+        parents = driver.listParents(graphName, blackNode1);
+        assertEquals("", parents);
+
+        children = driver.listChildren(graphName, blackNode1);
+        assertEquals(whiteNode1, children);
+
+        /* Check for white */
+        parents = driver.listParents(graphName, whiteNode1);
+        assertEquals(blackNode1, parents);
+
+        children = driver.listChildren(graphName, whiteNode1);
+        assertEquals("", children);
+
+        /* Add edge black -> white */
+        driver.addEdge(graphName, whiteNode1, blackNode1, whiteNode1 + blackNode1);
+
+        /* Check for black */
+        parents = driver.listParents(graphName, blackNode1);
+        assertEquals(whiteNode1, parents);
+
+        children = driver.listChildren(graphName, blackNode1);
+        assertEquals(whiteNode1, children);
+
+        /* Check for white */
+        parents = driver.listParents(graphName, whiteNode1);
+        assertEquals(blackNode1, parents);
+
+        children = driver.listChildren(graphName, whiteNode1);
+        assertEquals(blackNode1, children);
+    }
 }

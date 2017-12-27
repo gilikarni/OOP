@@ -56,7 +56,7 @@ public class SimulatorTest {
     }
 
     @Test
-    public void twoIncomingChannelsTest() {
+    public void participantWithTwoIncomingChannelsTest() {
         SimulatorTestDriver driver = new SimulatorTestDriver();
         String simName = "sim1";
 
@@ -106,7 +106,7 @@ public class SimulatorTest {
     }
 
     @Test
-    public void testFeeLargerThanTransactionValue() {
+    public void feeLargerThanTransactionValueTest() {
         SimulatorTestDriver driver = new SimulatorTestDriver();
         String simName = "sim1";
 
@@ -285,5 +285,31 @@ public class SimulatorTest {
         System.out.println("edges P1C1, C1P2, P2C2, C2P3 should print in the following line");
         //print edges
         driver.printAllEdges(simName);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getParticipantBalaceWithNameOfChannelTest() {
+        SimulatorTestDriver driver = new SimulatorTestDriver();
+        String simName = "sim1";
+
+        //create a simulator
+        driver.createSimulator(simName);
+
+        //add participants
+        driver.addChannel(simName, "C1", 1);
+        driver.getParticipantBalace(simName, "C1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void listContentWithNameOfParticipantTest() {
+        SimulatorTestDriver driver = new SimulatorTestDriver();
+        String simName = "sim1";
+
+        //create a simulator
+        driver.createSimulator(simName);
+
+        //add participants
+        driver.addParticipant(simName, "P1", 1);
+        driver.listContents(simName, "P1");
     }
 }

@@ -16,8 +16,12 @@ public class Channel extends Pipe<String, Transaction> {
     private final double maxPayments;
     private double passedAmount = 0;
 
-    public Channel(String name, double maxPayments) {
+
+    public Channel(String name, double maxPayments) throws IllegalArgumentException{
         super(name);
+        if (maxPayments <= 0){
+            throw new IllegalArgumentException("maxPayment must be positive");
+        }
         this.maxPayments = maxPayments;
 
         checkRep();

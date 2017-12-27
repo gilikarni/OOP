@@ -83,6 +83,7 @@ public class SimulatorTestDriver {
         simulators.get(simName).addWorkObject(channelName, tx);
     }
 
+
 	/**
 	 * @requires addChannel(channelName)
 	 * @return a space-separated list of the Transaction values currently in the
@@ -96,7 +97,7 @@ public class SimulatorTestDriver {
 	 * @requires addParticipant(participantName)
 	 * @return The sum of all  Transaction values stored in the storage of the participant participantName in the simulator simName
 	 */
-	public double getParticipantBalace(String simName, String participantName) throws IllegalArgumentException{
+	public double getParticipantBalace(String simName, String participantName) throws IllegalArgumentException {
         Participant participant = (Participant)simulators.get(simName).getFilter(participantName);
         return participant.getBalance();
 	}
@@ -123,8 +124,6 @@ public class SimulatorTestDriver {
 
     private String createStringFromList(List list) {
         String string = "";
-
-        Collections.sort(list);
 
         boolean first = true;
 

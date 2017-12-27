@@ -22,10 +22,14 @@ public class Participant extends Filter<String, Transaction> {
     private ArrayList<Transaction> transactionsToPass;
 
     /**
+     * @requires fee is non-negative
      * @effects create a new filter with label and black color
      */
-    public Participant(String name, double fee) {
+    public Participant(String name, double fee) throws IllegalArgumentException{
         super(name);
+        if (fee < 0){
+            throw new IllegalArgumentException("fee must be non-negative");
+        }
         this.fee = fee;
         transactionsToPass = new ArrayList<>();
 

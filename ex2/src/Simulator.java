@@ -1,5 +1,4 @@
 import java.util.*;
-import static org.junit.Assert.assertThat;
 
 /**
  * A Simulator simulates a system of pipes and filters using a BipartiteGraph.
@@ -134,7 +133,7 @@ public class Simulator<T, S>{
      */
     private Pipe<T,S> getPipe(T pipeName){
         ColoredVertex<T> vertex = graph.getVertex(pipeName);
-        if (!(vertex instanceof Pipe)){
+        if (!vertex.isVertexBlack()){
             throw new IllegalArgumentException("vertex with label pipeName is not a pipe");
         }
         return (Pipe<T,S>)vertex;

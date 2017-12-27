@@ -4,8 +4,8 @@ import java.util.ListIterator;
 public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatable {
     /*
     Abstraction function:
-    Filter f is white vertex that can simulate on working objects. f has a buffer that so it can hols work objects in the
-    buffer while evaluating other working objects.
+    Filter f is white vertex that can simulate on working objects. f has a buffer that can hold work objects while
+    evaluating other working objects.
 
     Representation invariant:
     All the invariants of vertex && workingObjectsBuffer has no null members

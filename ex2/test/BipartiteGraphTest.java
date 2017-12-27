@@ -126,6 +126,7 @@ public class BipartiteGraphTest {
 
         driver.createGraph(graphName);
 
+        int len  = 1;
         for (String nodeName : nodes) {
             driver.addWhiteNode(graphName, nodeName);
 
@@ -136,7 +137,14 @@ public class BipartiteGraphTest {
                 } catch (Exception e) {
                     assertTrue(e instanceof IllegalArgumentException);
                 }
+                String[] list = driver.listWhiteNodes(graphName).split(" ");
+                assertEquals(len, list.length);
+                for (String s : list) {
+                    assertTrue(nodes.contains(s));
+                }
             }
+
+            len++;
         }
     }
 
@@ -164,6 +172,12 @@ public class BipartiteGraphTest {
             } catch (Exception e) {
                 assertTrue(e instanceof IllegalArgumentException);
             }
+            String[] list = driver.listBlackNodes(graphName).split(" ");
+            assertEquals("", driver.listWhiteNodes(graphName));
+            assertEquals(nodes.size(), list.length);
+            for (String s : list) {
+                assertTrue(nodes.contains(s));
+            }
         }
     }
 
@@ -190,6 +204,12 @@ public class BipartiteGraphTest {
                 fail("Expected exception to be thrown");
             } catch (Exception e) {
                 assertTrue(e instanceof IllegalArgumentException);
+            }
+            String[] list = driver.listWhiteNodes(graphName).split(" ");
+            assertEquals("", driver.listBlackNodes(graphName));
+            assertEquals(nodes.size(), list.length);
+            for (String s : list) {
+                assertTrue(nodes.contains(s));
             }
         }
     }

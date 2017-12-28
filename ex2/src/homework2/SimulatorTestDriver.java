@@ -19,7 +19,7 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires simName != null
+	 * @requires simName is not null
 	 * @modifies this
 	 * @effects Creates a new simulator named simName. The simulator's graph is
 	 *          initially empty.
@@ -31,10 +31,10 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires createSimulator(simName) 
-     *           && channelName != null && channelName has
+     *           and channelName is not null and channelName has
 	 *           not been used in a previous addChannel()  or
 	 *           addParticipant() call on this object
-	 *           limit > 0
+	 *           limit l.t. 0
 	 * @modifies simulator named simName
 	 * @effects Creates a new Channel named by the String channelName, with a limit, and add it to
 	 *          the simulator named simName.
@@ -45,10 +45,10 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) && participantName != null 
-	 *           && participantName has not been used in a previous addParticipant(), addChannel()
+	 * @requires createSimulator(simName) and participantName is not null
+	 *           and participantName has not been used in a previous addParticipant(), addChannel()
 	 *           call on this object
-	 *           fee > 0
+	 *           fee l.t. 0
 	 * @modifies simulator named simName
 	 * @effects Creates a new Participant named by the String participantName and add
 	 *          it to the simulator named simName.
@@ -59,11 +59,11 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) && ((addPipe(parentName) &&
-	 *           addFilter(childName)) || (addFilter(parentName) &&
-	 *           addPipe(childName))) && edgeLabel != null && node named
+	 * @requires createSimulator(simName) and ((addPipe(parentName) and
+	 *           addFilter(childName)) || (addFilter(parentName) and
+	 *           addPipe(childName))) and edgeLabel is not null and node named
 	 *           parentName has no other outgoing edge labeled edgeLabel 
-	 *           && node named childName has no other incoming edge labeled edgeLabel
+	 *           and node named childName has no other incoming edge labeled edgeLabel
 	 * @modifies simulator named simName
 	 * @effects Adds an edge from the node named parentName to the node named
 	 *          childName in the simulator named simName. The new edge's label
@@ -75,8 +75,8 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) && addChannel(channelName)
-	 *           A transaction Transaction != null
+	 * @requires createSimulator(simName) and addChannel(channelName)
+	 *           A transaction Transaction is not null
 	 * @modifies channel named channelName
 	 * @effects pushes the Transaction into the channel named channelName in the
 	 *          simulator named simName.

@@ -176,8 +176,8 @@ public class SimulatorTest {
 
         // simulate
         driver.simulate(simName);
-        // check that p2 took a fee for both transactions and C2 holds one transaction
-        assertEquals("P2 doesn't have the correct balance", 4, driver.getParticipantBalace(simName, "P2"), 0.5);
+        // check that p2 took a fee for both transactions and saved one transaction to itself and C2 holds one transaction
+        assertEquals("P2 doesn't have the correct balance", 12, driver.getParticipantBalace(simName, "P2"), 0.5);
         assertEquals("P3 doesn't have the correct balance", 0, driver.getParticipantBalace(simName, "P3"), 0.5);
         assertEquals("C1 is not empty", "", driver.listContents(simName, "C1"));
         assertNotEquals("C2 is empty", "", driver.listContents(simName, "C2"));
@@ -185,7 +185,7 @@ public class SimulatorTest {
         // simulate
         driver.simulate(simName);
         // check that C2 holds no transactions
-        assertEquals("P2 doesn't have the correct balance", 4, driver.getParticipantBalace(simName, "P2"), 0.5);
+        assertEquals("P2 doesn't have the correct balance", 12, driver.getParticipantBalace(simName, "P2"), 0.5);
         assertEquals("P3 doesn't have the correct balance", 8, driver.getParticipantBalace(simName, "P3"), 0.5);
         assertEquals("C1 is not empty", "", driver.listContents(simName, "C1"));
         assertEquals("C2 is not empty", "", driver.listContents(simName, "C2"));

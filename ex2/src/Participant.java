@@ -14,7 +14,9 @@ public class Participant extends Filter<String, Transaction> {
     according to its new transactions and pass the transactions that don't belong to it to the channel.
 
     Representation invariant:
-    All the invariants of Filter && fee >= 0 && balance >= 0
+    All the invariants of Filter && fee >= 0 && balance >= 0 &&
+    the working objects buffer contains only transactions for this participant &&
+    the transactionsToPass list contains only transaction to pass to other participants
     */
 
     private final double fee;
@@ -92,23 +94,18 @@ public class Participant extends Filter<String, Transaction> {
         Channel target = (Channel)children.get(0);
 
         Iterator<Transaction> iterator = transactionsToPass.iterator();
-        ArrayList<Transaction> transactionsToRemove = new ArrayList<>();
 
         while (iterator.hasNext()) {
             Transaction transaction = iterator.next();
 
-            boolean bSuccess = target.addWorkObject(transaction);
-
-            /* Remove only successful transactions */
-            if (bSuccess) {
-                transactionsToRemove.add(transaction);
+            if (!target.addWorkObject(transaction)) {
+                /* The transaction too high for the channels limit, keep it at the participant */
+                addWorkingObjectToBuffer(new Transaction(getVertexLabel(), transaction.getValue()));
             }
         }
 
-        /* Remove all successful transactions */
-        for (Transaction transaction : transactionsToRemove) {
-            transactionsToPass.remove(transaction);
-        }
+        /* Remove all transactions */
+        transactionsToPass.clear();
 
         checkRep();
     }
@@ -128,6 +125,30 @@ public class Participant extends Filter<String, Transaction> {
         checkRep();
     }
 
+    private boolean areAllTheTransactionsInWorkingObjectsBufferForThisParticipant() {
+        ListIterator<Transaction> iterator = getNextWorkingObjectsBufferIterator();
+        while (iterator.hasNext()) {
+            Transaction transaction = iterator.next();
+            if (!transaction.getDest().equals(getVertexLabel())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean areAllTheTransactionsInTransactionsToPassForOtherParticipants() {
+        ListIterator<Transaction> iterator = transactionsToPass.listIterator();
+        while (iterator.hasNext()) {
+            Transaction transaction = iterator.next();
+            if (transaction.getDest().equals(getVertexLabel())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * @return the balance of the participant
      */
@@ -141,5 +162,9 @@ public class Participant extends Filter<String, Transaction> {
     private void checkRep() {
         assert fee >= 0: "The fee of the participant " + getVertexLabel() + "is negative";
         assert balance >= 0: "The balance of the participant " + getVertexLabel() + "is negative";
+        assert areAllTheTransactionsInWorkingObjectsBufferForThisParticipant() :
+                "There is a transaction in WorkingObjectsBuffer that is not for this participant";
+        assert areAllTheTransactionsInTransactionsToPassForOtherParticipants() :
+                "There is a transactions in transactionsToPass that is for this participant";
     }
 }

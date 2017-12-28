@@ -49,7 +49,7 @@ public class Simulator<T, S>{
     /**
      * @effects adds a pipe to the graph
      */
-    public void addPipe(Pipe<T, S> pipe) throws IllegalArgumentException{
+    public void addPipe(Pipe<T, S> pipe) throws IllegalArgumentException {
         graph.addVertex(pipe);
         checkRep();
     }
@@ -57,7 +57,7 @@ public class Simulator<T, S>{
     /**
      * @effects adds a filter to the graph
      */
-    public void addFilter(Filter<T, S> filter) throws IllegalArgumentException{
+    public void addFilter(Filter<T, S> filter) throws IllegalArgumentException {
         graph.addVertex(filter);
         checkRep();
     }
@@ -65,14 +65,10 @@ public class Simulator<T, S>{
     /**
      * @effects adds an edge to the graph
      */
-    public void addEdge(T sourceVertex, T targetVertex, T edgeLabel) throws IllegalArgumentException{
+    public void addEdge(T sourceVertex, T targetVertex, T edgeLabel) throws IllegalArgumentException {
         graph.addEdge(sourceVertex, targetVertex, edgeLabel);
         checkRep();
     }
-
-    /**
-     * @returns return a copy of the filter holding given Label
-     */
 
     /**
      * @effects adds a S workobject to the T labeled pipe
@@ -86,7 +82,7 @@ public class Simulator<T, S>{
     }
 
     /**
-     *@returns  a list of all of the edges labels
+     *@return  a list of all of the edges labels
      */
     public List<T> getEdges(){
         return graph.getEdges();
@@ -108,7 +104,7 @@ public class Simulator<T, S>{
     }
 
     /**
-     *@returns a list of the contents of the pipe with the label pipeName
+     *@return a list of the contents of the pipe with the label pipeName
      *@throws IllegalArgumentException if no pipe with label pipeName exists.
      */
     public List<S> getPipeContents(T pipeName) throws IllegalArgumentException{
@@ -118,7 +114,7 @@ public class Simulator<T, S>{
     }
 
     /**
-     *@returns a the filter with the label filterName
+     *@return a the filter with the label filterName
      *@throws IllegalArgumentException if no filter with label filterName exists.
      */
     public Filter<T,S> getFilter(T filterName){

@@ -226,7 +226,7 @@ public class ColoredVertex<T> {
     }
 
     /**
-     * @returns a list of all incoming edges labels
+     * @return a list of all incoming edges labels
      */
     public List<T> getIncomingEdges(){
         ArrayList<T> incomingEdges = new ArrayList<>(parents.keySet());

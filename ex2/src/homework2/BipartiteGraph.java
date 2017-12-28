@@ -82,7 +82,7 @@ public class BipartiteGraph<T>{
     }
 
     /**
-     * @returns returns the vertex holding vertex label.
+     * @return the vertex holding vertex label.
      * @throws IllegalArgumentException if there is no vertex with this label
      */
     public ColoredVertex<T> getVertex(T vertexLabel) throws IllegalArgumentException{
@@ -189,7 +189,7 @@ public class BipartiteGraph<T>{
     }
 
     /**
-     *@returns  a list of all of the edges labels
+     *@return a list of all of the edges labels
      */
     public List<T> getEdges(){
         ArrayList<T> result = new ArrayList<>();

@@ -2,7 +2,9 @@ package homework2;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
-
+/** This a colored vertex that can simulate on working objects. The Filter has a buffer that can hold work objects while
+ * evaluating other working objects.
+ */
 public abstract class Filter<T, S> extends ColoredVertex<T> implements Simulatable {
     /*
     Abstraction function:

@@ -3,6 +3,9 @@ package homework2;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/** this is a colored vertex that has a capacity. The capacity is the number of objects that the pipe can handle
+ * simultaneously.
+ */
 public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable{
     /*
     Abstraction function:

@@ -1,10 +1,14 @@
+package homework2;
+
+import homework2.SimulatorTestDriver;
+import homework2.Transaction;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 
 /**
- * BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
+ * homework2.BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
  */
 public class SimulatorTest {
     /**

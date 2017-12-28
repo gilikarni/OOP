@@ -1,3 +1,5 @@
+package homework2;
+
 /**
  * This class implements a transaction in a graph of payment channels.
  * A transaction is immutable.

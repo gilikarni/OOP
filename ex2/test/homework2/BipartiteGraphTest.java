@@ -1,3 +1,6 @@
+package homework2;
+
+import homework2.BipartiteGraphTestDriver;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -7,7 +10,7 @@ import static org.junit.Assert.*;
 
 
 /**
- * BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
+ * homework2.BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
  */
 public class BipartiteGraphTest {
 

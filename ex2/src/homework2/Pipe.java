@@ -1,6 +1,7 @@
+package homework2;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ListIterator;
 
 public abstract class Pipe<T, S> extends ColoredVertex<T> implements Simulatable{
     /*

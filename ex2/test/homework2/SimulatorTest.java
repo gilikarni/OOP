@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 
 /**
- * homework2.BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
+ * homework2.SimulatorTest contains JUnit block-box unit tests for Simulator.
  */
 public class SimulatorTest {
     /**

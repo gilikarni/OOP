@@ -31,7 +31,7 @@ public class ColoredVertex<T> {
     private HashMap<T, ColoredVertex<T>> parents; // maps edge label to vertex label
     private HashMap<T, ColoredVertex<T>> children; // maps edge label to vertex label
 
-    /* This is an immutable type that defines the color of the vertex */
+    /** This is an immutable type that defines the color of the vertex */
     public enum VertexColor {
         WHITE, BLACK
     };

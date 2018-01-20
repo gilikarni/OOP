@@ -5,9 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
-public class ColorGenerator{
+public class ColorGenerator extends Observable{
     // Singleton object
     static private ColorGenerator colorGenerator = new ColorGenerator();
 
@@ -23,8 +24,10 @@ public class ColorGenerator{
      * observers about the new color.
      *
      * Representation Invariant:
-     * There is always only one object of type ColorGenerator.
-     * indexInOrder is not larger than size of listeners list.
+     * no members are null and
+     * There is always only one object of type ColorGenerator and
+     * indexInOrder is not larger than size of listeners list and
+     * listeners list size lte order size.
      */
 
     private ColorGenerator()
@@ -62,6 +65,8 @@ public class ColorGenerator{
         assert color != null: "color is null";
         assert notificationStrategy != null: "notification strategy is null";
         assert indexInOrder <= listeners.size(): "indexInOrder larger than number of listeners";
+        assert indexInOrder <= order.size(): "indexInOrder larger than size of order";
+        assert listeners.size() <= order.size();
     }
 
     /**
@@ -101,7 +106,8 @@ public class ColorGenerator{
      * function will do nothing.
      */
     public void notifyNextObserver(){
-        if (indexInOrder == listeners.size() ) { /* all of the panels notified */
+        if (    listeners.size() != order.size() || /* not enough listeners were added */
+                indexInOrder == listeners.size() ) { /* all of the panels notified */
             return;
         }
 

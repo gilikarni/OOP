@@ -18,6 +18,11 @@ public class Billboard extends JFrame implements ActionListener {
     // preferred frame width and height.
     private static final int WINDOW_WIDTH = 600;
     private static final int WINDOW_HEIGHT = 400;
+    private static final int PANEL_NUMBER_PER_ROW = 5;
+    private static final int PANEL_NUMBER_PER_COLUMN = 5;
+    private static final int PANEL_HEIGHT = WINDOW_HEIGHT / PANEL_NUMBER_PER_COLUMN;
+    private static final int PANEL_WIDTH = WINDOW_WIDTH / PANEL_NUMBER_PER_ROW;
+
 
     // graphical components
     private JMenuBar menuBar;
@@ -25,9 +30,9 @@ public class Billboard extends JFrame implements ActionListener {
     private JMenuItem exitItem, aboutItem,
             increasingItem, randomItem, twoTimesItem, columnItem;
     private JPanel mainPanel;
+    private ColorGenerator colorGenerator;
 
-    // shapes that have been added to this
-
+    // panels that have been added to this
     ArrayList<Shape> panels = new ArrayList<>();
 
     /**
@@ -46,13 +51,21 @@ public class Billboard extends JFrame implements ActionListener {
         setJMenuBar(menuBar);
 
         // get colorGenerator object
-        ColorGenerator colorGenerator = ColorGenerator.getInstance();
+        colorGenerator = ColorGenerator.getInstance();
+
+        // create panels
+        for (int i=0; i < 5; i++){
+            for (int j=0; j <5; i++){
+                panels.add(new Panel(new Point(i*PANEL_WIDTH, j*PANEL_HEIGHT), new Color(0, 0, 0),
+                        new Dimension(PANEL_WIDTH, PANEL_HEIGHT)));
+            }
+        }
 
         // enable panel update timer (ticks 25 times per second)
         Timer timer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 // TODO (BOM): Add code for making one animation step for all
-
+                colorGenerator.
 
                 repaint();  // make sure that the shapes are redrawn
             }
@@ -160,15 +173,13 @@ public class Billboard extends JFrame implements ActionListener {
                 (source.equals(twoTimesItem))) {
 
             if (source.equals(increasingItem)) {
-                codeGenerator.setStrategy(new );
-            } else if (source.equals(ovalItem)) {
-                shapes.add(new LocationChangingOval(locationPoint, color, dim));
-            } else if (source.equals(numberedOvalItem)) {
-                shapes.add(new LocationChangingNumberedOval(locationPoint, color, dim));
-            } else { // source.equals(sectorItem)
-                int startAngle = random.nextInt(359);
-                int arcAngle = random.nextInt(359);
-                shapes.add(new AngleChangingSector(locationPoint, color, startAngle, arcAngle, dim));
+                colorGenerator.setNotificationStrategy(new IncreasingNotificationStrategy());
+            } else if (source.equals(columnItem)) {
+                colorGenerator.setNotificationStrategy(new ColumnNotificationStrategy());
+            } else if (source.equals(randomItem)) {
+                colorGenerator.setNotificationStrategy(new RandomNotificationStrategy());
+            } else { // source.equals(twoTimesItem)
+                colorGenerator.setNotificationStrategy(new TwoTimesNotificationStrategy());
             }
 
             repaint();

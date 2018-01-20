@@ -38,6 +38,7 @@ public class Panel extends Shape{
     /**
      * Updates the color by an observable
      * @requires arg is a Color
+     * @modifies this
      * @effects sets color according to arg
      *
      */
@@ -54,6 +55,10 @@ public class Panel extends Shape{
         return new Rectangle(getLocation(), size);
     }
 
+    /**
+     * @modifies g
+     * @effects Draws this onto g.
+     */
     @Override
     public void draw(Graphics g) {
         g.setColor(getColor());

@@ -4,12 +4,10 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ColorGenerator implements Observable, ActionListener {
+public class ColorGenerator implements Observable {
     static private ColorGenerator colorGenerator = new ColorGenerator();
     private ArrayList<Panel> listeners = new ArrayList<>();
     NotificationStrategy notificationStrategy = new IncreasingNotificationStrategy();
@@ -97,14 +95,5 @@ public class ColorGenerator implements Observable, ActionListener {
         indexInOrder++;
         indexInOrder %= NUMBER_OF_PANELS;
         checkRep();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        try {
-            generateNewColor();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
     }
 }

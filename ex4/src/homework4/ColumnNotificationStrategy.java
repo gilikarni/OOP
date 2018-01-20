@@ -11,7 +11,7 @@ public class ColumnNotificationStrategy implements NotificationStrategy {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++)
             {
-                array.add(i*5 + j);
+                array.add(j*5 + i);
             }
         }
 

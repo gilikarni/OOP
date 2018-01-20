@@ -14,6 +14,15 @@ import java.awt.event.ActionListener;
  */
 @SuppressWarnings("serial")
 public class Billboard extends JFrame implements ActionListener {
+    /** Abstraction Function:
+     * Billboard represents an application of a board of 5X5 color changing panels, s.t.:
+     *  color change happens every 2 seconds by colorGenerator.
+     *  the panels are notified 40ms one after the other by colorGenerator.
+     *
+     * Representation Invariant:
+     * Representation Invariant of JFrame and
+     * panels is not null
+     */
 
     // preferred frame width and height.
     private static final int WINDOW_WIDTH = 600;
@@ -38,9 +47,7 @@ public class Billboard extends JFrame implements ActionListener {
 
     /**
      * @modifies this
-     * @effects Initializes the GUI and enables a timer that steps animation
-     *          of all shapes in this 25 times per second while animation
-     *          checkbox is selected.
+     * @effects Initializes the GUI, adds all panels to the panels array
      */
     public Billboard() {
         super("Billboard");
@@ -64,7 +71,7 @@ public class Billboard extends JFrame implements ActionListener {
             }
         }
 
-        // enable panel update timer (ticks 25 times per second)
+        // enable repaint timer (ticks 25 times per second)
         Timer paintTimer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 repaint();  // make sure that the shapes are redrawn

@@ -9,16 +9,6 @@ import java.util.Observable;
 import java.util.Random;
 
 public class ColorGenerator extends Observable{
-    // Singleton object
-    static private ColorGenerator colorGenerator = new ColorGenerator();
-
-    private ArrayList<Integer> order = null;
-    private int indexInOrder = 0;
-    Color color = null;
-    private ArrayList<Panel> listeners;
-    NotificationStrategy notificationStrategy;
-
-
     /** Abstraction Function:
      * ColorGenerator c is a singleton that is responsible for creating a new color every two seconds and update all the
      * observers about the new color.
@@ -29,6 +19,16 @@ public class ColorGenerator extends Observable{
      * indexInOrder is not larger than size of listeners list and
      * listeners list size lte order size.
      */
+
+    // Singleton object
+    static private ColorGenerator colorGenerator = new ColorGenerator();
+
+    private ArrayList<Integer> order = null;
+    private int indexInOrder = 0;
+    Color color = null;
+    private ArrayList<Panel> listeners;
+    NotificationStrategy notificationStrategy;
+
 
     private ColorGenerator()
     {
@@ -101,11 +101,7 @@ public class ColorGenerator extends Observable{
         checkRep();
     }
 
-    /**
-     * @effects generates a new random color and update all the panels about it. If all the panels wasn't added yet the
-     * function will do nothing.
-     */
-    public void notifyNextObserver(){
+    private void notifyNextObserver(){
         if (    listeners.size() != order.size() || /* not enough listeners were added */
                 indexInOrder == listeners.size() ) { /* all of the panels notified */
             return;
@@ -116,7 +112,11 @@ public class ColorGenerator extends Observable{
         checkRep();
     }
 
-    public void changeColor() {
+    /**
+     * @effects generates a new random color and gets a new order from notificationStrategy. If all the panels wasn't added yet the
+     * function will do nothing.
+     */
+    private void changeColor() {
         indexInOrder = 0;
         order = (ArrayList<Integer>) notificationStrategy.getOrder();
         Random randomColorGenerator = new Random();

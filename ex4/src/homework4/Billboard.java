@@ -120,7 +120,6 @@ public class Billboard extends JFrame implements ActionListener {
         twoTimesItem = new JMenuItem("Checkered");
         twoTimesItem.addActionListener(this);
         updateOrderItem.add(twoTimesItem);
-
         menuBar.add(updateOrderItem);
 
         helpMenu = new JMenu("Help");
@@ -142,12 +141,9 @@ public class Billboard extends JFrame implements ActionListener {
      */
     public void paint(Graphics g) {
         super.paint(g);
-        ListIterator<Shape> iter = panels.listIterator();
-        while (iter.hasNext()) {
-            Shape panel = iter.next();
+        for (Shape panel : panels) {
             panel.draw(getContentPane().getGraphics());
         }
-
     }
 
     /**

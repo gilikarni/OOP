@@ -5,10 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.Random;
 
-public class ColorGenerator extends Observable{
+public class ColorGenerator {
     /** Abstraction Function:
      * ColorGenerator c is a singleton that is responsible for creating a new color every two seconds and update all the
      * observers about the new color.
@@ -22,7 +21,8 @@ public class ColorGenerator extends Observable{
 
     // Singleton object
     static private ColorGenerator colorGenerator = new ColorGenerator();
-
+    private NotificationStrategy notificationStrategy;
+    private ArrayList<Panel> listeners;
     private ArrayList<Integer> order = null;
     private int indexInOrder = 0;
     Color color = null;
@@ -61,7 +61,6 @@ public class ColorGenerator extends Observable{
         assert order != null: "order is null";
         assert color != null: "color is null";
         assert notificationStrategy != null: "notification strategy is null";
-        assert indexInOrder <= listeners.size(): "indexInOrder larger than number of listeners";
         assert indexInOrder <= order.size(): "indexInOrder larger than size of order";
         assert listeners.size() <= order.size();
     }
@@ -76,8 +75,7 @@ public class ColorGenerator extends Observable{
     /**
      * @effects add a panel listener to the board.
      */
-    @Override
-    public void addListener(InvalidationListener listener) {
+    public void addObserver(Panel listener) {
         assert listener instanceof Panel;
         listeners.add(listener);
         checkRep();
@@ -86,9 +84,7 @@ public class ColorGenerator extends Observable{
     /**
      * @effects remove a panel listener to the board.
      */
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        assert listener instanceof Panel;
+    public void removeObserver(Panel listener) {
         listeners.remove(listener);
         checkRep();
     }
@@ -102,20 +98,16 @@ public class ColorGenerator extends Observable{
         checkRep();
     }
 
-    private void notifyNextObserver(){
-        if (    listeners.size() != order.size() || /* not enough listeners were added */
-                indexInOrder == listeners.size() ) { /* all of the panels notified */
+    private void notifyNextObserver() {
+        if (listeners.size() != order.size() || /* not enough listeners were added */
+                indexInOrder == listeners.size()) { /* all of the panels notified */
             return;
         }
-
-        if (indexInOrder == 0) {
-            order = (ArrayList<Integer>) notificationStrategy.getOrder();
-            Random randomColorGenerator = new Random();
-            float r = randomColorGenerator.nextFloat();
-            float g = randomColorGenerator.nextFloat();
-            float b = randomColorGenerator.nextFloat();
-            color = new Color(r, g, b);
-        }
+        Panel currentPanel = listeners.get(order.get(indexInOrder));
+        currentPanel.update(color);
+        indexInOrder++;
+        checkRep();
+    }
 
     /**
      * @effects generates a new random color and gets a new order from notificationStrategy. If all the panels wasn't added yet the

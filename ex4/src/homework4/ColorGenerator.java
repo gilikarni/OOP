@@ -5,24 +5,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
-public class ColorGenerator{
+public class ColorGenerator extends Observable{
+    /** Abstraction Function:
+     * ColorGenerator c is a singleton that is responsible for creating a new color every two seconds and update all the
+     * observers about the new color.
+     *
+     * Representation Invariant:
+     * no members are null and
+     * There is always only one object of type ColorGenerator and
+     * indexInOrder is not larger than size of listeners list and
+     * listeners list size lte order size.
+     */
+
     // Singleton object
     static private ColorGenerator colorGenerator = new ColorGenerator();
 
     private ArrayList<Integer> order = null;
     private int indexInOrder = 0;
     Color color = null;
-
-    /** Abstraction Function:
-     * ColorGenerator c is a singleton that is responsible for creating a new color every two seconds and update all the
-     * observers about the new color.
-     *
-     * Representation Invariant:
-     * There is always only one object of type ColorGenerator.
-     * indexInOrder is not larger than size of listeners list.
-     */
 
     private ColorGenerator()
     {
@@ -59,6 +62,8 @@ public class ColorGenerator{
         assert color != null: "color is null";
         assert notificationStrategy != null: "notification strategy is null";
         assert indexInOrder <= listeners.size(): "indexInOrder larger than number of listeners";
+        assert indexInOrder <= order.size(): "indexInOrder larger than size of order";
+        assert listeners.size() <= order.size();
     }
 
     /**
@@ -97,12 +102,9 @@ public class ColorGenerator{
         checkRep();
     }
 
-    /**
-     * @effects generates a new random color and update all the panels about it. If all the panels wasn't added yet the
-     * function will do nothing.
-     */
-    public void updateNextPanel() throws InterruptedException {
-        if (listeners.size() < NUMBER_OF_PANELS) { /* The panels wasn't added yet */
+    private void notifyNextObserver(){
+        if (    listeners.size() != order.size() || /* not enough listeners were added */
+                indexInOrder == listeners.size() ) { /* all of the panels notified */
             return;
         }
 
@@ -115,9 +117,18 @@ public class ColorGenerator{
             color = new Color(r, g, b);
         }
 
-        listeners.get(order.get(indexInOrder)).update(this, color);
-        indexInOrder++;
-        indexInOrder %= NUMBER_OF_PANELS;
+    /**
+     * @effects generates a new random color and gets a new order from notificationStrategy. If all the panels wasn't added yet the
+     * function will do nothing.
+     */
+    private void changeColor() {
+        indexInOrder = 0;
+        order = (ArrayList<Integer>) notificationStrategy.getOrder();
+        Random randomColorGenerator = new Random();
+        float r = randomColorGenerator.nextFloat();
+        float g = randomColorGenerator.nextFloat();
+        float b = randomColorGenerator.nextFloat();
+        color = new Color(r, g, b);
         checkRep();
     }
 }

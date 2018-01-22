@@ -3,14 +3,13 @@ package homework4;
 import java.awt.*;
 
 /**
- * Panel is a rectangular Shape that changes colors according to ColorGenerator
+ * Panel is a rectangular Shape that changes colors according to updates from ColorGenerator.
  */
 public class Panel extends Shape{
     private final Dimension size;
 
     /** Abstraction Function:
-     * Panel p is a rectangular Shape. p is also an observer of ColoGenerator that changes its color according to
-     * updates from ColorGenerator.
+     * Panel p represents a rectangular Shape of size this.size., with this.color updated from observable.
      *
      * Representation Invariant:
      * Representation Invariant of Shape and
@@ -18,7 +17,7 @@ public class Panel extends Shape{
      */
 
     /**
-     * Checks to see if the representation invariant is being
+     * @effects Checks to see if the representation invariant is being
      * violated.
      * @throws AssertionError if representation invariant is
      * violated.
@@ -29,6 +28,10 @@ public class Panel extends Shape{
             "All fields must be initialized";
     }
 
+    /**
+     * @requires location, color and size not null
+     * @effects created a new Panel
+     */
     public Panel(Point location, Color color, Dimension size){
         super(location, color);
         this.size = new Dimension(size);
@@ -40,7 +43,6 @@ public class Panel extends Shape{
      * @requires arg is a Color
      * @modifies this
      * @effects sets color according to arg
-     *
      */
     public void update(Color arg) {
         setColor(arg);

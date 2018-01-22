@@ -33,6 +33,7 @@ public abstract class Shape {
     }
 
     /**
+     * @requires color, location != null
      * @effects Initializes this with a a given location and color.
      */
     public Shape(Point location, Color color) {
@@ -52,6 +53,7 @@ public abstract class Shape {
 
 
     /**
+     * @requires location != null
      * @modifies this
      * @effects Moves this to the given location, i.e. this.getLocation()
      *          returns location after call has completed.

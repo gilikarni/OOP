@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * RandomNotificationStrategy creates an array of indices in the range [0,24] in  random order.
+ */
 public class RandomNotificationStrategy implements NotificationStrategy {
+    /**
+     * @effects creates an array of indices in the range [0,24] in  random order.
+     */
     @Override
     public List<Integer> getOrder() {
         ArrayList<Integer> array = new ArrayList<>();

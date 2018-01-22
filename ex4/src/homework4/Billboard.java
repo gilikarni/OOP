@@ -96,7 +96,7 @@ public class Billboard extends JFrame implements ActionListener {
 
 
     /**
-     * @return main GUI menubar
+     * @return main GUI menu bar
      */
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();

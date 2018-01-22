@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"homework4","l":"Billboard"},{"p":"homework4","l":"ColorGenerator"},{"p":"homework4","l":"ColumnNotificationStrategy"},{"p":"homework4","l":"IncreasingNotificationStrategy"},{"p":"homework4","l":"Panel"},{"p":"homework4","l":"RandomNotificationStrategy"},{"p":"homework4","l":"Shape"},{"p":"homework4","l":"TwoTimesNotificationStrategy"}]

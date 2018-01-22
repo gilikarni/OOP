@@ -4,8 +4,8 @@ import java.awt.*;
 
 /**
  * A Shape is an abstraction of a shape object. A typical Shape consists of
- * a set of properties: {location, color, shape, size}.
- * Shapes are mutable and cloneable.
+ * a set of properties: {location, color}.
+ * Shapes are mutable.
  */
 public abstract class Shape {
 
@@ -29,7 +29,7 @@ public abstract class Shape {
 
     protected void checkRep() {
         assert location != null && color != null :
-                "All feilds must be initialized";
+                "All fields must be initialized";
     }
 
     /**

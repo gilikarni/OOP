@@ -1,18 +1,18 @@
 package homework4;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Main application class for exercise #4.
  * This application form a billboard of 25 panels, arranged in 5X5.
  * Every two seconds, the billboard changes color in a certain strategy.
  */
-
+@SuppressWarnings("serial")
 public class Billboard extends JFrame implements ActionListener {
 
     // preferred frame width and height.
@@ -20,7 +20,8 @@ public class Billboard extends JFrame implements ActionListener {
     private static final int WINDOW_HEIGHT = 400;
     private static final int PANEL_NUMBER_PER_ROW = 5;
     private static final int PANEL_NUMBER_PER_COLUMN = 5;
-    private static final int PANEL_HEIGHT = WINDOW_HEIGHT / PANEL_NUMBER_PER_COLUMN;
+    private static final int SPACING = 100;
+    private static final int PANEL_HEIGHT = (WINDOW_HEIGHT - SPACING) / PANEL_NUMBER_PER_COLUMN;
     private static final int PANEL_WIDTH = WINDOW_WIDTH / PANEL_NUMBER_PER_ROW;
 
 
@@ -30,10 +31,10 @@ public class Billboard extends JFrame implements ActionListener {
     private JMenuItem exitItem, aboutItem,
             increasingItem, randomItem, twoTimesItem, columnItem;
     private JPanel mainPanel;
-    private ColorGenerator colorGenerator;
 
-    // panels that have been added to this
-    ArrayList<Shape> panels = new ArrayList<>();
+    //  color generator and array shape
+    private ColorGenerator colorGenerator;
+    private ArrayList<Shape> panels = new ArrayList<>();
 
     /**
      * @modifies this
@@ -47,7 +48,7 @@ public class Billboard extends JFrame implements ActionListener {
         // create main panel and menubar
         mainPanel = (JPanel)createMainPanel();
         getContentPane().add(mainPanel);
-        menuBar = (JMenuBar)createMenuBar();
+        menuBar = createMenuBar();
         setJMenuBar(menuBar);
 
         // get colorGenerator object
@@ -55,28 +56,21 @@ public class Billboard extends JFrame implements ActionListener {
 
         // create panels
         for (int i=0; i < 5; i++){
-            for (int j=0; j <5; i++){
-                panels.add(new Panel(new Point(i*PANEL_WIDTH, j*PANEL_HEIGHT), new Color(0, 0, 0),
-                        new Dimension(PANEL_WIDTH, PANEL_HEIGHT)));
+            for (int j=0; j <5; j++){
+                Panel new_panel = new Panel(new Point(j*PANEL_WIDTH, SPACING + i*PANEL_HEIGHT), new Color(255, 255, 255),
+                        new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+                panels.add(new_panel);
+                colorGenerator.addObserver(new_panel);
             }
         }
 
         // enable panel update timer (ticks 25 times per second)
-        Timer timer = new Timer(40, new ActionListener() {
+        Timer paintTimer = new Timer(40, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                // TODO (BOM): Add code for making one animation step for all
-                colorGenerator.
-
                 repaint();  // make sure that the shapes are redrawn
             }
         });
-        timer.start();
-
-        // enable color changing timer (ticks 25 times per second)
-        Timer timer = new Timer(2000, {
-            // TODO: add timer logic
-        });
-        timer.start();
+        paintTimer.start();
     }
 
 
@@ -95,7 +89,7 @@ public class Billboard extends JFrame implements ActionListener {
 
 
     /**
-     * @return main GUI menubar.
+     * @return main GUI menubar
      */
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -106,18 +100,17 @@ public class Billboard extends JFrame implements ActionListener {
         fileMenu.add(exitItem);
         menuBar.add(fileMenu);
 
-        ;
         updateOrderItem = new JMenu("Change Update Order");
-        columnItem = new JMenuItem("By columns");
-        columnItem.addActionListener(this);
-        updateOrderItem.add(columnItem);
         increasingItem = new JMenuItem("By increasing order");
         increasingItem.addActionListener(this);
         updateOrderItem.add(increasingItem);
+        columnItem = new JMenuItem("By columns");
+        columnItem.addActionListener(this);
+        updateOrderItem.add(columnItem);
         randomItem = new JMenuItem("By random order");
         randomItem.addActionListener(this);
         updateOrderItem.add(randomItem);
-        twoTimesItem = new JMenuItem("Sector");
+        twoTimesItem = new JMenuItem("Checkered");
         twoTimesItem.addActionListener(this);
         updateOrderItem.add(twoTimesItem);
 
@@ -142,8 +135,6 @@ public class Billboard extends JFrame implements ActionListener {
      */
     public void paint(Graphics g) {
         super.paint(g);
-
-        //TODO (BOM): Add code for drawing all shapes in this
         ListIterator<Shape> iter = panels.listIterator();
         while (iter.hasNext()) {
             Shape panel = iter.next();
@@ -151,7 +142,6 @@ public class Billboard extends JFrame implements ActionListener {
         }
 
     }
-
 
     /**
      * @modifies this
@@ -181,8 +171,6 @@ public class Billboard extends JFrame implements ActionListener {
             } else { // source.equals(twoTimesItem)
                 colorGenerator.setNotificationStrategy(new TwoTimesNotificationStrategy());
             }
-
-            repaint();
         }
 
         // Help->About : show about message dialog
@@ -197,7 +185,7 @@ public class Billboard extends JFrame implements ActionListener {
     }
 
     /**
-     * @effects Animator application.
+     * @effects Billboard application.
      */
     public static void main(String[] args) {
         Billboard application = new Billboard();

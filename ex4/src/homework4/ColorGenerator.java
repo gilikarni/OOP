@@ -1,39 +1,64 @@
 package homework4;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ColorGenerator implements Observable {
+public class ColorGenerator{
+    // Singleton object
     static private ColorGenerator colorGenerator = new ColorGenerator();
-    private ArrayList<Panel> listeners = new ArrayList<>();
-    NotificationStrategy notificationStrategy = new IncreasingNotificationStrategy();
-    final static int NUMBER_OF_PANELS = 25;
+
     private ArrayList<Integer> order = null;
     private int indexInOrder = 0;
     Color color = null;
 
     /** Abstraction Function:
      * ColorGenerator c is a singleton that is responsible for creating a new color every two seconds and update all the
-     * listeners about the new color.
+     * observers about the new color.
      *
      * Representation Invariant:
      * There is always only one object of type ColorGenerator.
-     * There no more than 25 listeners.
+     * indexInOrder is not larger than size of listeners list.
      */
-    private ColorGenerator() {
+
+    private ColorGenerator()
+    {
+        notificationStrategy = new IncreasingNotificationStrategy();
+        listeners = new ArrayList<>();
+        changeColor();
+
+        // initialize timers
+        // enable delay of 40ms between each message to observers
+        Timer messageTimer = new Timer(40, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                notifyNextObserver();
+            }
+        });
+        messageTimer.start();
+        // enable color changing timer (ticks 1 times per  2 second)
+        Timer colorTimer = new Timer(2000, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                changeColor();
+            }
+        });
+        colorTimer.start();
+
         checkRep();
     }
 
     /**
      * @effects verify that the representation invariant holds.
+     * @throws AssertionError
      */
     private void checkRep() {
         assert colorGenerator != null : "colorGenerator is null";
-        assert listeners.size() > NUMBER_OF_PANELS : "There are " + listeners.size() + "listeners";
+        assert order != null: "order is null";
+        assert color != null: "color is null";
+        assert notificationStrategy != null: "notification strategy is null";
+        assert indexInOrder <= listeners.size(): "indexInOrder larger than number of listeners";
     }
 
     /**

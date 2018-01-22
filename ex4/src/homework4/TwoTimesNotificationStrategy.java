@@ -10,6 +10,7 @@ import java.util.List;
 public class TwoTimesNotificationStrategy implements NotificationStrategy {
     /**
      * @effects create an array of indices as explained in the class description.
+     * @return the array of indices
      */
     @Override
     public List<Integer> getOrder() {

@@ -9,6 +9,7 @@ import java.util.List;
 public class IncreasingNotificationStrategy implements NotificationStrategy {
     /**
      * @effects create an array with sorted indices from the range [0,24]
+     * @return the array of indices
      */
     @Override
     public List<Integer> getOrder() {

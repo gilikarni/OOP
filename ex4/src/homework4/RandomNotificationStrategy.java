@@ -10,6 +10,7 @@ import java.util.Random;
 public class RandomNotificationStrategy implements NotificationStrategy {
     /**
      * @effects creates an array of indices in the range [0,24] in  random order.
+     * @return the array of indices
      */
     @Override
     public List<Integer> getOrder() {

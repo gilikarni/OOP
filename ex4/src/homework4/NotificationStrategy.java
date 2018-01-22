@@ -8,6 +8,7 @@ import java.util.List;
 interface NotificationStrategy {
     /**
      * @effects creates a new index array from the range [0,24]
+     * @return the array of indices
      */
     abstract public List<Integer> getOrder();
 }

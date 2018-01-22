@@ -7,10 +7,27 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * ColorGenerator is a class responsible for generating a new color every 2 seconds.
+ * ColorGenerator is an Observable with Panels as Observers - The ColorGenerator determines the color and the Panels
+ * displays the colors. The Panels get the color changing using push notifications. Every Panel have to register at the
+ * ColorGenerator in order to get the notifications.
+ * ColorGenerator is also a Singleton - there is only one object of this kind per program. The ColorGenerator is an
+ * eager singleton - it is created when the program starts.
+ */
 public class ColorGenerator {
+
     /** Abstraction Function:
      * ColorGenerator c is a singleton that is responsible for creating a new color every two seconds and update all the
      * observers about the new color.
+     * this.color - the current color to update the Panels about.
+     * notificationStrategy - a components that determines the order to notify the Panels - it can be changed using
+     * this.setNotificationStrategy()
+     * order - an array of indices that represents the order to update the panels, it changes whenever there is a new
+     * color.
+     * indexInOrder - the current Panel index to update in the order array
+     * listeners - the Panels to update
+     * colorGenerator - the instance of the ColorGenerator
      *
      * Representation Invariant:
      * no members are null and
@@ -27,6 +44,13 @@ public class ColorGenerator {
     private int indexInOrder = 0;
     Color color = null;
 
+    /**
+     * @effects create a new object of type ColorGenerator.
+     * When the object is created it creates two timers:
+     * 1. A timer for the color changing every 2 s the ColorGenerator changes it color.
+     * 2. A timer for updating the Panels about the change - every 40 ms. The ColorGenerator will update the Panels
+     * about a new color only if the color has changed.
+     */
     private ColorGenerator()
     {
         notificationStrategy = new IncreasingNotificationStrategy();
@@ -73,7 +97,9 @@ public class ColorGenerator {
     }
 
     /**
+     * @requires listener is of type Panel and listener != null
      * @effects add a panel listener to the board.
+     * @modifies this
      */
     public void addObserver(Panel listener) {
         assert listener instanceof Panel;
@@ -82,15 +108,19 @@ public class ColorGenerator {
     }
 
     /**
+     * @requires listener is of type Panel and listener != null
      * @effects remove a panel listener to the board.
+     * @modifies this
      */
     public void removeObserver(Panel listener) {
+        assert listener instanceof Panel;
         listeners.remove(listener);
         checkRep();
     }
 
     /**
-     * @effects set a new notification strategy
+     * @requires notificationStrategy != null
+     * @effects set a new notification strategy to update the Panels about new colors
      * @modifies this
      */
     public void setNotificationStrategy(NotificationStrategy notificationStrategy) {
@@ -98,9 +128,14 @@ public class ColorGenerator {
         checkRep();
     }
 
+    /**
+     * @effects notify the next Panel about the new color, if there is no new color or not all the Panels added yet -
+     * do nothing.
+     * @modifies this, the Panel that gets updated
+     */
     private void notifyNextObserver() {
-        if (listeners.size() != order.size() || /* not enough listeners were added */
-                indexInOrder == listeners.size()) { /* all of the panels notified */
+        if (listeners.size() != order.size() || /* Not enough listeners were added */
+                indexInOrder == listeners.size()) { /* All the panels were notified */
             return;
         }
         Panel currentPanel = listeners.get(order.get(indexInOrder));
@@ -110,8 +145,8 @@ public class ColorGenerator {
     }
 
     /**
-     * @effects generates a new random color and gets a new order from notificationStrategy. If all the panels wasn't added yet the
-     * function will do nothing.
+     * @effects generates a new random color and gets a new order from notificationStrategy.
+     * @modifies this
      */
     private void changeColor() {
         indexInOrder = 0;

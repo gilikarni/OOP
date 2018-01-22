@@ -24,7 +24,6 @@ public class ColorGenerator implements Observable {
      * There is always only one object of type ColorGenerator.
      * There no more than 25 listeners.
      */
-
     private ColorGenerator() {
         checkRep();
     }
